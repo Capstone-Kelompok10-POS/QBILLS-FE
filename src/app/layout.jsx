@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import { Open_Sans } from "next/font/google";
+import { NextAuthProvider } from "@/libs";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -11,7 +12,9 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <body className={openSans.className}>{children}</body>
+      <body className={openSans.className}>
+        <NextAuthProvider>{children}</NextAuthProvider>
+      </body>
     </html>
   );
 };
