@@ -9,61 +9,68 @@ export const SnackBar = ({
   variant,
   size,
   desc,
+  onClickClose,
   action,
   actionLabel,
-  onClickClose,
   onClickAction,
 }) => {
   return (
     <section
       className={clsx("rounded-md pl-[6px]", {
-        "border-S4 bg-S4": variant === "su",
-        "border-I4 bg-I4": variant === "in",
-        "border-E4 bg-E4": variant === "er",
-        "border-W4 bg-W4": variant === "wa",
+        // VARIANT
+        "border-S4 bg-S4": variant === "success",
+        "border-I4 bg-I4": variant === "information",
+        "border-W4 bg-W4": variant === "warning",
+        "border-E4 bg-E4": variant === "error",
+
+        // SIZE
         "h-[70px] w-[410px] border": size === "sm",
         "h-[90px] w-[640px] border-2": size === "lg",
       })}
     >
       <div className="flex h-full w-full gap-x-2 rounded-md bg-N1 px-2 py-1">
         {/* ICON */}
-        {variant === "su" && (
+        {variant === "success" && (
           <CheckCircleRoundedIcon
             className="mt-1 text-S4"
             sx={{ fontSize: size === "sm" ? 25 : 30 }}
           />
         )}
-        {variant === "in" && (
+        {variant === "information" && (
           <InfoIcon className="mt-1 text-I4" sx={{ fontSize: size === "sm" ? 25 : 30 }} />
         )}
-        {variant === "er" && (
-          <ErrorIcon className="mt-1 text-E4" sx={{ fontSize: size === "sm" ? 25 : 30 }} />
-        )}
-        {variant === "wa" && (
+        {variant === "warning" && (
           <WarningIcon className="mt-1 text-W4" sx={{ fontSize: size === "sm" ? 25 : 30 }} />
+        )}
+        {variant === "error" && (
+          <ErrorIcon className="mt-1 text-E4" sx={{ fontSize: size === "sm" ? 25 : 30 }} />
         )}
 
         <div className="w-full">
           {/* LABEL */}
           <span
             className={clsx("", {
-              "text-S4": variant === "su",
-              "text-I4": variant === "in",
-              "text-E4": variant === "er",
-              "text-W4": variant === "wa",
+              // VARIANT
+              "text-S4": variant === "success",
+              "text-I4": variant === "information",
+              "text-W4": variant === "warning",
+              "text-E4": variant === "error",
+
+              // SIZE
               "text-base": size === "sm",
               "text-xl": size === "lg",
             })}
           >
-            {variant === "su" && "Success"}
-            {variant === "in" && "Information"}
-            {variant === "er" && "Error"}
-            {variant === "wa" && "Warning"}
+            {variant === "success" && "Success"}
+            {variant === "information" && "Information"}
+            {variant === "warning" && "Warning"}
+            {variant === "error" && "Error"}
           </span>
 
           {/* DESCRIPTION */}
           <p
             className={clsx("text-N3", {
+              // SIZE
               "text-xs": size === "sm",
               "text-base": size === "lg",
             })}
@@ -88,10 +95,13 @@ export const SnackBar = ({
               type="button"
               onClick={onClickAction}
               className={clsx("mt-auto text-end active:scale-95", {
-                "text-S4 hover:text-S5": variant === "su",
-                "text-I4 hover:text-I5": variant === "in",
-                "text-E4 hover:text-E5": variant === "er",
-                "text-W4 hover:text-W5": variant === "wa",
+                // VARIANT
+                "text-S4 hover:text-S5": variant === "success",
+                "text-I4 hover:text-I5": variant === "information",
+                "text-W4 hover:text-W5": variant === "warning",
+                "text-E4 hover:text-E5": variant === "error",
+
+                // SIZE
                 "text-sm": size === "sm",
                 "text-lg": size === "lg",
               })}
