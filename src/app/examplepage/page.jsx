@@ -190,11 +190,29 @@ const ExamplePage = () => {
 
       {/* COMPONENT CHIPS */}
       <section>
-        <Chips
-          startIcon={<VerifiedUser fontSize="small" />}
-          label={"label"}
-          endIcon={<VerifiedUser fontSize="small" />}
-        />
+        <div className="flex gap-2">
+          <Chips size={"sm"} startIcon={<VerifiedUser fontSize="small" />} label={"label"} />
+          <Chips
+            size={"md"}
+            startIcon={<VerifiedUser fontSize="small" />}
+            label={"label"}
+            endIcon={<VerifiedUser fontSize="small" />}
+          />
+          <Chips
+            size={"md"}
+            startIcon={<VerifiedUser fontSize="small" />}
+            label={"label"}
+            endIcon={<VerifiedUser fontSize="small" />}
+            isDisabled={true}
+          />
+          <Chips
+            size={"md"}
+            startIcon={<VerifiedUser fontSize="small" />}
+            label={"label"}
+            endIcon={<VerifiedUser fontSize="small" />}
+            isSelected={true}
+          />
+        </div>
       </section>
     </section>
   );
