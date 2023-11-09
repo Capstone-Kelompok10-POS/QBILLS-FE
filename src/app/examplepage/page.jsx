@@ -1,8 +1,11 @@
+"use client";
+
 import { Chips, SnackBar, SubmitButton } from "@/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
 import Image from "next/image";
-import { VerifiedUser } from "@mui/icons-material";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ExamplePage = () => {
   return (
@@ -189,29 +192,133 @@ const ExamplePage = () => {
       </section>
 
       {/* COMPONENT CHIPS */}
-      <section>
-        <div className="flex gap-2">
-          <Chips size={"sm"} startIcon={<VerifiedUser fontSize="small" />} label={"label"} />
-          <Chips
-            size={"md"}
-            startIcon={<VerifiedUser fontSize="small" />}
-            label={"label"}
-            endIcon={<VerifiedUser fontSize="small" />}
-          />
-          <Chips
-            size={"md"}
-            startIcon={<VerifiedUser fontSize="small" />}
-            label={"label"}
-            endIcon={<VerifiedUser fontSize="small" />}
-            isDisabled={true}
-          />
-          <Chips
-            size={"md"}
-            startIcon={<VerifiedUser fontSize="small" />}
-            label={"label"}
-            endIcon={<VerifiedUser fontSize="small" />}
-            isSelected={true}
-          />
+
+      {/* 
+          size={"sm" | "md"}
+          startIcon={</>}
+          label={""}
+          endIcon={</>}
+          onClick={() => {}}
+          selected={true | false}
+          disabled={true | false}
+      */}
+
+      <section className="flex items-center justify-center gap-5">
+        {/* SIZE SMALL */}
+        <div className="flex flex-col items-center justify-center gap-5">
+          {/* WITHOUT ICON */}
+          <div className="flex gap-5">
+            {/* DEFAULT */}
+            <Chips size={"sm"} label={"Label"} onClick={() => {}} />
+
+            {/* SELECTED */}
+            <Chips size={"sm"} label={"Label"} selected={true} />
+
+            {/* DISABLED */}
+            <Chips size={"sm"} label={"Label"} onClick={() => {}} disabled={true} />
+          </div>
+
+          {/* WITH ICON */}
+          <div className="flex gap-5">
+            {/* DEFAULT */}
+            <Chips
+              size={"sm"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              onClick={() => {}}
+            />
+
+            {/* SELECTED */}
+            <Chips
+              size={"sm"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              selected={true}
+            />
+
+            {/* DISABLED */}
+            <Chips
+              size={"sm"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
+        </div>
+
+        {/* SIZE MEDIUM */}
+        <div className="flex flex-col items-center justify-center gap-5">
+          {/* WITHOUT ICON */}
+          <div className="flex gap-5">
+            {/* DEFAULT */}
+            <Chips size={"md"} label={"Label"} onClick={() => {}} />
+
+            {/* SELECTED */}
+            <Chips size={"md"} label={"Label"} selected={true} />
+
+            {/* DISABLED */}
+            <Chips size={"md"} label={"Label"} onClick={() => {}} disabled={true} />
+          </div>
+
+          {/* ONE ICON */}
+          <div className="flex gap-5">
+            {/* DEFAULT */}
+            <Chips
+              size={"md"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              onClick={() => {}}
+            />
+
+            {/* SELECTED */}
+            <Chips
+              size={"md"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              selected={true}
+            />
+
+            {/* DISABLED */}
+            <Chips
+              size={"md"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
+
+          {/* TWO ICON */}
+          <div className="flex gap-5">
+            {/* DEFAULT */}
+            <Chips
+              size={"md"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              endIcon={<CloseIcon sx={{ fontSize: 23 }} />}
+              onClick={() => {}}
+            />
+
+            {/* SELECTED */}
+            <Chips
+              size={"md"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              endIcon={<CloseIcon sx={{ fontSize: 23 }} />}
+              selected={true}
+            />
+
+            {/* DISABLED */}
+            <Chips
+              size={"md"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              endIcon={<CloseIcon sx={{ fontSize: 23 }} />}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
         </div>
       </section>
     </section>
