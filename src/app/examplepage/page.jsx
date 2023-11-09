@@ -1,7 +1,8 @@
-import { SnackBar, SubmitButton } from "@/components";
+import { Chips, SnackBar, SubmitButton } from "@/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
 import Image from "next/image";
+import { VerifiedUser } from "@mui/icons-material";
 
 const ExamplePage = () => {
   return (
@@ -185,6 +186,15 @@ const ExamplePage = () => {
             actionLabel={""}
           />
         </div>
+      </section>
+
+      {/* COMPONENT CHIPS */}
+      <section>
+        <Chips
+          startIcon={<VerifiedUser fontSize="small" />}
+          label={"label"}
+          endIcon={<VerifiedUser fontSize="small" />}
+        />
       </section>
     </section>
   );
