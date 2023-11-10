@@ -20,172 +20,127 @@ const ExamplePage = () => {
       {/* [x] Untuk dev dan melihat hasilnya bisa di sini saja dan jika sudah selesai berikan contoh penggunaan component nya di sini */}
 
       {/* COMPONENT SNACK BAR */}
-      <section className="flex flex-col items-center justify-center gap-5 py-5">
+
+      {/* 
+          variant={"success" | "information" | "warning" | "error"}
+          size={"sm" | "lg"}
+          desc={""}
+          onClickClose={() => {}}
+          action={true | false}
+          actionLabel={""}
+          onClickAction={() => {}}
+      */}
+
+      <section className="flex flex-col items-center justify-center gap-5">
+        {/* SIZE SMALL */}
         <SnackBar
-          variant={"wa"}
+          variant={"success"}
           size={"sm"}
           desc={"Lorem ipsum is simply dummy text of the printing"}
+          onClickClose={() => {}}
           action={true}
           actionLabel={"Action"}
+          onClickAction={() => {}}
         />
+
+        {/* SIZE LARGE */}
         <SnackBar
-          variant={"wa"}
-          size={"lg"}
-          desc={"Lorem ipsum is simply dummy text of the printing"}
-          action={true}
-          actionLabel={"Action"}
-        />
-        <SnackBar
-          variant={"wa"}
+          variant={"success"}
           size={"lg"}
           desc={
             "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
           }
+          onClickClose={() => {}}
           action={true}
           actionLabel={"Action"}
+          onClickAction={() => {}}
         />
+
+        {/* VARIANT SUCCESS */}
         <div className="flex gap-5">
+          {/* WITH ACTION */}
           <SnackBar
-            variant={"wa"}
+            variant={"success"}
             size={"sm"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
+            onClickClose={() => {}}
             action={true}
             actionLabel={"Action"}
+            onClickAction={() => {}}
           />
+
+          {/* WITHOUT ACTION */}
           <SnackBar
-            variant={"wa"}
+            variant={"success"}
             size={"sm"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
-            action={false}
-            actionLabel={""}
+            onClickClose={() => {}}
           />
         </div>
+
+        {/* VARIANT INFORMATION */}
         <div className="flex gap-5">
+          {/* WITH ACTION */}
           <SnackBar
-            variant={"wa"}
-            size={"sm"}
-            desc={
-              "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
-            }
-            action={true}
-            actionLabel={"Action"}
-          />
-          <SnackBar
-            variant={"wa"}
-            size={"sm"}
-            desc={
-              "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
-            }
-            action={false}
-            actionLabel={""}
-          />
-        </div>
-        <div className="flex gap-5">
-          <SnackBar
-            variant={"in"}
+            variant={"information"}
             size={"sm"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
+            onClickClose={() => {}}
             action={true}
             actionLabel={"Action"}
+            onClickAction={() => {}}
           />
+
+          {/* WITHOUT ACTION */}
           <SnackBar
-            variant={"in"}
+            variant={"information"}
             size={"sm"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
-            action={false}
-            actionLabel={""}
+            onClickClose={() => {}}
           />
         </div>
+
+        {/* VARIANT WARNING */}
         <div className="flex gap-5">
+          {/* WITH ACTION */}
           <SnackBar
-            variant={"in"}
-            size={"sm"}
-            desc={
-              "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
-            }
-            action={true}
-            actionLabel={"Action"}
-          />
-          <SnackBar
-            variant={"in"}
-            size={"sm"}
-            desc={
-              "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
-            }
-            action={false}
-            actionLabel={""}
-          />
-        </div>
-        <div className="flex gap-5">
-          <SnackBar
-            variant={"su"}
+            variant={"warning"}
             size={"sm"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
+            onClickClose={() => {}}
             action={true}
             actionLabel={"Action"}
+            onClickAction={() => {}}
           />
+
+          {/* WITHOUT ACTION */}
           <SnackBar
-            variant={"su"}
+            variant={"warning"}
             size={"sm"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
-            action={false}
-            actionLabel={""}
+            onClickClose={() => {}}
           />
         </div>
+
+        {/* VARIANT ERROR */}
         <div className="flex gap-5">
+          {/* WITH ACTION */}
           <SnackBar
-            variant={"su"}
-            size={"sm"}
-            desc={
-              "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
-            }
-            action={true}
-            actionLabel={"Action"}
-          />
-          <SnackBar
-            variant={"su"}
-            size={"sm"}
-            desc={
-              "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
-            }
-            action={false}
-            actionLabel={""}
-          />
-        </div>
-        <div className="flex gap-5">
-          <SnackBar
-            variant={"er"}
+            variant={"error"}
             size={"sm"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
+            onClickClose={() => {}}
             action={true}
             actionLabel={"Action"}
+            onClickAction={() => {}}
           />
+
+          {/* WITHOUT ACTION */}
           <SnackBar
-            variant={"er"}
+            variant={"error"}
             size={"sm"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
-            action={false}
-            actionLabel={""}
-          />
-        </div>
-        <div className="flex gap-5">
-          <SnackBar
-            variant={"er"}
-            size={"sm"}
-            desc={
-              "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
-            }
-            action={true}
-            actionLabel={"Action"}
-          />
-          <SnackBar
-            variant={"er"}
-            size={"sm"}
-            desc={
-              "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
-            }
-            action={false}
-            actionLabel={""}
+            onClickClose={() => {}}
           />
         </div>
       </section>
