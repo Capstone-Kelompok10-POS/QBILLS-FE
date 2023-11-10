@@ -1,6 +1,9 @@
-import { SnackBar, SubmitButton } from "@/components";
+"use client";
+
+import { IconButton, SnackBar, SubmitButton } from "@/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import Image from "next/image";
 
 const ExamplePage = () => {
@@ -183,6 +186,49 @@ const ExamplePage = () => {
             }
             action={false}
             actionLabel={""}
+          />
+        </div>
+      </section>
+
+      {/* ICON BUTTON */}
+
+      {/* 
+          size={"sm" | "md"}
+          icon={</>}
+          onClick={() => {}}
+          disabled={true | false}
+      */}
+
+      <section className="space-y-5">
+        {/* SIZE SMALL */}
+        <div className="flex items-center justify-center gap-5">
+          {/* DEFAULT */}
+          <IconButton size={"sm"} icon={<NotificationsOutlinedIcon />} onClick={() => {}} />
+
+          {/* DISABLED */}
+          <IconButton
+            size={"sm"}
+            icon={<NotificationsOutlinedIcon />}
+            onClick={() => {}}
+            disabled={true}
+          />
+        </div>
+
+        {/* SIZE MEDIUM */}
+        <div className="flex items-center justify-center gap-5">
+          {/* DEFAULT */}
+          <IconButton
+            size={"md"}
+            icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
+            onClick={() => {}}
+          />
+
+          {/* DISABLED */}
+          <IconButton
+            size={"md"}
+            icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
+            onClick={() => {}}
+            disabled={true}
           />
         </div>
       </section>
