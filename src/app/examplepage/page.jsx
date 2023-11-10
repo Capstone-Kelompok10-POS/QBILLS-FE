@@ -1,6 +1,6 @@
 "use client";
 
-import { Chips, IconButton, SnackBar, SubmitButton } from "@/components";
+import { Button, Chips, IconButton, SnackBar, SubmitButton } from "@/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -319,6 +319,75 @@ const ExamplePage = () => {
             />
           </div>
         </div>
+      </section>
+
+      {/* Component Button */}
+      {/* 
+          size={"sm" | "md"}
+          startIcon={</>}
+          label={""}
+          endIcon={</>}
+          onClick={() => {}}
+          selected={true | false}
+          disabled={true | false}
+      */}
+
+      <section className="flex flex-col items-center justify-center gap-5 mt-10">
+        {/* SIZE SMALL */}
+        <div className="flex gap-5">
+          {/* WITHOUT ICON */}
+          <Button type={"submit"} variant={"solid"} size={"sm"} label={"Button"} />
+          {/* WITH ICON */}
+          <Button
+            type={"submit"}
+            variant={"solid"}
+            size={"sm"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+          />
+          {/* OUTLINE */}
+          <Button type={"submit"} variant={"outline"} size={"sm"} label={"Button"} />
+          {/* DISABLED */}
+          <Button type={"submit"} variant={"solid"} size={"sm"} label={"Button"} disabled={true} />
+        </div>
+        {/* MEDIUM */}
+        <div className="flex gap-5">
+          {/* WITHOUT ICON */}
+          <Button type={"submit"} variant={"solid"} size={"md"} label={"Button"} />
+          {/* WITH ICON */}
+          <Button
+            type={"submit"}
+            variant={"solid"}
+            size={"md"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+          />
+          {/* OUTLINE */}
+          <Button type={"submit"} variant={"outline"} size={"md"} label={"Button"} />
+          {/* DISABLED */}
+          <Button type={"submit"} variant={"solid"} size={"md"} label={"Button"} disabled={true} />
+        </div>
+        {/* LARGE */}
+        <div className="flex gap-5">
+          {/* WITHOUT ICON */}
+          <Button type={"submit"} variant={"solid"} size={"lg"} label={"Button"} />
+          {/* WITH ICON */}
+          <Button
+            type={"submit"}
+            variant={"solid"}
+            size={"lg"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+          />
+          {/* OUTLINE */}
+          <Button type={"submit"} variant={"outline"} size={"lg"} label={"Button"} />
+          {/* DISABLED */}
+          <Button type={"submit"} variant={"solid"} size={"lg"} label={"Button"} disabled={true} />
+        </div>
+        <div></div>
       </section>
     </section>
   );
