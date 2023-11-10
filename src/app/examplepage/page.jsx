@@ -321,7 +321,7 @@ const ExamplePage = () => {
         </div>
       </section>
 
-      {/* Button */}
+      {/* Component Button */}
       {/* 
           size={"sm" | "md"}
           startIcon={</>}
