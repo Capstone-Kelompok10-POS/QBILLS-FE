@@ -151,64 +151,131 @@ const ExamplePage = () => {
 
       {/* 
           size={"sm" | "md" | "lg"}
+          shadow={true | false}
           icon={</>}
           onClick={() => {}}
           disabled={true | false}
       */}
 
-      <section className="space-y-5">
+      <section className="flex items-center justify-center gap-5">
+        {/* WITHOUT SHADOW */}
         {/* SIZE SMALL */}
-        <div className="flex items-center justify-center gap-5">
-          {/* DEFAULT */}
-          <IconButton
-            size={"sm"}
-            icon={<NotificationsOutlinedIcon sx={{ fontSize: 30 }} />}
-            onClick={() => {}}
-          />
+        <div className="space-y-5">
+          <div className="flex items-center justify-center gap-5">
+            {/* DEFAULT */}
+            <IconButton
+              size={"sm"}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 30 }} />}
+              onClick={() => {}}
+            />
 
-          {/* DISABLED */}
-          <IconButton
-            size={"sm"}
-            icon={<NotificationsOutlinedIcon sx={{ fontSize: 30 }} />}
-            onClick={() => {}}
-            disabled={true}
-          />
+            {/* DISABLED */}
+            <IconButton
+              size={"sm"}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 30 }} />}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
+
+          {/* SIZE MEDIUM */}
+          <div className="flex items-center justify-center gap-5">
+            {/* DEFAULT */}
+            <IconButton
+              size={"md"}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 35 }} />}
+              onClick={() => {}}
+            />
+
+            {/* DISABLED */}
+            <IconButton
+              size={"md"}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 35 }} />}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
+
+          {/* SIZE LARGE */}
+          <div className="flex items-center justify-center gap-5">
+            {/* DEFAULT */}
+            <IconButton
+              size={"lg"}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
+              onClick={() => {}}
+            />
+
+            {/* DISABLED */}
+            <IconButton
+              size={"lg"}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
         </div>
 
-        {/* SIZE MEDIUM */}
-        <div className="flex items-center justify-center gap-5">
-          {/* DEFAULT */}
-          <IconButton
-            size={"md"}
-            icon={<NotificationsOutlinedIcon sx={{ fontSize: 35 }} />}
-            onClick={() => {}}
-          />
+        {/* WITH SHADOW */}
+        {/* SIZE SMALL */}
+        <div className="space-y-5">
+          <div className="flex items-center justify-center gap-5">
+            {/* DEFAULT */}
+            <IconButton
+              size={"sm"}
+              shadow={true}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 30 }} />}
+              onClick={() => {}}
+            />
 
-          {/* DISABLED */}
-          <IconButton
-            size={"md"}
-            icon={<NotificationsOutlinedIcon sx={{ fontSize: 35 }} />}
-            onClick={() => {}}
-            disabled={true}
-          />
-        </div>
+            {/* DISABLED */}
+            <IconButton
+              size={"sm"}
+              shadow={true}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 30 }} />}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
 
-        {/* SIZE LARGE */}
-        <div className="flex items-center justify-center gap-5">
-          {/* DEFAULT */}
-          <IconButton
-            size={"lg"}
-            icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
-            onClick={() => {}}
-          />
+          {/* SIZE MEDIUM */}
+          <div className="flex items-center justify-center gap-5">
+            {/* DEFAULT */}
+            <IconButton
+              size={"md"}
+              shadow={true}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 35 }} />}
+              onClick={() => {}}
+            />
 
-          {/* DISABLED */}
-          <IconButton
-            size={"lg"}
-            icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
-            onClick={() => {}}
-            disabled={true}
-          />
+            {/* DISABLED */}
+            <IconButton
+              size={"md"}
+              shadow={true}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 35 }} />}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
+
+          {/* SIZE LARGE */}
+          <div className="flex items-center justify-center gap-5">
+            {/* DEFAULT */}
+            <IconButton
+              size={"lg"}
+              shadow={true}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
+              onClick={() => {}}
+            />
+
+            {/* DISABLED */}
+            <IconButton
+              size={"lg"}
+              shadow={true}
+              icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
         </div>
       </section>
 
