@@ -21,7 +21,7 @@ const ExamplePage = () => {
 
       {/* [x] Untuk dev dan melihat hasilnya bisa di sini saja dan jika sudah selesai berikan contoh penggunaan component nya di sini */}
 
-      {/* COMPONENT SNACK BAR */}
+      {/* [x] COMPONENT SNACK BAR */}
 
       {/* 
           variant={"success" | "information" | "warning" | "error"}
@@ -147,7 +147,7 @@ const ExamplePage = () => {
         </div>
       </section>
 
-      {/* ICON BUTTON */}
+      {/* [x] ICON BUTTON */}
 
       {/* 
           size={"sm" | "md"}
@@ -190,7 +190,7 @@ const ExamplePage = () => {
         </div>
       </section>
 
-      {/* COMPONENT CHIPS */}
+      {/* [x] COMPONENT CHIPS */}
 
       {/* 
           size={"md" | "lg"}
@@ -321,73 +321,172 @@ const ExamplePage = () => {
         </div>
       </section>
 
-      {/* Component Button */}
+      {/* [x] COMPONENT BUTTON */}
+
       {/* 
-          size={"sm" | "md"}
+          type={""}
+          variant={"outline"}
+          size={"sm" | "md" | "lg"}
           startIcon={</>}
           label={""}
           endIcon={</>}
           onClick={() => {}}
-          selected={true | false}
           disabled={true | false}
       */}
 
-      <section className="mt-10 flex flex-col items-center justify-center gap-5">
+      <section className="flex flex-col items-center justify-center gap-5">
         {/* SIZE SMALL */}
         <div className="flex gap-5">
-          {/* WITHOUT ICON */}
-          <Button type={"submit"} variant={"solid"} size={"sm"} label={"Button"} />
+          {/* DEFAULT */}
+          <Button type={"button"} size={"sm"} label={"Button"} onClick={() => {}} />
+
           {/* WITH ICON */}
           <Button
-            type={"submit"}
-            variant={"solid"}
+            type={"button"}
             size={"sm"}
             startIcon={<CloseIcon />}
             label={"Button"}
             endIcon={<CloseIcon />}
+            onClick={() => {}}
           />
+
           {/* OUTLINE */}
-          <Button type={"submit"} variant={"outline"} size={"sm"} label={"Button"} />
-          {/* DISABLED */}
-          <Button type={"submit"} variant={"solid"} size={"sm"} label={"Button"} disabled={true} />
-        </div>
-        {/* MEDIUM */}
-        <div className="flex gap-5">
-          {/* WITHOUT ICON */}
-          <Button type={"submit"} variant={"solid"} size={"md"} label={"Button"} />
+          <Button
+            type={"button"}
+            variant={"outline"}
+            size={"sm"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
           {/* WITH ICON */}
           <Button
-            type={"submit"}
-            variant={"solid"}
+            type={"button"}
+            variant={"outline"}
+            size={"sm"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+            onClick={() => {}}
+          />
+
+          {/* DISABLED */}
+          <Button type={"button"} size={"sm"} label={"Button"} onClick={() => {}} disabled={true} />
+
+          {/* WITH ICON */}
+          <Button
+            type={"button"}
+            variant={"outline"}
+            size={"sm"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+            onClick={() => {}}
+            disabled={true}
+          />
+        </div>
+
+        {/* SIZE MEDIUM */}
+        <div className="flex gap-5">
+          {/* DEFAULT */}
+          <Button type={"button"} size={"md"} label={"Button"} onClick={() => {}} />
+
+          {/* WITH ICON */}
+          <Button
+            type={"button"}
             size={"md"}
             startIcon={<CloseIcon />}
             label={"Button"}
             endIcon={<CloseIcon />}
+            onClick={() => {}}
           />
+
           {/* OUTLINE */}
-          <Button type={"submit"} variant={"outline"} size={"md"} label={"Button"} />
-          {/* DISABLED */}
-          <Button type={"submit"} variant={"solid"} size={"md"} label={"Button"} disabled={true} />
-        </div>
-        {/* LARGE */}
-        <div className="flex gap-5">
-          {/* WITHOUT ICON */}
-          <Button type={"submit"} variant={"solid"} size={"lg"} label={"Button"} />
+          <Button
+            type={"button"}
+            variant={"outline"}
+            size={"md"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
           {/* WITH ICON */}
           <Button
-            type={"submit"}
-            variant={"solid"}
+            type={"button"}
+            variant={"outline"}
+            size={"md"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+            onClick={() => {}}
+          />
+
+          {/* DISABLED */}
+          <Button type={"button"} size={"md"} label={"Button"} onClick={() => {}} disabled={true} />
+
+          {/* WITH ICON */}
+          <Button
+            type={"button"}
+            variant={"outline"}
+            size={"md"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+            onClick={() => {}}
+            disabled={true}
+          />
+        </div>
+
+        {/* SIZE LARGE */}
+        <div className="flex gap-5">
+          {/* DEFAULT */}
+          <Button type={"button"} size={"lg"} label={"Button"} onClick={() => {}} />
+
+          {/* WITH ICON */}
+          <Button
+            type={"button"}
             size={"lg"}
             startIcon={<CloseIcon />}
             label={"Button"}
             endIcon={<CloseIcon />}
+            onClick={() => {}}
           />
+
           {/* OUTLINE */}
-          <Button type={"submit"} variant={"outline"} size={"lg"} label={"Button"} />
+          <Button
+            type={"button"}
+            variant={"outline"}
+            size={"lg"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
+          {/* WITH ICON */}
+          <Button
+            type={"button"}
+            variant={"outline"}
+            size={"lg"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+            onClick={() => {}}
+          />
+
           {/* DISABLED */}
-          <Button type={"submit"} variant={"solid"} size={"lg"} label={"Button"} disabled={true} />
+          <Button type={"button"} size={"lg"} label={"Button"} onClick={() => {}} disabled={true} />
+
+          {/* WITH ICON */}
+          <Button
+            type={"button"}
+            variant={"outline"}
+            size={"lg"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+            onClick={() => {}}
+            disabled={true}
+          />
         </div>
-        <div></div>
       </section>
     </section>
   );
