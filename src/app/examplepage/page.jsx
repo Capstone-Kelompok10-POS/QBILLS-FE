@@ -6,12 +6,12 @@ import logoVercel from "@/public/assets/images/logos/vercel.svg";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import LockPersonIcon from "@mui/icons-material/LockPerson";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Image from "next/image";
 import { useState } from "react";
-import LockPersonIcon from "@mui/icons-material/LockPerson";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const ExamplePage = () => {
   const [value, setValue] = useState("");
@@ -627,6 +627,8 @@ const ExamplePage = () => {
           supText={true | false}
           supLabel={""}
           error={true | false}
+          disabled={true | false}
+          required={true | false}
       */}
 
       <section className="space-y-5">
@@ -634,17 +636,27 @@ const ExamplePage = () => {
           type={"text"}
           label={"Username"}
           name={"Username"}
-          startIcon={<AccountCircleOutlinedIcon sx={{ fontSize: 35 }} />}
+          startIcon={<AccountCircleOutlinedIcon sx={{ fontSize: 30 }} />}
           value={value}
-          endIcon={<AccountCircleOutlinedIcon sx={{ fontSize: 35 }} />}
           onChange={(e) => setValue(e.target.value)}
+        />
+
+        <Input
+          type={"text"}
+          label={"Disabled"}
+          name={"Disabled"}
+          startIcon={<CloseIcon sx={{ fontSize: 30 }} />}
+          value={value}
+          endIcon={<CloseIcon sx={{ fontSize: 30 }} />}
+          onChange={(e) => setValue(e.target.value)}
+          disabled={true}
         />
 
         <Input
           type={visibility ? "text" : "password"}
           label={"Password"}
           name={"Password"}
-          startIcon={<LockPersonIcon sx={{ fontSize: 35 }} />}
+          startIcon={<LockPersonIcon sx={{ fontSize: 30 }} />}
           value={value}
           endIcon={
             visibility ? (
