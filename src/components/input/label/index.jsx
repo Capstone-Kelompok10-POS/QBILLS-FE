@@ -5,15 +5,18 @@ export const Label = ({ htmlFor, label, value, error, disabled }) => {
     <label
       htmlFor={htmlFor}
       className={clsx("font-semibold", {
-        "absolute group-focus-within:static group-focus-within:text-xs group-focus-within:text-N3 group-hover:static group-hover:text-xs":
+        // DEFAUTL
+        "absolute group-focus-within:static group-focus-within:text-xs group-focus-within:text-N3":
           value === "" && !error && !disabled,
-        "static text-xs text-N3 group-hover:text-P3 group-focus-within:group-hover:text-N3":
-          value !== "" && !error && !disabled,
-        "absolute group-focus-within:static group-focus-within:text-xs group-hover:static group-hover:text-xs":
+        "static text-xs text-N3": value !== "" && !error && !disabled,
+
+        // ERROR
+        "absolute group-focus-within:static group-focus-within:text-xs":
           value === "" && error && !disabled,
-        "static text-xs": value !== "" && error && !disabled,
+
+        // DISABLED
+        "static text-xs": (value !== "" && error && !disabled) || (value !== "" && disabled),
         absolute: value === "" && disabled,
-        "static text-xs": value !== "" && disabled,
       })}
     >
       {label}
