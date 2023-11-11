@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Chips, IconButton, SnackBar, SubmitButton } from "@/components";
+import { Button, Chip, IconButton, SnackBar, SubmitButton } from "@/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -212,7 +212,7 @@ const ExamplePage = () => {
         </div>
       </section>
 
-      {/* [x] COMPONENT CHIPS */}
+      {/* [x] COMPONENT CHIP */}
 
       {/* 
           size={"md" | "lg"}
@@ -230,19 +230,19 @@ const ExamplePage = () => {
           {/* WITHOUT ICON */}
           <div className="flex gap-5">
             {/* DEFAULT */}
-            <Chips size={"md"} label={"Label"} onClick={() => {}} />
+            <Chip size={"md"} label={"Label"} onClick={() => {}} />
 
             {/* SELECTED */}
-            <Chips size={"md"} label={"Label"} selected={true} />
+            <Chip size={"md"} label={"Label"} selected={true} />
 
             {/* DISABLED */}
-            <Chips size={"md"} label={"Label"} onClick={() => {}} disabled={true} />
+            <Chip size={"md"} label={"Label"} onClick={() => {}} disabled={true} />
           </div>
 
           {/* WITH ICON */}
           <div className="flex gap-5">
             {/* DEFAULT */}
-            <Chips
+            <Chip
               size={"md"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
@@ -250,7 +250,7 @@ const ExamplePage = () => {
             />
 
             {/* SELECTED */}
-            <Chips
+            <Chip
               size={"md"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
@@ -258,7 +258,7 @@ const ExamplePage = () => {
             />
 
             {/* DISABLED */}
-            <Chips
+            <Chip
               size={"md"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
@@ -273,19 +273,19 @@ const ExamplePage = () => {
           {/* WITHOUT ICON */}
           <div className="flex gap-5">
             {/* DEFAULT */}
-            <Chips size={"lg"} label={"Label"} onClick={() => {}} />
+            <Chip size={"lg"} label={"Label"} onClick={() => {}} />
 
             {/* SELECTED */}
-            <Chips size={"lg"} label={"Label"} selected={true} />
+            <Chip size={"lg"} label={"Label"} selected={true} />
 
             {/* DISABLED */}
-            <Chips size={"lg"} label={"Label"} onClick={() => {}} disabled={true} />
+            <Chip size={"lg"} label={"Label"} onClick={() => {}} disabled={true} />
           </div>
 
           {/* ONE ICON */}
           <div className="flex gap-5">
             {/* DEFAULT */}
-            <Chips
+            <Chip
               size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
@@ -293,7 +293,7 @@ const ExamplePage = () => {
             />
 
             {/* SELECTED */}
-            <Chips
+            <Chip
               size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
@@ -301,7 +301,7 @@ const ExamplePage = () => {
             />
 
             {/* DISABLED */}
-            <Chips
+            <Chip
               size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
@@ -313,7 +313,7 @@ const ExamplePage = () => {
           {/* TWO ICON */}
           <div className="flex gap-5">
             {/* DEFAULT */}
-            <Chips
+            <Chip
               size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
@@ -322,7 +322,7 @@ const ExamplePage = () => {
             />
 
             {/* SELECTED */}
-            <Chips
+            <Chip
               size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
@@ -331,7 +331,7 @@ const ExamplePage = () => {
             />
 
             {/* DISABLED */}
-            <Chips
+            <Chip
               size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}

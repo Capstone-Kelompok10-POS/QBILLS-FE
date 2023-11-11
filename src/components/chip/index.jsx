@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export const Chips = ({ size, startIcon, label, endIcon, onClick, selected, disabled }) => {
+export const Chip = ({ size, startIcon, label, endIcon, onClick, selected, disabled }) => {
   return (
     <button
       type="button"
