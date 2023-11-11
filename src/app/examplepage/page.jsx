@@ -487,6 +487,33 @@ const ExamplePage = () => {
             disabled={true}
           />
         </div>
+
+        {/* WIDTH FULL */}
+        <div className="flex w-full gap-5">
+          {/* DEFAULT */}
+          <Button type={"button"} size={"sm-full"} label={"Button"} onClick={() => {}} />
+
+          {/* WITH ICON */}
+          <Button
+            type={"button"}
+            size={"sm-full"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+            onClick={() => {}}
+          />
+
+          {/* WITH ICON */}
+          <Button
+            type={"button"}
+            size={"sm-full"}
+            startIcon={<CloseIcon />}
+            label={"Button"}
+            endIcon={<CloseIcon />}
+            onClick={() => {}}
+            disabled={true}
+          />
+        </div>
       </section>
     </section>
   );
