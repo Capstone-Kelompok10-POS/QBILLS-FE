@@ -1,14 +1,22 @@
 "use client";
 
-import { Button, Chip, IconButton, SnackBar, SubmitButton } from "@/components";
+import { Button, Chip, IconButton, Input, SnackBar, SubmitButton } from "@/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import Image from "next/image";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import Image from "next/image";
+import { useState } from "react";
+import LockPersonIcon from "@mui/icons-material/LockPerson";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const ExamplePage = () => {
+  const [value, setValue] = useState("");
+  const [visibility, setVisibility] = useState(false);
+
   return (
     <section className="space-y-5 p-5">
       <section>
@@ -603,6 +611,54 @@ const ExamplePage = () => {
             disabled={true}
           />
         </div>
+      </section>
+
+      {/* [x] COMPONENT INPUT */}
+
+      {/* 
+          type={""}
+          label={""}
+          name={""}
+          startIcon={</>}
+          value={""}
+          endIcon={</>}
+          endIconOnClick={() => {}}
+          onChange={() => {}}
+          supText={true | false}
+          supLabel={""}
+          error={true | false}
+      */}
+
+      <section className="space-y-5">
+        <Input
+          type={"text"}
+          label={"Username"}
+          name={"Username"}
+          startIcon={<AccountCircleOutlinedIcon sx={{ fontSize: 35 }} />}
+          value={value}
+          endIcon={<AccountCircleOutlinedIcon sx={{ fontSize: 35 }} />}
+          onChange={(e) => setValue(e.target.value)}
+        />
+
+        <Input
+          type={visibility ? "text" : "password"}
+          label={"Password"}
+          name={"Password"}
+          startIcon={<LockPersonIcon sx={{ fontSize: 35 }} />}
+          value={value}
+          endIcon={
+            visibility ? (
+              <VisibilityIcon sx={{ fontSize: 25 }} className="cursor-pointer" />
+            ) : (
+              <VisibilityOffIcon sx={{ fontSize: 25 }} className="cursor-pointer" />
+            )
+          }
+          endIconOnClick={() => setVisibility(!visibility)}
+          onChange={(e) => setValue(e.target.value)}
+          supText={true}
+          supLabel={"Support Text"}
+          error={true}
+        />
       </section>
     </section>
   );
