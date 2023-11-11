@@ -150,7 +150,7 @@ const ExamplePage = () => {
       {/* [x] ICON BUTTON */}
 
       {/* 
-          size={"sm" | "md"}
+          size={"sm" | "md" | "lg"}
           icon={</>}
           onClick={() => {}}
           disabled={true | false}
@@ -160,12 +160,16 @@ const ExamplePage = () => {
         {/* SIZE SMALL */}
         <div className="flex items-center justify-center gap-5">
           {/* DEFAULT */}
-          <IconButton size={"sm"} icon={<NotificationsOutlinedIcon />} onClick={() => {}} />
+          <IconButton
+            size={"sm"}
+            icon={<NotificationsOutlinedIcon sx={{ fontSize: 30 }} />}
+            onClick={() => {}}
+          />
 
           {/* DISABLED */}
           <IconButton
             size={"sm"}
-            icon={<NotificationsOutlinedIcon />}
+            icon={<NotificationsOutlinedIcon sx={{ fontSize: 30 }} />}
             onClick={() => {}}
             disabled={true}
           />
@@ -176,13 +180,31 @@ const ExamplePage = () => {
           {/* DEFAULT */}
           <IconButton
             size={"md"}
-            icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
+            icon={<NotificationsOutlinedIcon sx={{ fontSize: 35 }} />}
             onClick={() => {}}
           />
 
           {/* DISABLED */}
           <IconButton
             size={"md"}
+            icon={<NotificationsOutlinedIcon sx={{ fontSize: 35 }} />}
+            onClick={() => {}}
+            disabled={true}
+          />
+        </div>
+
+        {/* SIZE LARGE */}
+        <div className="flex items-center justify-center gap-5">
+          {/* DEFAULT */}
+          <IconButton
+            size={"lg"}
+            icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
+            onClick={() => {}}
+          />
+
+          {/* DISABLED */}
+          <IconButton
+            size={"lg"}
             icon={<NotificationsOutlinedIcon sx={{ fontSize: 40 }} />}
             onClick={() => {}}
             disabled={true}
