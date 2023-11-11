@@ -193,7 +193,7 @@ const ExamplePage = () => {
       {/* COMPONENT CHIPS */}
 
       {/* 
-          size={"sm" | "md"}
+          size={"md" | "lg"}
           startIcon={</>}
           label={""}
           endIcon={</>}
@@ -203,49 +203,6 @@ const ExamplePage = () => {
       */}
 
       <section className="flex items-center justify-center gap-5">
-        {/* SIZE SMALL */}
-        <div className="flex flex-col items-center justify-center gap-5">
-          {/* WITHOUT ICON */}
-          <div className="flex gap-5">
-            {/* DEFAULT */}
-            <Chips size={"sm"} label={"Label"} onClick={() => {}} />
-
-            {/* SELECTED */}
-            <Chips size={"sm"} label={"Label"} selected={true} />
-
-            {/* DISABLED */}
-            <Chips size={"sm"} label={"Label"} onClick={() => {}} disabled={true} />
-          </div>
-
-          {/* WITH ICON */}
-          <div className="flex gap-5">
-            {/* DEFAULT */}
-            <Chips
-              size={"sm"}
-              startIcon={<CheckIcon fontSize="small" />}
-              label={"Label"}
-              onClick={() => {}}
-            />
-
-            {/* SELECTED */}
-            <Chips
-              size={"sm"}
-              startIcon={<CheckIcon fontSize="small" />}
-              label={"Label"}
-              selected={true}
-            />
-
-            {/* DISABLED */}
-            <Chips
-              size={"sm"}
-              startIcon={<CheckIcon fontSize="small" />}
-              label={"Label"}
-              onClick={() => {}}
-              disabled={true}
-            />
-          </div>
-        </div>
-
         {/* SIZE MEDIUM */}
         <div className="flex flex-col items-center justify-center gap-5">
           {/* WITHOUT ICON */}
@@ -260,7 +217,7 @@ const ExamplePage = () => {
             <Chips size={"md"} label={"Label"} onClick={() => {}} disabled={true} />
           </div>
 
-          {/* ONE ICON */}
+          {/* WITH ICON */}
           <div className="flex gap-5">
             {/* DEFAULT */}
             <Chips
@@ -287,12 +244,55 @@ const ExamplePage = () => {
               disabled={true}
             />
           </div>
+        </div>
+
+        {/* SIZE LARGE */}
+        <div className="flex flex-col items-center justify-center gap-5">
+          {/* WITHOUT ICON */}
+          <div className="flex gap-5">
+            {/* DEFAULT */}
+            <Chips size={"lg"} label={"Label"} onClick={() => {}} />
+
+            {/* SELECTED */}
+            <Chips size={"lg"} label={"Label"} selected={true} />
+
+            {/* DISABLED */}
+            <Chips size={"lg"} label={"Label"} onClick={() => {}} disabled={true} />
+          </div>
+
+          {/* ONE ICON */}
+          <div className="flex gap-5">
+            {/* DEFAULT */}
+            <Chips
+              size={"lg"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              onClick={() => {}}
+            />
+
+            {/* SELECTED */}
+            <Chips
+              size={"lg"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              selected={true}
+            />
+
+            {/* DISABLED */}
+            <Chips
+              size={"lg"}
+              startIcon={<CheckIcon fontSize="small" />}
+              label={"Label"}
+              onClick={() => {}}
+              disabled={true}
+            />
+          </div>
 
           {/* TWO ICON */}
           <div className="flex gap-5">
             {/* DEFAULT */}
             <Chips
-              size={"md"}
+              size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
               endIcon={<CloseIcon sx={{ fontSize: 23 }} />}
@@ -301,7 +301,7 @@ const ExamplePage = () => {
 
             {/* SELECTED */}
             <Chips
-              size={"md"}
+              size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
               endIcon={<CloseIcon sx={{ fontSize: 23 }} />}
@@ -310,7 +310,7 @@ const ExamplePage = () => {
 
             {/* DISABLED */}
             <Chips
-              size={"md"}
+              size={"lg"}
               startIcon={<CheckIcon fontSize="small" />}
               label={"Label"}
               endIcon={<CloseIcon sx={{ fontSize: 23 }} />}
@@ -332,7 +332,7 @@ const ExamplePage = () => {
           disabled={true | false}
       */}
 
-      <section className="flex flex-col items-center justify-center gap-5 mt-10">
+      <section className="mt-10 flex flex-col items-center justify-center gap-5">
         {/* SIZE SMALL */}
         <div className="flex gap-5">
           {/* WITHOUT ICON */}

@@ -6,16 +6,16 @@ export const Chips = ({ size, startIcon, label, endIcon, onClick, selected, disa
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={clsx("flex items-center justify-center rounded-full border", {
+      className={clsx("flex h-fit w-fit items-center justify-center rounded-full border", {
         // STYLE
-        "border-N2 text-N7 hover:bg-P4 hover:text-P2 active:bg-P2 active:text-P5":
+        "border-N2 text-N7 hover:border-P5 hover:bg-P5 hover:text-N1 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
           !selected && !disabled,
-        "cursor-default border-P3 bg-P3 text-N1": selected && !disabled,
+        "cursor-default border-P6 bg-P6 text-N1": selected && !disabled,
         "cursor-not-allowed border-N3 bg-N2 text-N3": disabled && !selected,
 
         // SIZE
-        "gap-1 px-4 py-2": size === "sm",
-        "gap-2 px-5 py-3": size === "md",
+        "gap-1 px-4 py-2": size === "md",
+        "gap-2 px-5 py-3": size === "lg",
       })}
     >
       {startIcon}
