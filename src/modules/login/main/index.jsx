@@ -54,7 +54,7 @@ export const Main = () => {
 
   return (
     <main className="flex h-screen w-screen items-center justify-center bg-P1 p-5">
-      <div className="fixed -top-24 left-5">
+      <section className="fixed -top-24 left-5">
         <Image
           src={logoQBillsGray}
           alt="QBills"
@@ -63,8 +63,8 @@ export const Main = () => {
           priority
           className="h-auto rotate-45 opacity-20"
         />
-      </div>
-      <div className="fixed -bottom-20 -right-5">
+      </section>
+      <section className="fixed -bottom-20 -right-5">
         <Image
           src={logoQBillsGray}
           alt="QBills"
@@ -73,12 +73,12 @@ export const Main = () => {
           priority
           className="h-auto -rotate-[25deg] opacity-20"
         />
-      </div>
-      <section className="shadow-center z-10 flex h-[880px] w-[730px] flex-col items-center justify-center gap-10 rounded-xl bg-white p-5 shadow-N7/20">
+      </section>
+      <section className="z-10 flex h-fit w-[600px] flex-col items-center justify-center gap-10 rounded-xl bg-white px-5 py-10 shadow-center shadow-N7/20">
         <Image
           src={logoQBillsBrown}
           alt="QBills"
-          width={285}
+          width={200}
           quality={30}
           priority
           className="h-auto"
@@ -111,12 +111,12 @@ export const Main = () => {
                 visibility ? (
                   <VisibilityOutlinedIcon
                     sx={{ fontSize: 25 }}
-                    className="cursor-pointer hover:text-P4"
+                    className={`cursor-pointer ${invalid ? "hover:text-E5" : "hover:text-P4"}`}
                   />
                 ) : (
                   <VisibilityOffOutlinedIcon
                     sx={{ fontSize: 25 }}
-                    className="cursor-pointer hover:text-P4"
+                    className={`cursor-pointer ${invalid ? "hover:text-E5" : "hover:text-P4"}`}
                   />
                 )
               }
