@@ -155,7 +155,7 @@ const ExamplePage = () => {
         </div>
       </section>
 
-      {/* [x] ICON BUTTON */}
+      {/* [x] COMPONENT ICON BUTTON */}
 
       {/* 
           size={"sm" | "md" | "lg"}
