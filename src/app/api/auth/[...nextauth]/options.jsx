@@ -1,55 +1,57 @@
-import CredentialProvider from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const options = {
   providers: [
-    CredentialProvider({
+    CredentialsProvider({
       name: "Credentials",
       credentials: {},
-      async authorize(credentials) {
+      authorize: async (credentials) => {
         const { username, password } = credentials;
-        // fetch([{ id: "1", username: "superadmin", password: "superadmin" }])
-        //   .then((res) => res.json())
-        //   .then((data) => {
-        //     const user = data.find(
-        //       (item) => item.username === username && item.password === password,
-        //     );
-        //     if (user) {
-        //       return user;
-        //     } else {
-        //       return null;
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     console.error("Error fetching user data:", error);
-        //     return null;
-        //   });
 
-        const data = [{ id: "1", username: "superadmin", password: "superadmin" }];
-        const user = data.find((item) => item.username === username && item.password === password);
+        try {
+          const response = await fetch("http://34.70.16.113:8080/api/v1/super-admin/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
 
-        if (user) {
-          return user;
-        } else {
+          if (response.ok) {
+            const user = await response.json();
+            if (user.results) {
+              return user;
+            } else {
+              return null;
+            }
+          } else {
+            console.error("Error fetching user data. HTTP Status:", response.status);
+            return null;
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
           return null;
         }
       },
     }),
   ],
+
   callbacks: {
     async redirect({ baseUrl }) {
       return baseUrl;
     },
-    // async jwt({ token, user }) {
-    //   if (user) token.id = user.id;
-    //   return token;
-    // },
-    // async session({ session, token }) {
-    //   if (session?.user) session.user.id = token.id;
-    //   return session;
-    // },
+    async jwt({ token, user }) {
+      if (user) token.results = user.results;
+      return token;
+    },
+    async session({ session, token }) {
+      if (session?.user) session.user.results = token.results;
+      return session;
+    },
   },
-  // secret: process.env.NEXTAUTH_SECRET,
-  // session: { strategy: "jwt" },
+
+  secret: process.env.NEXTAUTH_SECRET,
+  session: { strategy: "jwt" },
   pages: {
     signIn: "/login",
   },
