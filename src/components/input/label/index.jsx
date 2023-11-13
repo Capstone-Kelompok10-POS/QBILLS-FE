@@ -6,12 +6,12 @@ export const Label = ({ htmlFor, label, value, error, disabled }) => {
       htmlFor={htmlFor}
       className={clsx("font-semibold", {
         // DEFAUTL
-        "absolute group-focus-within:static group-focus-within:text-xs group-focus-within:text-N3":
+        "absolute cursor-text group-focus-within:static group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:text-N3":
           value === "" && !error && !disabled,
         "static text-xs text-N3": value !== "" && !error && !disabled,
 
         // ERROR
-        "absolute group-focus-within:static group-focus-within:text-xs":
+        "absolute cursor-text group-focus-within:static group-focus-within:cursor-default group-focus-within:text-xs":
           value === "" && error && !disabled,
 
         // DISABLED
