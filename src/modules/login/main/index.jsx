@@ -89,6 +89,7 @@ export const Main = () => {
           <div className={`w-full space-y-5 ${!invalid && "mb-10"}`}>
             <Input
               type={"text"}
+              size={"md"}
               label={"Username"}
               name={"username"}
               startIcon={<AccountCircleOutlinedIcon sx={{ fontSize: 35 }} />}
@@ -99,6 +100,7 @@ export const Main = () => {
 
             <Input
               type={visibility ? "text" : "password"}
+              size={"md"}
               label={"Password"}
               name={"password"}
               startIcon={<LockPersonOutlinedIcon sx={{ fontSize: 35 }} />}
