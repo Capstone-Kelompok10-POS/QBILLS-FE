@@ -30,17 +30,13 @@ export const Main = () => {
       username,
       password,
       redirect: false,
-    })
-      .then((res) => {
-        if (res?.error) {
-          setInvalid(true);
-          setLoading(false);
-          return;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    }).then((res) => {
+      if (res?.error) {
+        setInvalid(true);
+        setLoading(false);
+        return;
+      }
+    });
   };
 
   useEffect(() => {
