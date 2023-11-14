@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 export const Wrapper = ({
+  size,
   startIcon,
   value,
   endIcon,
@@ -14,7 +15,7 @@ export const Wrapper = ({
   return (
     <section>
       <div
-        className={clsx("group h-[50px] w-full rounded-xl border px-2 py-1", {
+        className={clsx("group w-full rounded-xl border px-2 py-1", {
           // DEFAUTL
           "border-N2 text-N3 focus-within:border-P6 focus-within:text-P6 hover:border-P6 hover:text-P6 focus-within:hover:bg-transparent focus-within:hover:text-P6":
             value === "" && !error && !disabled,
@@ -26,6 +27,10 @@ export const Wrapper = ({
 
           // DISABLED
           "border-N3 bg-N2 text-N3": disabled,
+
+          // SIZE
+          "h-[50px]": size === "sm",
+          "h-[55px]": size === "md",
         })}
       >
         <div className="flex h-full w-full items-center justify-center gap-2">

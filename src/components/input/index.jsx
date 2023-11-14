@@ -4,6 +4,7 @@ import { Wrapper } from "./wrapper";
 
 export const Input = ({
   type,
+  size,
   label,
   name,
   startIcon,
@@ -19,6 +20,7 @@ export const Input = ({
 }) => {
   return (
     <Wrapper
+      size={size}
       startIcon={startIcon}
       value={value}
       endIcon={endIcon}
@@ -35,7 +37,14 @@ export const Input = ({
           "flex-col justify-center": (value !== "" && !disabled) || (value !== "" && disabled),
         })}
       >
-        <Label htmlFor={name} label={label} value={value} error={error} disabled={disabled} />
+        <Label
+          htmlFor={name}
+          size={size}
+          label={label}
+          value={value}
+          error={error}
+          disabled={disabled}
+        />
         <input
           type={type}
           name={name}
