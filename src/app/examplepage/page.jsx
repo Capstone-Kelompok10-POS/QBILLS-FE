@@ -617,6 +617,7 @@ const ExamplePage = () => {
 
       {/* 
           type={""}
+          size={"sm" | "md"}
           label={""}
           name={""}
           startIcon={</>}
@@ -632,8 +633,10 @@ const ExamplePage = () => {
       */}
 
       <section className="space-y-5">
+        {/* SIZE SMALL */}
         <Input
           type={"text"}
+          size={"sm"}
           label={"Username"}
           name={"Username"}
           startIcon={<AccountCircleOutlinedIcon sx={{ fontSize: 30 }} />}
@@ -643,6 +646,7 @@ const ExamplePage = () => {
 
         <Input
           type={"text"}
+          size={"sm"}
           label={"Disabled"}
           name={"Disabled"}
           startIcon={<CloseIcon sx={{ fontSize: 30 }} />}
@@ -654,6 +658,51 @@ const ExamplePage = () => {
 
         <Input
           type={visibility ? "text" : "password"}
+          size={"sm"}
+          label={"Password"}
+          name={"Password"}
+          startIcon={<LockPersonIcon sx={{ fontSize: 30 }} />}
+          value={value}
+          endIcon={
+            visibility ? (
+              <VisibilityIcon sx={{ fontSize: 25 }} className="cursor-pointer" />
+            ) : (
+              <VisibilityOffIcon sx={{ fontSize: 25 }} className="cursor-pointer" />
+            )
+          }
+          endIconOnClick={() => setVisibility(!visibility)}
+          onChange={(e) => setValue(e.target.value)}
+          supText={true}
+          supLabel={"Support Text"}
+          error={true}
+        />
+
+        {/* SIZE MEDIUM */}
+        <Input
+          type={"text"}
+          size={"md"}
+          label={"Username"}
+          name={"Username"}
+          startIcon={<AccountCircleOutlinedIcon sx={{ fontSize: 30 }} />}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+
+        <Input
+          type={"text"}
+          size={"md"}
+          label={"Disabled"}
+          name={"Disabled"}
+          startIcon={<CloseIcon sx={{ fontSize: 30 }} />}
+          value={value}
+          endIcon={<CloseIcon sx={{ fontSize: 30 }} />}
+          onChange={(e) => setValue(e.target.value)}
+          disabled={true}
+        />
+
+        <Input
+          type={visibility ? "text" : "password"}
+          size={"md"}
           label={"Password"}
           name={"Password"}
           startIcon={<LockPersonIcon sx={{ fontSize: 30 }} />}
