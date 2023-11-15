@@ -1,6 +1,5 @@
 export const metadata = {
-  title: "Example Page",
-  description: "Example Page",
+  title: "Qbills | Example Page",
 };
 
 const ExamplePageLayout = ({ children }) => {
