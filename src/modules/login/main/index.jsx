@@ -131,7 +131,7 @@ export const Main = () => {
           <Button
             type={"submit"}
             label={loading ? "Login..." : "Login"}
-            size={"lg-full"}
+            size={"xl-full"}
             disabled={loading}
           />
         </form>
