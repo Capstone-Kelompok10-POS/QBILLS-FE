@@ -1,28 +1,42 @@
+import { IconButton } from "@/components";
+import AdminPhoto from "@/public/assets/images/photo-profile/admin.jpg";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import PersonIcon from "@mui/icons-material/Person";
+import Image from "next/image";
 
-export const HeaderAdmin = ({ pageName }) => {
+export const HeaderAdmin = ({ title, name, role }) => {
   return (
-    <>
-      <header className="ms-96 flex items-center justify-between p-10 pt-20">
+    <header>
+      <div className="flex w-full items-center justify-between border-b px-8 pb-10 pt-20">
         <section>
-          <h1 className="text-3xl font-bold">{pageName}</h1>
+          <h1 className="text-3xl font-bold">{title}</h1>
         </section>
-        <section className="flex items-center gap-52">
+
+        <section className="flex w-96 items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="rounded-lg bg-P4 p-2 text-N1">
-              <PersonIcon />
+            <div className="overflow-hidden rounded-lg">
+              <Image
+                src={AdminPhoto}
+                alt="Admin"
+                width={45.81}
+                quality={30}
+                priority
+                className="h-auto"
+              />
             </div>
-            <div className="gap-1">
-              <p className="font-semibold">Admin Name</p>
-              <p className="text-xs">Admin</p>
+
+            <div className="space-y-1">
+              <p className="font-semibold">{name}</p>
+              <p className="text-xs">{role}</p>
             </div>
           </div>
-          <button className="rounded-lg bg-P4 p-2 text-N1">
-            <NotificationsOutlinedIcon />
-          </button>
+
+          <IconButton
+            size={"lg"}
+            icon={<NotificationsOutlinedIcon fontSize="medium" />}
+            onClick={() => {}}
+          />
         </section>
-      </header>
-    </>
+      </div>
+    </header>
   );
 };
