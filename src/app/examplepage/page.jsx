@@ -4,10 +4,11 @@ import { SubmitButton } from "@/components";
 import {
   ComponentButton,
   ComponentChip,
+  ComponentFAB,
   ComponentIconButton,
   ComponentInput,
+  ComponentNavigationDrawer,
   ComponentSnackBar,
-  ComponentFAB
 } from "@/modules/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
@@ -26,9 +27,12 @@ const ExamplePage = () => {
       <section className="space-y-5 p-5">
         <ComponentButton />
         <ComponentChip />
-        <ComponentFAB/>
+        <ComponentFAB />
         <ComponentIconButton />
         <ComponentInput />
+        <div className="hidden">
+          <ComponentNavigationDrawer />
+        </div>
         <ComponentSnackBar />
       </section>
     </main>
