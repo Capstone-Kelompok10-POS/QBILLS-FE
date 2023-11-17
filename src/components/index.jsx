@@ -5,4 +5,5 @@ export * from "./fab";
 export * from "./icon-button";
 export * from "./input";
 export * from "./navigation-drawer";
+export * from "./select";
 export * from "./snack-bar";
