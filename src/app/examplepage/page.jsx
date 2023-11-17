@@ -8,6 +8,7 @@ import {
   ComponentIconButton,
   ComponentInput,
   ComponentNavigationDrawer,
+  ComponentSelect,
   ComponentSnackBar,
 } from "@/modules/components";
 import { Footer, Header, Main } from "@/modules/example-page";
@@ -33,6 +34,7 @@ const ExamplePage = () => {
         <div className="hidden">
           <ComponentNavigationDrawer />
         </div>
+        <ComponentSelect />
         <ComponentSnackBar />
       </section>
     </main>
