@@ -1,31 +1,31 @@
 import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import logoQbills2 from "@/public/assets/images/logos/brown/logo-4.png";
 import logoQbills3 from "@/public/assets/images/logos/brown/logo-5.png";
-import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import LocalCafeOutlinedIcon from "@mui/icons-material/LocalCafeOutlined";
-import LocalCafeIcon from "@mui/icons-material/LocalCafe";
-import LocalPoliceOutlinedIcon from "@mui/icons-material/LocalPoliceOutlined";
-import LocalPoliceIcon from "@mui/icons-material/LocalPolice";
-import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
-import PaymentIcon from "@mui/icons-material/Payment";
-import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
+import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
+import LocalCafeIcon from "@mui/icons-material/LocalCafe";
+import LocalCafeOutlinedIcon from "@mui/icons-material/LocalCafeOutlined";
+import LocalPoliceIcon from "@mui/icons-material/LocalPolice";
+import LocalPoliceOutlinedIcon from "@mui/icons-material/LocalPoliceOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import PaymentIcon from "@mui/icons-material/Payment";
+import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
+import clsx from "clsx";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
 
 export const NavigationDrawer = () => {
   const pathname = usePathname();
   return (
-    <nav className="fixed left-0 top-0 flex h-screen w-96 flex-col gap-14 bg-N1.1 px-6 py-14 text-N3">
+    <nav className="fixed left-0 top-0 flex h-screen w-96 flex-col gap-14 border-r bg-N1.1 px-6 py-14 text-N3">
       <section className="flex w-full items-center justify-center gap-2">
         <Image src={logoQbills} alt="Qbills" width={60} quality={30} priority className="h-auto" />
         <div className="flex flex-col items-center justify-center">
