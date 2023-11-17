@@ -23,6 +23,14 @@ export const ComponentChip = () => {
             <Chip size={"sm"} label={"Label"} selected={true} />
 
             <Chip size={"sm"} label={"Label"} onClick={() => {}} disabled={true} />
+
+            <Chip size={"sm"} label={"Label"} onClick={() => {}} disabled={true} />
+
+            <Chip size={"sm"} label={"Label"} onClick={() => {}} variant={"success"} />
+
+            <Chip size={"sm"} label={"Label"} onClick={() => {}} variant={"canceled"} />
+
+            <Chip size={"sm"} label={"Label"} onClick={() => {}} variant={"pending"} />
           </div>
 
           <div className="flex gap-5">
@@ -61,6 +69,12 @@ export const ComponentChip = () => {
             <Chip size={"md"} label={"Label"} selected={true} />
 
             <Chip size={"md"} label={"Label"} onClick={() => {}} disabled={true} />
+
+            <Chip size={"md"} label={"Label"} onClick={() => {}} variant={"success"} />
+
+            <Chip size={"md"} label={"Label"} onClick={() => {}} variant={"canceled"} />
+
+            <Chip size={"md"} label={"Label"} onClick={() => {}} variant={"pending"} />
           </div>
 
           <div className="flex gap-5">
