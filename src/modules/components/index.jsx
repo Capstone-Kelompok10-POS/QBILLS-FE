@@ -4,3 +4,4 @@ export * from "./fab";
 export * from "./icon-button";
 export * from "./input";
 export * from "./snack-bar";
+export * from "./analytics";

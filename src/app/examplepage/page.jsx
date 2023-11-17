@@ -7,7 +7,8 @@ import {
   ComponentIconButton,
   ComponentInput,
   ComponentSnackBar,
-  ComponentFAB
+  ComponentFAB,
+  ComponentAnalytics,
 } from "@/modules/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
@@ -26,10 +27,11 @@ const ExamplePage = () => {
       <section className="space-y-5 p-5">
         <ComponentButton />
         <ComponentChip />
-        <ComponentFAB/>
+        <ComponentFAB />
         <ComponentIconButton />
         <ComponentInput />
         <ComponentSnackBar />
+        <ComponentAnalytics />
       </section>
     </main>
   );
