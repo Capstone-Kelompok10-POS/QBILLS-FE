@@ -1,5 +1,15 @@
 import { HeaderAdmin } from "@/components";
 
 export const ComponentHeaderAdmin = () => {
-  return <HeaderAdmin pageName="Transaction" />;
+  return (
+    <>
+      {/* 
+          title={""}
+          name={""}
+          role={""}
+      */}
+
+      <HeaderAdmin title={"Example Page"} name={"Example Name"} role={"Example Role"} />
+    </>
+  );
 };
