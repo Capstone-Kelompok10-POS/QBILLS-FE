@@ -2,6 +2,7 @@
 
 import { SubmitButton } from "@/components";
 import {
+  ComponentPagination,
   ComponentTable,
   ComponentAnalytics,
   ComponentButton,
@@ -12,7 +13,7 @@ import {
   ComponentNavigationDrawer,
   ComponentSelect,
   ComponentSnackBar,
-  ComponentFAB,
+  // ComponentFAB,
 } from "@/modules/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
@@ -41,6 +42,7 @@ const ExamplePage = () => {
         <ComponentSelect />
         <ComponentSnackBar />
         <ComponentTable />
+        <ComponentPagination/>
       </section>
     </main>
   );
