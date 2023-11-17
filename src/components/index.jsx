@@ -8,3 +8,6 @@ export * from "./navigation-drawer";
 export * from "./select";
 export * from "./snack-bar";
 export * from "./header-admin";
+export * from "./table";
+export * from "./analytics";
+
