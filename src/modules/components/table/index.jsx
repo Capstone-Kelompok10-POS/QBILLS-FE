@@ -1,4 +1,5 @@
-import { Table } from "@/components";
+import { Table, Chip } from "@/components";
+
 export const ComponentTable = () => {
   const tableHead = [
     "Code Transaction",
@@ -26,7 +27,16 @@ export const ComponentTable = () => {
       payment: "QRIS BCA",
       date: "14/11/2023 11.34",
       transaction: "Rp 56.000",
-      status: "Pending",
+      status: "Success",
+    },
+    {
+      ct: "MND1234",
+      cashier: "Victor Yoga",
+      cn: "Randy Donin",
+      payment: "QRIS BCA",
+      date: "14/11/2023 11.34",
+      transaction: "Rp 56.000",
+      status: "Canceled",
     },
     {
       ct: "MND1234",
@@ -44,33 +54,37 @@ export const ComponentTable = () => {
       payment: "QRIS BCA",
       date: "14/11/2023 11.34",
       transaction: "Rp 56.000",
-      status: "Pending",
+      status: "Canceled",
     },
-    {
-      ct: "MND1234",
-      cashier: "Victor Yoga",
-      cn: "Randy Donin",
-      payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
-      transaction: "Rp 56.000",
-      status: "Pending",
-    },
-
-    // Tambahkan data lain sesuai kebutuhan
   ];
   return (
-    <Table tableHead={tableHead}>
-      {data.map((row, index) => (
-        <tr key={row.id} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2"}`}>
-          <td className="border-b px-4 py-2 text-center">{row.ct}</td>
-          <td className="border-b px-4 py-2 text-center">{row.cashier}</td>
-          <td className="border-b px-4 py-2 text-center">{row.cn}</td>
-          <td className="border-b px-4 py-2 text-center">{row.payment}</td>
-          <td className="border-b px-4 py-2 text-center">{row.date}</td>
-          <td className="border-b px-4 py-2 text-center">{row.transaction}</td>
-          <td className="border-b px-4 py-2 text-center">{row.status}</td>
-        </tr>
-      ))}
-    </Table>
+    <>
+      {/* 
+        tableHead={[""]}
+        children={</>} 
+      */}
+
+      <Table tableHead={tableHead}>
+        {data.map((row, index) => (
+          <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2"}`}>
+            <td className="px-4 py-2 text-center">{row.ct}</td>
+            <td className="px-4 py-2 text-center">{row.cashier}</td>
+            <td className="px-4 py-2 text-center">{row.cn}</td>
+            <td className="px-4 py-2 text-center">{row.payment}</td>
+            <td className="px-4 py-2 text-center">{row.date}</td>
+            <td className="px-4 py-2 text-center">{row.transaction}</td>
+            <td className="px-4 py-2">
+              <div className="flex items-center justify-center">
+                <Chip
+                  variant={row.status.toLocaleLowerCase()}
+                  size={"md-status"}
+                  label={row.status}
+                />
+              </div>
+            </td>
+          </tr>
+        ))}
+      </Table>
+    </>
   );
 };
