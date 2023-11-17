@@ -1,15 +1,20 @@
 import clsx from "clsx";
 
-export const Chip = ({ size, startIcon, label, endIcon, onClick, selected, disabled }) => {
+export const Chip = ({ size, startIcon, label, endIcon, onClick, selected, disabled, variant }) => {
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
       className={clsx("flex h-fit w-fit items-center justify-center rounded-full border", {
-        // VARIANT
-        "border-N2 text-N7 hover:border-P5 hover:bg-P5 hover:text-N1 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
+        // NORMAL
+        "border-N2  hover:border-P5 hover:bg-P5 hover:text-N1 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
           !selected && !disabled,
+
+        // VARIANT
+        "bg-S1 text-S5": variant === "success",
+        "bg-W1 text-W5": variant === "pending",
+        "bg-E1 text-E5": variant === "canceled",
 
         // SELECTED
         "cursor-default border-P6 bg-P6 text-N1": selected && !disabled,

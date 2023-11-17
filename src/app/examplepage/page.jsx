@@ -2,13 +2,16 @@
 
 import { SubmitButton } from "@/components";
 import {
+  ComponentAnalytics,
   ComponentButton,
   ComponentChip,
+  ComponentFAB,
   ComponentIconButton,
   ComponentInput,
+  ComponentNavigationDrawer,
+  ComponentSelect,
   ComponentSnackBar,
   ComponentFAB,
-  ComponentAnalytics,
 } from "@/modules/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
@@ -25,13 +28,17 @@ const ExamplePage = () => {
         <Image src={logoVercel} alt="Vercel" width={100} className="h-auto" />
       </section>
       <section className="space-y-5 p-5">
+        <ComponentAnalytics />
         <ComponentButton />
         <ComponentChip />
         <ComponentFAB />
         <ComponentIconButton />
         <ComponentInput />
+        <div className="hidden">
+          <ComponentNavigationDrawer />
+        </div>
+        <ComponentSelect />
         <ComponentSnackBar />
-        <ComponentAnalytics />
       </section>
     </main>
   );
