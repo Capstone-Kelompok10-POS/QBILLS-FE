@@ -1,3 +1,5 @@
+"use client";
+
 import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import logoQbills2 from "@/public/assets/images/logos/brown/logo-4.png";
 import logoQbills3 from "@/public/assets/images/logos/brown/logo-5.png";
