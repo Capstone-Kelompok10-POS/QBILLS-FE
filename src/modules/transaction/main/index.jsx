@@ -194,7 +194,7 @@ export const Main = () => {
           <Input
             type={"text"}
             size={"sm"}
-            label={"Seacrh"}
+            label={"Search"}
             name={"search"}
             value={search}
             endIcon={<SearchIcon sx={{ fontSize: 30 }} />}
