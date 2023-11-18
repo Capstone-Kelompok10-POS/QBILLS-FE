@@ -4,12 +4,11 @@ export const ComponentHeaderAdmin = () => {
   return (
     <>
       {/* 
-          title={""}
           name={""}
           role={""}
       */}
 
-      <HeaderAdmin title={"Example Page"} name={"Example Name"} role={"Example Role"} />
+      <HeaderAdmin name={"Example Name"} role={"Example Role"} />
     </>
   );
 };
