@@ -1,18 +1,16 @@
 export const Table = ({ tableHead, children }) => {
   return (
-    <section className="w-full overflow-scroll rounded-lg border border-N2">
-      <table className="w-full">
-        <thead className="bg-N2">
-          <tr>
-            {tableHead.map((label, index) => (
-              <th key={index} className="px-4 py-2 text-center">
-                {label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{children}</tbody>
-      </table>
-    </section>
+    <table className="h-full w-full">
+      <thead className="bg-N2.2 sticky top-0">
+        <tr>
+          {tableHead.map((label, index) => (
+            <th key={index} className="px-4 py-4 text-center text-N5">
+              {label}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>{children}</tbody>
+    </table>
   );
 };
