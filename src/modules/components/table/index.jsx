@@ -167,7 +167,7 @@ export const ComponentTable = () => {
               <td className="px-4 py-2">
                 <div className="flex items-center justify-center">
                   <Chip
-                    color={row.status.toLocaleLowerCase()}
+                    status={row.status.toLocaleLowerCase()}
                     size={"md-status"}
                     label={row.status}
                   />
