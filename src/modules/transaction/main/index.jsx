@@ -186,6 +186,7 @@ export const Main = () => {
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
+  const totalPage = Math.ceil(filteredData.length / perPage);
 
   return (
     <main className="space-y-5">
@@ -261,7 +262,7 @@ export const Main = () => {
 
       <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
-          {filteredData.map((row, index) => (
+          {currentData.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center">{row.ct}</td>
               <td className="px-4 py-2 text-center">{row.cashier}</td>
@@ -289,11 +290,9 @@ export const Main = () => {
           endData={Math.min(indexOfLastData, filteredData.length)}
           total={filteredData.length}
           currentPage={currentPage}
-          totalPage={Math.ceil(filteredData.length / perPage)}
+          totalPage={totalPage}
           onClickPrevData={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          onClickNextData={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(filteredData.length / perPage)))
-          }
+          onClickNextData={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
         />
       </section>
     </main>
