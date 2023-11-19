@@ -154,7 +154,7 @@ export const ComponentTable = () => {
         children={</>} 
       */}
 
-      <section className="max-h-[60vh] min-h-[50vh] overflow-scroll rounded-lg border border-N2">
+      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
           {data.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
@@ -167,7 +167,7 @@ export const ComponentTable = () => {
               <td className="px-4 py-2">
                 <div className="flex items-center justify-center">
                   <Chip
-                    variant={row.status.toLocaleLowerCase()}
+                    color={row.status.toLocaleLowerCase()}
                     size={"md-status"}
                     label={row.status}
                   />
