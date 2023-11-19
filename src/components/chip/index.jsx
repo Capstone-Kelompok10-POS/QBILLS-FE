@@ -1,24 +1,25 @@
 import clsx from "clsx";
 
-export const Chip = ({ color, size, startIcon, label, endIcon, onClick, selected, disabled }) => {
+export const Chip = ({ status, size, startIcon, label, endIcon, onClick, selected, disabled }) => {
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
       className={clsx("flex items-center justify-center rounded-full border", {
-        // COLOR
         "border-N2  hover:border-P5 hover:bg-P5 hover:text-N1 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
-          !color && !selected && !disabled,
-        "cursor-default border-S1 bg-S1 text-S5": color === "success" && !selected && !disabled,
-        "cursor-default border-W1 bg-W1 text-W5": color === "pending" && !selected && !disabled,
-        "cursor-default border-E1 bg-E1 text-E5": color === "canceled" && !selected && !disabled,
+          !status && !selected && !disabled,
+
+        // STATUS
+        "cursor-default border-S1 bg-S1 text-S5": status === "success" && !selected && !disabled,
+        "cursor-default border-W1 bg-W1 text-W5": status === "pending" && !selected && !disabled,
+        "cursor-default border-E1 bg-E1 text-E5": status === "canceled" && !selected && !disabled,
 
         // SELECTED
-        "cursor-default border-P6 bg-P6 text-N1": !color && selected && !disabled,
+        "cursor-default border-P6 bg-P6 text-N1": !status && selected && !disabled,
 
         // DISABLED
-        "cursor-not-allowed border-N3 bg-N2 text-N3": !color && disabled,
+        "cursor-not-allowed border-N3 bg-N2 text-N3": !status && disabled,
 
         // SIZE
         "h-fit w-fit gap-1 px-3 py-2": size === "sm",
