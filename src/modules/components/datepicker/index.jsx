@@ -1,4 +1,4 @@
-import { Date } from "@/components";
+import { DatePicker } from "@/components";
 import { useState } from "react";
 
 export const ComponentDate = () => {
@@ -19,14 +19,14 @@ export const ComponentDate = () => {
 
       <section className="space-y-5">
         {/* --- SIZE SMALL --- */}
-        <Date
+        <DatePicker
           size={"sm"}
           name={"DateSmall"}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
 
-        <Date
+        <DatePicker
           size={"sm"}
           name={"DisabledDateSmall"}
           value={value}
@@ -34,7 +34,7 @@ export const ComponentDate = () => {
           disabled={true}
         />
 
-        <Date
+        <DatePicker
           size={"sm"}
           name={"ErrorDateSmall"}
           value={value}
@@ -45,14 +45,14 @@ export const ComponentDate = () => {
         />
 
         {/* --- SIZE MEDIUM --- */}
-        <Date
+        <DatePicker
           size={"md"}
           name={"DateMedium"}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
 
-        <Date
+        <DatePicker
           size={"md"}
           name={"DisabledDateMedium"}
           value={value}
@@ -60,7 +60,7 @@ export const ComponentDate = () => {
           disabled={true}
         />
 
-        <Date
+        <DatePicker
           size={"md"}
           name={"ErrorDateMedium"}
           value={value}
