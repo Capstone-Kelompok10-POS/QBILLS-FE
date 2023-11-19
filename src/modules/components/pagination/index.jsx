@@ -9,8 +9,8 @@ export const ComponentPagination = () => {
           total={0}
           currentPage={0}
           totalPage={0}
-          onClickPrevData={() => {}}
-          onClickNextData={() => {}}
+          onClickPrevPage={() => {}}
+          onClickNextPage={() => {}}
       */}
 
       <Pagination
@@ -19,8 +19,8 @@ export const ComponentPagination = () => {
         total={1000}
         currentPage={2}
         totalPage={10}
-        onClickPrevData={() => {}}
-        onClickNextData={() => {}}
+        onClickPrevPage={() => {}}
+        onClickNextPage={() => {}}
       />
     </>
   );
