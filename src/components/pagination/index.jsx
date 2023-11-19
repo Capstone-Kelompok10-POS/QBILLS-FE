@@ -7,8 +7,8 @@ export const Pagination = ({
   total,
   currentPage,
   totalPage,
-  onClickPrevData,
-  onClickNextData,
+  onClickPrevPage,
+  onClickNextPage,
 }) => {
   return (
     <section className="w-full border-t py-3">
@@ -19,7 +19,7 @@ export const Pagination = ({
 
         <section>
           <ul className="flex items-center gap-3">
-            <li onClick={onClickPrevData}>
+            <li onClick={onClickPrevPage}>
               <span>
                 <ArrowBackIosNewRoundedIcon
                   className="cursor-pointer text-N3 hover:text-P4 active:scale-95"
@@ -38,7 +38,7 @@ export const Pagination = ({
               <span className="text-sm">{totalPage}</span>
             </li>
 
-            <li onClick={onClickNextData}>
+            <li onClick={onClickNextPage}>
               <span>
                 <ArrowForwardIosRoundedIcon
                   className="cursor-pointer text-N3 hover:text-P4 active:scale-95"
