@@ -6,6 +6,7 @@ export const ComponentSnackBar = () => {
       {/* 
           variant={"success" | "info" | "warning" | "error"}
           size={"sm" | "lg"}
+          label={""}
           desc={""}
           onClickClose={() => {}}
           action={true | false}
