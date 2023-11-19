@@ -273,7 +273,7 @@ export const Main = () => {
               <td className="px-4 py-2">
                 <div className="flex items-center justify-center">
                   <Chip
-                    color={row.status.toLocaleLowerCase()}
+                    status={row.status.toLocaleLowerCase()}
                     size={"md-status"}
                     label={row.status}
                   />
@@ -291,8 +291,8 @@ export const Main = () => {
           total={filteredData.length}
           currentPage={currentPage}
           totalPage={totalPage}
-          onClickPrevData={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          onClickNextData={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
+          onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
         />
       </section>
     </main>
