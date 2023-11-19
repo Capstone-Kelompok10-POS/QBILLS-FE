@@ -5,7 +5,7 @@ export const ComponentChip = () => {
   return (
     <>
       {/* 
-          color={"success" | "pending" | "canceled"}
+          status={"success" | "pending" | "canceled"}
           size={"sm" | "sm-status" | "md" | "md-status" | "lg" | "xl" | "2xl" | "3xl"}
           startIcon={</>}
           label={""}
@@ -16,25 +16,25 @@ export const ComponentChip = () => {
       */}
 
       <section className="flex flex-col items-center justify-center gap-5">
-        {/* --- COLOR SIZE SMALL --- */}
+        {/* --- STATUS SIZE SMALL --- */}
         <div className="flex items-center justify-center gap-5">
           <div className="flex gap-5">
-            <Chip color={"success"} size={"sm-status"} label={"Label"} onClick={() => {}} />
+            <Chip status={"success"} size={"sm-status"} label={"Label"} onClick={() => {}} />
 
-            <Chip color={"canceled"} size={"sm-status"} label={"Label"} onClick={() => {}} />
+            <Chip status={"canceled"} size={"sm-status"} label={"Label"} onClick={() => {}} />
 
-            <Chip color={"pending"} size={"sm-status"} label={"Label"} onClick={() => {}} />
+            <Chip status={"pending"} size={"sm-status"} label={"Label"} onClick={() => {}} />
           </div>
         </div>
 
-        {/* --- COLOR SIZE MEDIUM --- */}
+        {/* --- STATUS SIZE MEDIUM --- */}
         <div className="flex items-center justify-center gap-5">
           <div className="flex gap-5">
-            <Chip color={"success"} size={"md-status"} label={"Label"} onClick={() => {}} />
+            <Chip status={"success"} size={"md-status"} label={"Label"} onClick={() => {}} />
 
-            <Chip color={"canceled"} size={"md-status"} label={"Label"} onClick={() => {}} />
+            <Chip status={"canceled"} size={"md-status"} label={"Label"} onClick={() => {}} />
 
-            <Chip color={"pending"} size={"md-status"} label={"Label"} onClick={() => {}} />
+            <Chip status={"pending"} size={"md-status"} label={"Label"} onClick={() => {}} />
           </div>
         </div>
 
