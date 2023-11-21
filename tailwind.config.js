@@ -46,6 +46,9 @@ module.exports = {
       boxShadow: {
         center: "0 0 20px 0 rgba(0, 0, 0, 0.3)",
       },
+      fontFamily: {
+        inter: ["Inter", "sans-serif"]
+      },
     },
   },
   plugins: [

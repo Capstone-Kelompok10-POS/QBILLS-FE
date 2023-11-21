@@ -20,7 +20,7 @@ export const CardMembership = ({name}) => {
             width={105}/>
 
             <div className="">
-            <span className="font-inter text-white text-[95px] font-semibold">QBILLS</span>
+            <span className="text-white text-[95px] font-semibold font-inter">QBILLS</span>
             <Image
             className="mx-3"
             src={LogoET}
