@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Wrapper } from "./wrapper";
 
-export const Date = ({
+export const DatePicker = ({
   size,
   name,
   value,

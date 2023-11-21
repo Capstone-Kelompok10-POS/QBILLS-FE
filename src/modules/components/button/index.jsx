@@ -422,6 +422,7 @@ export const ComponentButton = () => {
             label={"Button"}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             color={"success"}
@@ -431,6 +432,7 @@ export const ComponentButton = () => {
             endIcon={<CloseIcon fontSize="small" />}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             variant={"outline"}
@@ -439,6 +441,7 @@ export const ComponentButton = () => {
             label={"Button"}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             variant={"outline"}
@@ -449,6 +452,7 @@ export const ComponentButton = () => {
             endIcon={<CloseIcon fontSize="small" />}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             color={"warning"}
@@ -456,6 +460,7 @@ export const ComponentButton = () => {
             label={"Button"}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             color={"warning"}
@@ -465,6 +470,7 @@ export const ComponentButton = () => {
             endIcon={<CloseIcon fontSize="small" />}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             variant={"outline"}
@@ -473,6 +479,7 @@ export const ComponentButton = () => {
             label={"Button"}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             variant={"outline"}
@@ -485,6 +492,7 @@ export const ComponentButton = () => {
           />
 
           <Button type={"button"} color={"error"} size={"sm"} label={"Button"} onClick={() => {}} />
+
           <Button
             type={"button"}
             color={"error"}
@@ -494,6 +502,7 @@ export const ComponentButton = () => {
             endIcon={<CloseIcon fontSize="small" />}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             variant={"outline"}
@@ -502,6 +511,7 @@ export const ComponentButton = () => {
             label={"Button"}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             variant={"outline"}
@@ -512,7 +522,9 @@ export const ComponentButton = () => {
             endIcon={<CloseIcon fontSize="small" />}
             onClick={() => {}}
           />
+
           <Button type={"button"} color={"info"} size={"sm"} label={"Button"} onClick={() => {}} />
+
           <Button
             type={"button"}
             color={"info"}
@@ -522,6 +534,7 @@ export const ComponentButton = () => {
             endIcon={<CloseIcon fontSize="small" />}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             variant={"outline"}
@@ -530,6 +543,7 @@ export const ComponentButton = () => {
             label={"Button"}
             onClick={() => {}}
           />
+
           <Button
             type={"button"}
             variant={"outline"}
@@ -541,7 +555,7 @@ export const ComponentButton = () => {
             onClick={() => {}}
           />
         </div>
-        
+
         {/* --- WIDTH FULL --- */}
         <div className="flex w-full gap-5">
           <Button type={"button"} size={"xl-full"} label={"Button"} onClick={() => {}} />

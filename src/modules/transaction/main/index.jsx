@@ -1,12 +1,12 @@
 "use client";
 
-import { Analytics, Chip, Date, Input, Pagination, Select, Table } from "@/components";
+import { Analytics, Chip, DatePicker, Input, Pagination, Select, Table } from "@/components";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
+import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import SearchIcon from "@mui/icons-material/Search";
-import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { useState } from "react";
 
 export const Main = () => {
@@ -14,6 +14,7 @@ export const Main = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [select, setSelect] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const tableHead = [
     "Code Transaction",
@@ -30,7 +31,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Pending",
     },
@@ -39,7 +40,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Success",
     },
@@ -48,7 +49,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Canceled",
     },
@@ -57,7 +58,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Pending",
     },
@@ -66,7 +67,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Canceled",
     },
@@ -75,7 +76,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Pending",
     },
@@ -84,7 +85,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Success",
     },
@@ -93,7 +94,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Canceled",
     },
@@ -102,7 +103,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Pending",
     },
@@ -111,7 +112,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Canceled",
     },
@@ -120,7 +121,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Pending",
     },
@@ -129,7 +130,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Success",
     },
@@ -138,7 +139,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Canceled",
     },
@@ -147,7 +148,7 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Pending",
     },
@@ -156,11 +157,37 @@ export const Main = () => {
       cashier: "Victor Yoga",
       cn: "Randy Donin",
       payment: "QRIS BCA",
-      date: "14/11/2023 11.34",
+      date: "14/11/2023",
       transaction: "Rp 56.000",
       status: "Canceled",
     },
   ];
+
+  const filteredData = data.filter((row) => {
+    const matchesSearch =
+      row.ct.toLowerCase().includes(search.toLowerCase()) ||
+      row.cn.toLowerCase().includes(search.toLowerCase());
+
+    const rowDate = new Date(row.date.split("/").reverse().join("-"));
+    const startFilterDate = startDate ? new Date(startDate.split("/").reverse().join("-")) : null;
+    const endFilterDate = endDate ? new Date(endDate.split("/").reverse().join("-")) : null;
+
+    const withinDateRange =
+      !startFilterDate ||
+      !endFilterDate ||
+      (rowDate >= startFilterDate && rowDate <= endFilterDate);
+
+    const matchesStatus = !select || row.status.toLowerCase() === select.toLowerCase();
+
+    return matchesSearch && withinDateRange && matchesStatus;
+  });
+
+  const perPage = 10;
+  const indexOfLastData = currentPage * perPage;
+  const indexOfFirstData = indexOfLastData - perPage;
+  const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
+  const totalPage = Math.ceil(filteredData.length / perPage);
+
   return (
     <main className="space-y-5">
       <section className="flex w-full gap-5">
@@ -203,7 +230,7 @@ export const Main = () => {
         </div>
 
         <div className="w-full">
-          <Date
+          <DatePicker
             size={"sm"}
             name={"startdate"}
             value={startDate}
@@ -212,7 +239,7 @@ export const Main = () => {
         </div>
 
         <div className="w-full">
-          <Date
+          <DatePicker
             size={"sm"}
             name={"enddate"}
             value={endDate}
@@ -225,7 +252,7 @@ export const Main = () => {
             size={"sm"}
             label={"Status"}
             name={"status"}
-            options={["A", "B"]}
+            options={["Pending", "Success", "Canceled"]}
             startIcon={<LabelOutlinedIcon sx={{ fontSize: 30 }} />}
             value={select}
             onChange={(e) => setSelect(e.target.value)}
@@ -233,9 +260,9 @@ export const Main = () => {
         </div>
       </section>
 
-      <section className="max-h-[60vh] min-h-[50vh] overflow-scroll rounded-lg border border-N2">
+      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
-          {data.map((row, index) => (
+          {currentData.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center">{row.ct}</td>
               <td className="px-4 py-2 text-center">{row.cashier}</td>
@@ -246,7 +273,7 @@ export const Main = () => {
               <td className="px-4 py-2">
                 <div className="flex items-center justify-center">
                   <Chip
-                    variant={row.status.toLocaleLowerCase()}
+                    status={row.status.toLocaleLowerCase()}
                     size={"md-status"}
                     label={row.status}
                   />
@@ -259,13 +286,13 @@ export const Main = () => {
 
       <section>
         <Pagination
-          startData={1}
-          endData={30}
-          total={1000}
-          currentPage={2}
-          totalPage={10}
-          onClickPrevData={() => {}}
-          onClickNextData={() => {}}
+          startData={indexOfFirstData + 1}
+          endData={Math.min(indexOfLastData, filteredData.length)}
+          total={filteredData.length}
+          currentPage={currentPage}
+          totalPage={totalPage}
+          onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
         />
       </section>
     </main>

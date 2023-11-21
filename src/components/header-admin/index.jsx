@@ -22,9 +22,6 @@ export const HeaderAdmin = ({ name, role }) => {
       case "/manageproduct":
         setTitle("Manage Product");
         break;
-      case "/listproduct":
-        setTitle("List Product");
-        break;
       case "/membership":
         setTitle("Membership");
         break;
@@ -42,7 +39,7 @@ export const HeaderAdmin = ({ name, role }) => {
 
   return (
     <header className="w-full">
-      <div className="flex items-center justify-between border-b px-8 pb-10 pt-20">
+      <div className="flex items-center justify-between border-b px-5 pb-10 pt-20">
         <section>
           <h1 className="text-3xl font-bold">{title}</h1>
         </section>
