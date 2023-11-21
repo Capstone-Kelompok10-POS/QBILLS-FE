@@ -2,6 +2,7 @@
 
 import { SubmitButton } from "@/components";
 import {
+  ComponentCheckbox,
   ComponentAnalytics,
   ComponentButton,
   ComponentChip,
@@ -48,6 +49,7 @@ const ExamplePage = () => {
         <ComponentAnalytics />
         <ComponentTable />
         <ComponentPagination />
+        <ComponentCheckbox />
       </section>
     </main>
   );
