@@ -1,7 +1,8 @@
 "use client";
 
-import { SubmitButton, Checkbox } from "@/components";
+import { SubmitButton } from "@/components";
 import {
+  ComponentCheckbox,
   ComponentAnalytics,
   ComponentButton,
   ComponentChip,
@@ -48,15 +49,7 @@ const ExamplePage = () => {
         <ComponentAnalytics />
         <ComponentTable />
         <ComponentPagination />
-      </section>
-      <section className="item-center flex justify-center gap-5">
-        <div className="item-center flex flex-col justify-center gap-5">
-          <div className="flex gap-5">
-            <Checkbox onChange={() => {}} />
-            <Checkbox onChange={() => {}} disabled={true} checked={true} />
-            <Checkbox checked={true} />
-          </div>
-        </div>
+        <ComponentCheckbox />
       </section>
     </main>
   );
