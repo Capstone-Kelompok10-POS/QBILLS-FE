@@ -1,7 +1,8 @@
 "use client";
 
-import { SubmitButton, CardMembership } from "@/components";
+import { SubmitButton } from "@/components";
 import {
+  ComponentCardMembership,
   ComponentAnalytics,
   ComponentButton,
   ComponentChip,
@@ -48,14 +49,7 @@ const ExamplePage = () => {
         <ComponentAnalytics />
         <ComponentTable />
         <ComponentPagination />
-      </section>
-
-
-      <section className="my-28 flex justify-center items-center">
-        
-        <CardMembership
-        name="DIKA PRADANA PUTRA"
-        />
+        <ComponentCardMembership />
       </section>
     </main>
   );
