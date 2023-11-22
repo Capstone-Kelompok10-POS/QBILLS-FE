@@ -5,7 +5,8 @@ export const ComponentChip = () => {
   return (
     <>
       {/* 
-          size={"sm" | "md" | "lg" | "xl" | "2xl" | "3xl"}
+          status={"success" | "pending" | "canceled"}
+          size={"sm" | "sm-status" | "md" | "md-status" | "lg" | "xl" | "2xl" | "3xl"}
           startIcon={</>}
           label={""}
           endIcon={</>}
@@ -15,6 +16,28 @@ export const ComponentChip = () => {
       */}
 
       <section className="flex flex-col items-center justify-center gap-5">
+        {/* --- STATUS SIZE SMALL --- */}
+        <div className="flex items-center justify-center gap-5">
+          <div className="flex gap-5">
+            <Chip status={"success"} size={"sm-status"} label={"Label"} onClick={() => {}} />
+
+            <Chip status={"canceled"} size={"sm-status"} label={"Label"} onClick={() => {}} />
+
+            <Chip status={"pending"} size={"sm-status"} label={"Label"} onClick={() => {}} />
+          </div>
+        </div>
+
+        {/* --- STATUS SIZE MEDIUM --- */}
+        <div className="flex items-center justify-center gap-5">
+          <div className="flex gap-5">
+            <Chip status={"success"} size={"md-status"} label={"Label"} onClick={() => {}} />
+
+            <Chip status={"canceled"} size={"md-status"} label={"Label"} onClick={() => {}} />
+
+            <Chip status={"pending"} size={"md-status"} label={"Label"} onClick={() => {}} />
+          </div>
+        </div>
+
         {/* --- SIZE SMALL --- */}
         <div className="flex items-center justify-center gap-5">
           <div className="flex gap-5">
@@ -23,14 +46,6 @@ export const ComponentChip = () => {
             <Chip size={"sm"} label={"Label"} selected={true} />
 
             <Chip size={"sm"} label={"Label"} onClick={() => {}} disabled={true} />
-
-            <Chip size={"sm"} label={"Label"} onClick={() => {}} disabled={true} />
-
-            <Chip size={"sm"} label={"Label"} onClick={() => {}} variant={"success"} />
-
-            <Chip size={"sm"} label={"Label"} onClick={() => {}} variant={"canceled"} />
-
-            <Chip size={"sm"} label={"Label"} onClick={() => {}} variant={"pending"} />
           </div>
 
           <div className="flex gap-5">
@@ -69,12 +84,6 @@ export const ComponentChip = () => {
             <Chip size={"md"} label={"Label"} selected={true} />
 
             <Chip size={"md"} label={"Label"} onClick={() => {}} disabled={true} />
-
-            <Chip size={"md"} label={"Label"} onClick={() => {}} variant={"success"} />
-
-            <Chip size={"md"} label={"Label"} onClick={() => {}} variant={"canceled"} />
-
-            <Chip size={"md"} label={"Label"} onClick={() => {}} variant={"pending"} />
           </div>
 
           <div className="flex gap-5">

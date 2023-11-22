@@ -4,8 +4,9 @@ export const ComponentSnackBar = () => {
   return (
     <>
       {/* 
-          variant={"success" | "information" | "warning" | "error"}
+          variant={"success" | "info" | "warning" | "error"}
           size={"sm" | "lg"}
+          label={""}
           desc={""}
           onClickClose={() => {}}
           action={true | false}
@@ -18,6 +19,7 @@ export const ComponentSnackBar = () => {
         <SnackBar
           variant={"success"}
           size={"sm"}
+          label={"Success"}
           desc={"Lorem ipsum is simply dummy text of the printing"}
           onClickClose={() => {}}
           action={true}
@@ -29,6 +31,7 @@ export const ComponentSnackBar = () => {
         <SnackBar
           variant={"success"}
           size={"lg"}
+          label={"Success"}
           desc={
             "Lorem Ipsum is simply dummy text of the printing. Lorem Ipsum is simply dummy text of the printing."
           }
@@ -43,6 +46,7 @@ export const ComponentSnackBar = () => {
           <SnackBar
             variant={"success"}
             size={"sm"}
+            label={"Success"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
             onClickClose={() => {}}
             action={true}
@@ -53,6 +57,7 @@ export const ComponentSnackBar = () => {
           <SnackBar
             variant={"success"}
             size={"sm"}
+            label={"Success"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
             onClickClose={() => {}}
           />
@@ -61,8 +66,9 @@ export const ComponentSnackBar = () => {
         {/* --- VARIANT INFORMATION --- */}
         <div className="flex gap-5">
           <SnackBar
-            variant={"information"}
+            variant={"info"}
             size={"sm"}
+            label={"Information"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
             onClickClose={() => {}}
             action={true}
@@ -71,8 +77,9 @@ export const ComponentSnackBar = () => {
           />
 
           <SnackBar
-            variant={"information"}
+            variant={"info"}
             size={"sm"}
+            label={"Information"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
             onClickClose={() => {}}
           />
@@ -83,6 +90,7 @@ export const ComponentSnackBar = () => {
           <SnackBar
             variant={"warning"}
             size={"sm"}
+            label={"Warning"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
             onClickClose={() => {}}
             action={true}
@@ -93,6 +101,7 @@ export const ComponentSnackBar = () => {
           <SnackBar
             variant={"warning"}
             size={"sm"}
+            label={"Warning"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
             onClickClose={() => {}}
           />
@@ -103,6 +112,7 @@ export const ComponentSnackBar = () => {
           <SnackBar
             variant={"error"}
             size={"sm"}
+            label={"Error"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
             onClickClose={() => {}}
             action={true}
@@ -113,6 +123,7 @@ export const ComponentSnackBar = () => {
           <SnackBar
             variant={"error"}
             size={"sm"}
+            label={"Error"}
             desc={"Lorem ipsum is simply dummy text of the printing"}
             onClickClose={() => {}}
           />

@@ -3,6 +3,7 @@
 import { SubmitButton } from "@/components";
 import {
   ComponentCardMembership,
+  ComponentCheckbox,
   ComponentAnalytics,
   ComponentButton,
   ComponentChip,
@@ -50,6 +51,7 @@ const ExamplePage = () => {
         <ComponentTable />
         <ComponentPagination />
         <ComponentCardMembership />
+        <ComponentCheckbox />
       </section>
     </main>
   );

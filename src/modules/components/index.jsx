@@ -1,7 +1,7 @@
 export * from "./analytics";
 export * from "./button";
 export * from "./chip";
-export * from "./date";
+export * from "./datepicker";
 export * from "./fab";
 export * from "./header-admin";
 export * from "./icon-button";
@@ -13,3 +13,4 @@ export * from "./snack-bar";
 export * from "./table";
 export * from "./table";
 export * from "./card-membership";
+export * from "./checkbox";

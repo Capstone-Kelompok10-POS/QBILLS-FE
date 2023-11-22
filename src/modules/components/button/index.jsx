@@ -7,6 +7,7 @@ export const ComponentButton = () => {
       {/* 
           type={""}
           variant={"outline"}
+          color={"success" | "info" | "warning" | "error"}
           size={"sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "sm-full" | "md-full" | "lg-full" | "xl-full" | "2xl-full" | "3xl-full"}
           startIcon={</>}
           label={""}
@@ -409,6 +410,149 @@ export const ComponentButton = () => {
             endIcon={<CloseIcon fontSize="large" />}
             onClick={() => {}}
             disabled={true}
+          />
+        </div>
+
+        {/* --- COLOR ---  */}
+        <div className="flex w-full justify-center gap-5">
+          <Button
+            type={"button"}
+            color={"success"}
+            size={"sm"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            color={"success"}
+            size={"sm"}
+            startIcon={<CloseIcon fontSize="small" />}
+            label={"Button"}
+            endIcon={<CloseIcon fontSize="small" />}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            variant={"outline"}
+            color={"success"}
+            size={"sm"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            variant={"outline"}
+            color={"success"}
+            size={"sm"}
+            startIcon={<CloseIcon fontSize="small" />}
+            label={"Button"}
+            endIcon={<CloseIcon fontSize="small" />}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            color={"warning"}
+            size={"sm"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            color={"warning"}
+            size={"sm"}
+            startIcon={<CloseIcon fontSize="small" />}
+            label={"Button"}
+            endIcon={<CloseIcon fontSize="small" />}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            variant={"outline"}
+            color={"warning"}
+            size={"sm"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            variant={"outline"}
+            color={"warning"}
+            size={"sm"}
+            startIcon={<CloseIcon fontSize="small" />}
+            label={"Button"}
+            endIcon={<CloseIcon fontSize="small" />}
+            onClick={() => {}}
+          />
+
+          <Button type={"button"} color={"error"} size={"sm"} label={"Button"} onClick={() => {}} />
+
+          <Button
+            type={"button"}
+            color={"error"}
+            size={"sm"}
+            startIcon={<CloseIcon fontSize="small" />}
+            label={"Button"}
+            endIcon={<CloseIcon fontSize="small" />}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            variant={"outline"}
+            color={"error"}
+            size={"sm"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            variant={"outline"}
+            color={"error"}
+            size={"sm"}
+            startIcon={<CloseIcon fontSize="small" />}
+            label={"Button"}
+            endIcon={<CloseIcon fontSize="small" />}
+            onClick={() => {}}
+          />
+
+          <Button type={"button"} color={"info"} size={"sm"} label={"Button"} onClick={() => {}} />
+
+          <Button
+            type={"button"}
+            color={"info"}
+            size={"sm"}
+            startIcon={<CloseIcon fontSize="small" />}
+            label={"Button"}
+            endIcon={<CloseIcon fontSize="small" />}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            variant={"outline"}
+            color={"info"}
+            size={"sm"}
+            label={"Button"}
+            onClick={() => {}}
+          />
+
+          <Button
+            type={"button"}
+            variant={"outline"}
+            color={"info"}
+            size={"sm"}
+            startIcon={<CloseIcon fontSize="small" />}
+            label={"Button"}
+            endIcon={<CloseIcon fontSize="small" />}
+            onClick={() => {}}
           />
         </div>
 

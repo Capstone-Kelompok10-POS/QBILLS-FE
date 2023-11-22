@@ -1,3 +1,5 @@
+"use client";
+
 import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import logoQbills2 from "@/public/assets/images/logos/brown/logo-4.png";
 import logoQbills3 from "@/public/assets/images/logos/brown/logo-5.png";
@@ -9,8 +11,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
-import LocalCafeIcon from "@mui/icons-material/LocalCafe";
-import LocalCafeOutlinedIcon from "@mui/icons-material/LocalCafeOutlined";
 import LocalPoliceIcon from "@mui/icons-material/LocalPolice";
 import LocalPoliceOutlinedIcon from "@mui/icons-material/LocalPoliceOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
@@ -85,17 +85,6 @@ export const NavigationDrawer = () => {
             <Link href={"/manageproduct"} className="flex items-center gap-4">
               {pathname === "/manageproduct" ? <AddBoxIcon /> : <AddBoxOutlinedIcon />}
               Manage Product
-            </Link>
-          </li>
-          <li
-            className={clsx("w-full cursor-pointer rounded-lg p-4", {
-              "hover:bg-P2 hover:text-P6 active:scale-95": pathname !== "/listproduct",
-              "bg-P2 text-P6": pathname === "/listproduct",
-            })}
-          >
-            <Link href={"/listproduct"} className="flex items-center gap-4">
-              {pathname === "/listproduct" ? <LocalCafeIcon /> : <LocalCafeOutlinedIcon />}
-              List Product
             </Link>
           </li>
           <li

@@ -8,6 +8,7 @@ import clsx from "clsx";
 export const SnackBar = ({
   variant,
   size,
+  label,
   desc,
   onClickClose,
   action,
@@ -19,7 +20,7 @@ export const SnackBar = ({
       className={clsx("rounded-md pl-[6px]", {
         // VARIANT
         "border-S4 bg-S4": variant === "success",
-        "border-I4 bg-I4": variant === "information",
+        "border-I4 bg-I4": variant === "info",
         "border-W4 bg-W4": variant === "warning",
         "border-E4 bg-E4": variant === "error",
 
@@ -36,7 +37,7 @@ export const SnackBar = ({
             sx={{ fontSize: size === "sm" ? 25 : 30 }}
           />
         )}
-        {variant === "information" && (
+        {variant === "info" && (
           <InfoIcon className="mt-1 text-I4" sx={{ fontSize: size === "sm" ? 25 : 30 }} />
         )}
         {variant === "warning" && (
@@ -52,7 +53,7 @@ export const SnackBar = ({
             className={clsx("", {
               // VARIANT
               "text-S4": variant === "success",
-              "text-I4": variant === "information",
+              "text-I4": variant === "info",
               "text-W4": variant === "warning",
               "text-E4": variant === "error",
 
@@ -61,10 +62,7 @@ export const SnackBar = ({
               "text-xl": size === "lg",
             })}
           >
-            {variant === "success" && "Success"}
-            {variant === "information" && "Information"}
-            {variant === "warning" && "Warning"}
-            {variant === "error" && "Error"}
+            {label}
           </span>
 
           {/* DESCRIPTION */}
@@ -97,7 +95,7 @@ export const SnackBar = ({
               className={clsx("mt-auto text-end active:scale-95", {
                 // VARIANT
                 "text-S4 hover:text-S5": variant === "success",
-                "text-I4 hover:text-I5": variant === "information",
+                "text-I4 hover:text-I5": variant === "info",
                 "text-W4 hover:text-W5": variant === "warning",
                 "text-E4 hover:text-E5": variant === "error",
 
