@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export const IconButton = ({ color, variant, size, icon, onClick, disabled  }) => {
+export const IconButton = ({ color, variant, size, icon, onClick, disabled }) => {
   return (
     <button
       type="button"
@@ -10,25 +10,25 @@ export const IconButton = ({ color, variant, size, icon, onClick, disabled  }) =
         // SOLID
         "border-P4 bg-P4 text-N1 hover:border-P5 hover:bg-P5 active:scale-95 active:border-P6 active:bg-P6":
           !variant && !color && !disabled,
-        "border-S4 bg-S4 text-N1 hover:border-S5 hover:bg-S5 active:scale-95 active:border-S6 active:bg-S6":
+        "border-S1 bg-S1 text-S5 hover:border-S2 hover:bg-S2 active:scale-95 active:border-S3 active:bg-S3":
           !variant && color === "success" && !disabled,
-        "border-I4 bg-I4 text-N1 hover:border-I5 hover:bg-I5 active:scale-95 active:border-I6 active:bg-I6":
+        "border-I1 bg-I1 text-I5 hover:border-I2 hover:bg-I2 active:scale-95 active:border-I3 active:bg-I3":
           !variant && color === "info" && !disabled,
-        "border-W4 bg-W4 text-N1 hover:border-W5 hover:bg-W5 active:scale-95 active:border-W6 active:bg-W6":
+        "border-W1 bg-W1 text-W5 hover:border-W2 hover:bg-W2 active:scale-95 active:border-W3 active:bg-W3":
           !variant && color === "warning" && !disabled,
-        "border-E4 bg-E4 text-N1 hover:border-E5 hover:bg-E5 active:scale-95 active:border-E6 active:bg-E6":
+        "border-E1 bg-E1 text-E5 hover:border-E2 hover:bg-E2 active:scale-95 active:border-E3 active:bg-E3":
           !variant && color === "error" && !disabled,
 
         // OUTLINE
-        "border-P4 text-P4 hover:border-P5 hover:bg-P5 hover:text-N1 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
+        "border-P4 text-P4 hover:border-P5 hover:bg-P5 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
           variant === "outline" && !color && !disabled,
-        "border-S4 text-S4 hover:border-S5 hover:bg-S5 hover:text-N1 active:scale-95 active:border-S6 active:bg-S6 active:text-N1":
+        "border-S1 text-S5 hover:border-S2 hover:bg-S2  active:scale-95 active:border-S3 active:bg-S3 ":
           variant === "outline" && color === "success" && !disabled,
-        "border-I4 text-I4 hover:border-I5 hover:bg-I5 hover:text-N1 active:scale-95 active:border-I6 active:bg-I6 active:text-N1":
+        "border-I1 text-I5 hover:border-I2 hover:bg-I2 active:scale-95 active:border-I3 active:bg-I3":
           variant === "outline" && color === "info" && !disabled,
-        "border-W4 text-W4 hover:border-W5 hover:bg-W5 hover:text-N1 active:scale-95 active:border-W6 active:bg-W6 active:text-N1":
+        "border-W1 text-W5 hover:border-W2 hover:bg-W2 active:scale-95 active:border-W3 active:bg-W3 ":
           variant === "outline" && color === "warning" && !disabled,
-        "border-E4 text-E4 hover:border-E5 hover:bg-E5 hover:text-N1 active:scale-95 active:border-E6 active:bg-E6 active:text-N1":
+        "border-E1 text-E5 hover:border-E2 hover:bg-E2 active:scale-95 active:border-E3 active:bg-E3":
           variant === "outline" && color === "error" && !disabled,
 
         // SIZE
