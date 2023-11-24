@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Button, Input, Table, Checkbox, Pagination } from "@/components";
+import { Button, Input, Table, Checkbox, IconButton, Pagination } from "@/components";
 import SearchIcon from "@mui/icons-material/Search";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutline";
+
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -154,7 +157,7 @@ export const Main = () => {
           <Button onClick={() => {}} size={"md"} label={"Print Card"} />
         </div>
       </section>
-      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2 z-10">
+      <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
           {currentData.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
@@ -169,7 +172,26 @@ export const Main = () => {
               <td className="px-4 py-2 text-center">{row.point}</td>
 
               {/* Action */}
-              <td className="px-4 py-2 text-center"> Action </td>
+              <td className="px-4 py-2 text-center">
+                <div className="flex items-center justify-center">
+                  <span>
+                    <IconButton
+                      size={"sm"}
+                      color={"success"}
+                      icon={<EditIcon fontSize="small" />}
+                      onChange={() => handleEdit(row.id)}
+                    />
+                  </span>
+                  <span className="mx-2">
+                    <IconButton
+                      size={"sm"}
+                      color={"error"}
+                      icon={<DeleteIcon fontSize="small" />}
+                      onChange={() => handleDelete(row.id)}
+                    />
+                  </span>
+                </div>
+              </td>
             </tr>
           ))}
         </Table>
