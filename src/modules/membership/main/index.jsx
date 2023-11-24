@@ -57,6 +57,61 @@ export const Main = () => {
       numberphone: "083463514268",
       point: "256 Point",
     },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
+    {
+      name: "Dika Pradana",
+      numberphone: "083463514268",
+      point: "256 Point",
+    },
   ];
   const filteredData = data.filter((row) => {
     const matchesSearch =
@@ -80,7 +135,7 @@ export const Main = () => {
   };
   return (
     <main className="space-y-5">
-      <section className="flex w-full items-center gap-5">
+      <section className="flex w-full items-center gap-5 ">
         <div className="w-7/12">
           <p className="text-2xl font-semibold">All Membership</p>
         </div>
@@ -99,11 +154,11 @@ export const Main = () => {
           <Button onClick={() => {}} size={"md"} label={"Print Card"} />
         </div>
       </section>
-      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
+      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2 z-10">
         <Table tableHead={tableHead}>
           {currentData.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
-              <td className="px-4 py-2 text-center">
+              <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
                   <Checkbox onChange={() => handleCheckboxChange(row.id)} />
                 </div>
