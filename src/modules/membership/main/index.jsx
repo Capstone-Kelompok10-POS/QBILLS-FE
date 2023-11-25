@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Button, Input, Table, Checkbox, IconButton, Pagination } from "@/components";
+import { Button, Input, Table, Checkbox, IconButton, Pagination, SnackBar } from "@/components";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
+import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 
 export const Main = () => {
   const [search, setSearch] = useState("");
@@ -136,6 +137,79 @@ export const Main = () => {
         : [...prevSelectedRow, rowId],
     );
   };
+
+  const [snackbar, setSnackbar] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editedData, setEditedData] = useState({
+    id: null,
+    name: "",
+    numberphone: "",
+    point: "",
+  });
+
+  const handleEdit = (rowId) => {
+    const rowToEdit = data.find((row) => row.id === rowId);
+    setEditedData({
+      id: rowToEdit.id,
+      name: rowToEdit.name,
+      numberphone: rowToEdit.numberphone,
+      point: rowToEdit.point,
+    });
+    setIsEdit(true);
+  };
+
+  const handleEditSave = () => {
+    setIsEdit(false);
+    setSnackbar({
+      variant: "success",
+      size: "sm",
+      label: "Success",
+      desc: `Congratulations, you have successfully Edit Membership`,
+      onClickClose: handleCloseSnackbar,
+      onClickAction: {},
+    });
+
+    setTimeout(() => {
+      setSnackbar(null);
+    }, 5000);
+  };
+
+  const handleDelete = (rowId) => {
+    setSnackbar({
+      variant: "error",
+      size: "sm",
+      label: "Delete Confirmation",
+      desc: `Are you sure you want to delete this record?`,
+      onClickClose: handleCloseSnackbar,
+      action: true,
+      actionLabel: "Delete",
+      onClickAction: () => handleDeleteConfirm(rowId),
+    });
+  };
+
+  const handleDeleteConfirm = (rowId) => {
+    // const updatedData = data.filter((row) => row.id !== rowId);
+    // setData(updatedData);
+
+    handleCloseSnackbar();
+    setSnackbar({
+      variant: "success",
+      size: "sm",
+      label: "Success",
+      desc: `Congratulations, you have successfully Delete Membership`,
+      onClickClose: handleCloseSnackbar,
+      onClickAction: {},
+    });
+
+    setTimeout(() => {
+      setSnackbar(null);
+    }, 5000);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(null);
+  };
+
   return (
     <main className="space-y-5">
       <section className="flex w-full items-center gap-5 ">
@@ -179,7 +253,7 @@ export const Main = () => {
                       size={"sm"}
                       color={"success"}
                       icon={<EditIcon fontSize="small" />}
-                      onChange={() => handleEdit(row.id)}
+                      onClick={() => handleEdit(row.id)}
                     />
                   </span>
                   <span className="mx-2">
@@ -187,7 +261,7 @@ export const Main = () => {
                       size={"sm"}
                       color={"error"}
                       icon={<DeleteIcon fontSize="small" />}
-                      onChange={() => handleDelete(row.id)}
+                      onClick={() => handleDelete(row.id)}
                     />
                   </span>
                 </div>
@@ -207,6 +281,91 @@ export const Main = () => {
           onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
         />
       </section>
+      {isEdit && (
+        <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-2/5 rounded-xl bg-N1 p-8">
+            <div className="rounded-xl border border-N2 p-8">
+              <div className="flex flex-col gap-10">
+                <div className="flex items-center justify-between self-stretch">
+                  <h1 className="text-2xl font-semibold">Edit Membership</h1>
+                  <div className="flex items-start gap-2">
+                    <Button
+                      type={"button"}
+                      variant={"outline"}
+                      size={"sm"}
+                      label={"View Card"}
+                      onClick={() => {}}
+                    />
+                    <IconButton
+                      size={"sm"}
+                      color={"warning"}
+                      icon={<PrintOutlinedIcon fontSize="small" />}
+                      onClick={() => {}}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-8">
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Name :</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={editedData.name}
+                      onChange={(e) => setEditedData({ ...editedData, name: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Number Phone :</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={editedData.numberphone}
+                      onChange={(e) =>
+                        setEditedData({ ...editedData, numberphone: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Point :</h2>
+                    <Input type={"text"} size={"sm"} value={editedData.point} disabled={true} />
+                  </div>
+                </div>
+                <div className="flex w-full items-center justify-center gap-4 self-stretch">
+                  <Button
+                    type={"button"}
+                    variant={"outline"}
+                    color={"error"}
+                    size={"md-full"}
+                    label={"Cancel"}
+                    onClick={() => setIsEdit(false)}
+                  />
+                  <Button
+                    type={"button"}
+                    color={"success"}
+                    size={"md-full"}
+                    label={"Save"}
+                    onClick={handleEditSave}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+      {snackbar && (
+        <section className="fixed inset-0 top-10 z-50 flex justify-center">
+          <SnackBar
+            variant={snackbar.variant}
+            size={snackbar.size}
+            label={snackbar.label}
+            desc={snackbar.desc}
+            action={snackbar.action}
+            actionLabel={snackbar.actionLabel}
+            onClickClose={snackbar.onClickClose}
+            onClickAction={snackbar.onClickAction}
+          />
+        </section>
+      )}
     </main>
   );
 };
