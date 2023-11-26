@@ -64,7 +64,7 @@ export const Main = () => {
   const filteredData = data.filter((row) => {
     const matchesSearch =
       row.name.toLowerCase().includes(search.toLowerCase()) ||
-      row.cn.toLowerCase().includes(search.toLowerCase());
+      row.numberphone.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
   const perPage = 10;
