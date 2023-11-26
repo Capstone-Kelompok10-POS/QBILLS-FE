@@ -73,14 +73,6 @@ export const Main = () => {
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
   const totalPage = Math.ceil(filteredData.length / perPage);
 
-  const handleCheckboxChange = (rowIndex) => {
-    setSelectedRow((prevSelectedRow) =>
-      prevSelectedRow.includes(rowIndex)
-        ? prevSelectedRow.filter((index) => index !== rowIndex)
-        : [...prevSelectedRow, rowIndex],
-    );
-  };
-
   const handleEdit = (rowId) => {
     const rowToEdit = data.find((row) => row.id === rowId);
     setEditedData({
@@ -109,41 +101,32 @@ export const Main = () => {
   };
 
   const handleDeleteSelected = () => {
-    setSnackbar({
-      variant: "error",
-      size: "sm",
-      label: "Delete Confirmation",
-      desc: `Are you sure you want to delete ${selectedRowCount} records?`,
-      onClickClose: handleCloseSnackbar,
-      action: true,
-      actionLabel: "Delete",
-      onClickAction: handleDeleteConfirm,
-    });
+    if (selectedRowCount > 0) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Delete Confirmation",
+        desc: `Are you sure you want to delete ${selectedRowCount} records?`,
+        onClickClose: handleCloseSnackbar,
+        action: true,
+        actionLabel: "Delete",
+        onClickAction: handleDeleteConfirm,
+      });
+    }
   };
 
-  const handleDelete = (rowId) => {
-    setSnackbar({
-      variant: "error",
-      size: "sm",
-      label: "Delete Confirmation",
-      desc: `Are you sure you want to delete this record?`,
-      onClickClose: handleCloseSnackbar,
-      action: true,
-      actionLabel: "Delete",
-      onClickAction: () => handleDeleteConfirm(rowId),
-    });
-  };
-
-  const handleDeleteConfirm = (rowId) => {
-    const updatedData = data.filter((row) => row.id !== rowId);
+  const handleDeleteConfirm = () => {
+    const updatedData = data.filter((row, index) => !selectedRow.includes(index));
     setData(updatedData);
+    setSelectedRow([]);
+    setSelectedRowCount(0);
 
     handleCloseSnackbar();
     setSnackbar({
       variant: "success",
       size: "sm",
       label: "Success",
-      desc: `Congratulations, you have successfully Delete Membership`,
+      desc: `Congratulations, you have successfully deleted ${selectedRowCount} Membership(s)`,
       onClickClose: handleCloseSnackbar,
       onClickAction: {},
     });
@@ -156,6 +139,16 @@ export const Main = () => {
   useEffect(() => {
     setSelectedRowCount(selectedRow.length);
   }, [selectedRow]);
+
+  const handleCheckboxChange = (rowIndex) => {
+    setSelectedRow((prevSelectedRow) => {
+      if (prevSelectedRow.includes(rowIndex)) {
+        return prevSelectedRow.filter((index) => index !== rowIndex);
+      } else {
+        return [...prevSelectedRow, rowIndex];
+      }
+    });
+  };
 
   const handleCloseSnackbar = () => {
     setSnackbar(null);
@@ -207,10 +200,12 @@ export const Main = () => {
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
-                  <Checkbox onChange={() => handleCheckboxChange(index)} />
+                  <Checkbox
+                    checked={selectedRow.includes(index)}
+                    onChange={() => handleCheckboxChange(index)}
+                  />
                 </div>
               </td>
-
               <td className="px-4 py-2 text-center">{row.name}</td>
               <td className="px-4 py-2 text-center">{row.numberphone}</td>
               <td className="px-4 py-2 text-center">{row.point}</td>
