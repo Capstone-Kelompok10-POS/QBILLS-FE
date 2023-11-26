@@ -100,6 +100,19 @@ export const Main = () => {
     }, 5000);
   };
 
+  const handleDeleteIcon = (rowId) => {
+    setSnackbar({
+      variant: "error",
+      size: "sm",
+      label: "Delete Confirmation",
+      desc: `Are you sure you want to delete this record?`,
+      onClickClose: handleCloseSnackbar,
+      action: true,
+      actionLabel: "Delete",
+      onClickAction: () => handleDeleteIconConfirm(rowId),
+    });
+  };
+
   const handleDeleteSelected = () => {
     if (selectedRowCount > 0) {
       setSnackbar({
@@ -110,30 +123,81 @@ export const Main = () => {
         onClickClose: handleCloseSnackbar,
         action: true,
         actionLabel: "Delete",
-        onClickAction: handleDeleteConfirm,
+        onClickAction: handleDeleteSelectedConfirm,
       });
     }
   };
 
-  const handleDeleteConfirm = () => {
-    const updatedData = data.filter((row, index) => !selectedRow.includes(index));
-    setData(updatedData);
-    setSelectedRow([]);
-    setSelectedRowCount(0);
+  const handleDeleteIconConfirm = (rowId) => {
+    try {
+      const updatedData = data.filter((row) => row.id !== rowId);
+      setData(updatedData);
+      handleCloseSnackbar();
 
-    handleCloseSnackbar();
-    setSnackbar({
-      variant: "success",
-      size: "sm",
-      label: "Success",
-      desc: `Congratulations, you have successfully deleted ${selectedRowCount} Membership(s)`,
-      onClickClose: handleCloseSnackbar,
-      onClickAction: {},
-    });
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: `Congratulations, you have successfully deleted the Membership`,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {},
+      });
 
-    setTimeout(() => {
-      setSnackbar(null);
-    }, 5000);
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 5000);
+    } catch (error) {
+      handleCloseSnackbar();
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: error.message,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 10000);
+    }
+  };
+
+  const handleDeleteSelectedConfirm = () => {
+    try {
+      const updatedData = data.filter((row, index) => !selectedRow.includes(index));
+      setData(updatedData);
+      setSelectedRow([]);
+      setSelectedRowCount(0);
+      handleCloseSnackbar();
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: `Congratulations, you have successfully deleted ${selectedRowCount} Memberships`,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 5000);
+    } catch (error) {
+      handleCloseSnackbar();
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: error.message,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 10000);
+    }
   };
 
   useEffect(() => {
@@ -210,7 +274,6 @@ export const Main = () => {
               <td className="px-4 py-2 text-center">{row.numberphone}</td>
               <td className="px-4 py-2 text-center">{row.point}</td>
 
-              {/* Action */}
               <td className="px-4 py-2 text-center">
                 <div className="flex items-center justify-center">
                   <span>
@@ -226,7 +289,7 @@ export const Main = () => {
                       size={"sm"}
                       color={"error"}
                       icon={<DeleteIcon fontSize="small" />}
-                      onClick={() => handleDelete(row.id)}
+                      onClick={() => handleDeleteIcon(row.id)}
                     />
                   </span>
                 </div>
