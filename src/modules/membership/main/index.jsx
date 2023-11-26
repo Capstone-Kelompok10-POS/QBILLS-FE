@@ -1,122 +1,66 @@
 "use client";
-import { useState } from "react";
-import { Button, Input, Table, Checkbox, IconButton, Pagination, SnackBar } from "@/components";
+import { useState, useEffect } from "react";
+import {
+  Button,
+  Input,
+  Table,
+  Checkbox,
+  IconButton,
+  Pagination,
+  SnackBar,
+  CardMembership,
+} from "@/components";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
-
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const tableHead = [[], "Name", "Number Phone", "Point", []];
-  const data = [
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-    {
-      name: "Dika Pradana",
-      numberphone: "083463514268",
-      point: "256 Point",
-    },
-  ];
+  const [selectedRow, setSelectedRow] = useState([]);
+  const [selectedRowCount, setSelectedRowCount] = useState(0);
+  const [snackbar, setSnackbar] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isOpenCard, setIsOpenCard] = useState(false);
+  const [editedData, setEditedData] = useState({
+    id: null,
+    name: "",
+    numberphone: "",
+    point: "",
+  });
+  const [data, setData] = useState([
+    { id: 1, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 2, name: "Nabiel", numberphone: "083463514268", point: "256 Point" },
+    { id: 3, name: "Alpa", numberphone: "083463514268", point: "256 Point" },
+    { id: 4, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 5, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 6, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 7, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 8, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 9, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 10, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 11, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 12, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 13, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 14, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 15, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 16, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 17, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 18, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 19, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 20, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 21, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 22, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 23, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 24, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 25, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 26, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 27, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+    { id: 28, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
+  ]);
+
   const filteredData = data.filter((row) => {
     const matchesSearch =
       row.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -129,23 +73,13 @@ export const Main = () => {
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
   const totalPage = Math.ceil(filteredData.length / perPage);
 
-  const [selectedRow, setSelectedRow] = useState([]);
-  const handleCheckboxChange = (rowId) => {
+  const handleCheckboxChange = (rowIndex) => {
     setSelectedRow((prevSelectedRow) =>
-      prevSelectedRow.includes(rowId)
-        ? prevSelectedRow.filter((id) => id !== rowId)
-        : [...prevSelectedRow, rowId],
+      prevSelectedRow.includes(rowIndex)
+        ? prevSelectedRow.filter((index) => index !== rowIndex)
+        : [...prevSelectedRow, rowIndex],
     );
   };
-
-  const [snackbar, setSnackbar] = useState(null);
-  const [isEdit, setIsEdit] = useState(false);
-  const [editedData, setEditedData] = useState({
-    id: null,
-    name: "",
-    numberphone: "",
-    point: "",
-  });
 
   const handleEdit = (rowId) => {
     const rowToEdit = data.find((row) => row.id === rowId);
@@ -174,6 +108,19 @@ export const Main = () => {
     }, 5000);
   };
 
+  const handleDeleteSelected = () => {
+    setSnackbar({
+      variant: "error",
+      size: "sm",
+      label: "Delete Confirmation",
+      desc: `Are you sure you want to delete ${selectedRowCount} records?`,
+      onClickClose: handleCloseSnackbar,
+      action: true,
+      actionLabel: "Delete",
+      onClickAction: handleDeleteConfirm,
+    });
+  };
+
   const handleDelete = (rowId) => {
     setSnackbar({
       variant: "error",
@@ -188,8 +135,8 @@ export const Main = () => {
   };
 
   const handleDeleteConfirm = (rowId) => {
-    // const updatedData = data.filter((row) => row.id !== rowId);
-    // setData(updatedData);
+    const updatedData = data.filter((row) => row.id !== rowId);
+    setData(updatedData);
 
     handleCloseSnackbar();
     setSnackbar({
@@ -206,13 +153,25 @@ export const Main = () => {
     }, 5000);
   };
 
+  useEffect(() => {
+    setSelectedRowCount(selectedRow.length);
+  }, [selectedRow]);
+
   const handleCloseSnackbar = () => {
     setSnackbar(null);
   };
 
+  const handleOpenCard = () => {
+    setIsEdit(false);
+    setIsOpenCard(true);
+  };
+
+  const handleCloseCard = () => {
+    setIsOpenCard(false);
+  };
   return (
     <main className="space-y-5">
-      <section className="flex w-full items-center gap-5 ">
+      <section className="flex w-full gap-5 ">
         <div className="w-7/12">
           <p className="text-2xl font-semibold">All Membership</p>
         </div>
@@ -227,8 +186,19 @@ export const Main = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div>
-          <Button onClick={() => {}} size={"md"} label={"Print Card"} />
+        <div className="w-2/12 flex-col">
+          <div>
+            <Button onClick={() => {}} size={"md-full"} label={"Print Card"} />
+          </div>
+          <div className="mt-5">
+            <Button
+              onClick={handleDeleteSelected}
+              size={"md-full"}
+              label={`Delete Member (${selectedRowCount})`}
+              color={"error"}
+              disabled={selectedRowCount === 0}
+            />
+          </div>
         </div>
       </section>
       <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
@@ -237,7 +207,7 @@ export const Main = () => {
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
-                  <Checkbox onChange={() => handleCheckboxChange(row.id)} />
+                  <Checkbox onChange={() => handleCheckboxChange(index)} />
                 </div>
               </td>
 
@@ -282,7 +252,7 @@ export const Main = () => {
         />
       </section>
       {isEdit && (
-        <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
           <div className="w-2/5 rounded-xl bg-N1 p-8">
             <div className="rounded-xl border border-N2 p-8">
               <div className="flex flex-col gap-10">
@@ -294,7 +264,9 @@ export const Main = () => {
                       variant={"outline"}
                       size={"sm"}
                       label={"View Card"}
-                      onClick={() => {}}
+                      onClick={() => {
+                        handleOpenCard();
+                      }}
                     />
                     <IconButton
                       size={"sm"}
@@ -364,6 +336,18 @@ export const Main = () => {
             onClickClose={snackbar.onClickClose}
             onClickAction={snackbar.onClickAction}
           />
+        </section>
+      )}
+      {isOpenCard && (
+        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
+          <CloseRoundedIcon
+            fontSize="large"
+            className="z-20 -mt-96 mb-10 mr-5 cursor-pointer text-white"
+            onClick={() => {
+              handleCloseCard();
+            }}
+          />
+          <CardMembership name={editedData.name} />
         </section>
       )}
     </main>
