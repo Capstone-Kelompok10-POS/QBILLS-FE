@@ -51,7 +51,7 @@ export const Select = ({
           onChange={onChange}
           disabled={disabled}
           required={required}
-          className={clsx("w-full rounded-lg bg-transparent outline-none", {
+          className={clsx("-ml-1 w-full rounded-lg bg-transparent outline-none", {
             // CURSOR
             "cursor-pointer": !disabled,
 
