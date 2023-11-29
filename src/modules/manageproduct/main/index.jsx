@@ -1,10 +1,20 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Button, Input, Table, Checkbox, IconButton, Pagination, SnackBar } from "@/components";
+import {
+  Button,
+  Input,
+  Select,
+  Table,
+  Checkbox,
+  IconButton,
+  Pagination,
+  SnackBar,
+} from "@/components";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddIcon from "@mui/icons-material/Add";
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,6 +22,15 @@ export const Main = () => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [snackbar, setSnackbar] = useState(null);
+  const [isAdd, setIsAdd] = useState({
+    id: null,
+    code: "",
+    name: "",
+    category: "",
+    size: "",
+    price: "",
+    stock: "",
+  });
   const [isEdit, setIsEdit] = useState(false);
   const [editedData, setEditedData] = useState({
     id: null,
@@ -289,6 +308,25 @@ export const Main = () => {
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
   const totalPage = Math.ceil(filteredData.length / perPage);
 
+  const handleAdd = () => {
+    setIsAdd(true);
+  };
+  const handleAddsave = () => {
+    setIsAdd(false);
+    setSnackbar({
+      variant: "success",
+      size: "lg",
+      label: "Success",
+      desc: `Congratulations, you have successfully to Add New Product to our store`,
+      onClickClose: handleCloseSnackbar,
+      onClickAction: {},
+    });
+
+    setTimeout(() => {
+      setSnackbar(null);
+    }, 5000);
+  };
+
   const handleEdit = () => {
     setIsEdit(true);
   };
@@ -446,7 +484,7 @@ export const Main = () => {
         </div>
         <div className="w-2/12 flex-col">
           <div>
-            <Button onClick={() => {}} size={"md-full"} label={"Add product"} />
+            <Button onClick={handleAdd} size={"md-full"} label={"Add product"} />
           </div>
           <div className="mt-5">
             <Button
@@ -520,6 +558,85 @@ export const Main = () => {
           onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
         />
       </section>
+      {isAdd && (
+        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-3/5 rounded-xl bg-N1 p-8">
+            <div className="rounded-xl border border-N2 p-8">
+              <div className="flex flex-col gap-10">
+                <div className="flex items-center justify-between self-stretch">
+                  <h1 className="text-2xl font-semibold">Add New Product</h1>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-2">
+                      <h2 className="text-xl font-semibold">Category :</h2>
+                      <Select options={["Coffee", "Non Coffee"]} size={"sm"} />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h2 className="text-xl font-semibold">Name :</h2>
+                      <Input type={"text"} size={"sm"} />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h2 className="text-xl font-semibold">Ingredienst :</h2>
+                      <Input type={"text"} size={"sm"} />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-2">
+                        <h2 className="text-xl font-semibold">Stock :</h2>
+                        <Input type={"text"} size={"sm"} />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <h2 className="text-xl font-semibold">Price :</h2>
+                        <Input type={"text"} size={"sm"} />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between gap-2 self-stretch">
+                      <h2 className="text-xl font-semibold">Size :</h2>
+                      <div className="flex items-start gap-2">
+                        <IconButton
+                          size={"sm"}
+                          variant={"outline"}
+                          icon={<AddIcon fontSize="small" />}
+                          onClick={() => {}}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-2">
+                      <h2 className="text-xl font-semibold">Product Image :</h2>
+                      <Input type={"text"} size={"sm"} />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        type={"button"}
+                        variant={"outline"}
+                        size={"md-full"}
+                        label={"Upload Image"}
+                      />
+                    </div>
+                    <div className="flex w-full items-center justify-center gap-4 self-stretch">
+                      <Button
+                        type={"button"}
+                        variant={"outline"}
+                        size={"md-full"}
+                        label={"Cancel"}
+                      />
+                      <Button
+                        type={"button"}
+                        size={"md-full"}
+                        label={"Save"}
+                        onClick={handleAddsave}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {isEdit && <div></div>}
       {snackbar && (
         <section className="fixed inset-0 top-10 z-50 flex justify-center">
