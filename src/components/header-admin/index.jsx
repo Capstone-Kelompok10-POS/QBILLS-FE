@@ -35,7 +35,7 @@ export const HeaderAdmin = ({ name, role }) => {
         setTitle("Example Page");
         break;
     }
-  }, []);
+  }, [pathname]);
 
   return (
     <header className="w-full">
