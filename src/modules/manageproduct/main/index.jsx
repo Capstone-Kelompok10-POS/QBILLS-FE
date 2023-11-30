@@ -15,6 +15,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import Image from "next/image";
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,25 +24,16 @@ export const Main = () => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [snackbar, setSnackbar] = useState(null);
-  const [isAdd, setIsAdd] = useState({
-    id: null,
-    code: "",
-    name: "",
-    category: "",
-    size: "",
-    price: "",
-    stock: "",
-  });
-  const [isEdit, setIsEdit] = useState(false);
-  const [editedData, setEditedData] = useState({
-    id: null,
-    code: "",
-    name: "",
-    category: "",
-    size: "",
-    price: "",
-    stock: "",
-  });
+  const [isAdd, setIsAdd] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [name, setName] = useState("");
+  const [ingredient, setIngredient] = useState("");
+  const [stock, setStock] = useState("");
+  const [price, setPrice] = useState("");
+  const [size, setSize] = useState("");
+  const [sizeOptions, setSizeOptions] = useState([{ size: "", price: "" }]);
+
   const [data, setData] = useState([
     {
       id: 1,
@@ -311,35 +304,107 @@ export const Main = () => {
   const handleAdd = () => {
     setIsAdd(true);
   };
+
+  const handleCategoryChange = (value) => {
+    setCategory(value);
+  };
+
+  const handleNameChange = (value) => {
+    setName(value);
+  };
+
+  const handleIngredientChange = (value) => {
+    setIngredient(value);
+  };
+
+  const handleStockChange = (value) => {
+    setStock(value);
+  };
+
+  const handlePriceChange = (value) => {
+    setPrice(value);
+  };
+
+  const handleSizeChange = (index, value) => {
+    if (index < sizeOptions.length) {
+      setSizeOptions((prevSizeOptions) =>
+        prevSizeOptions.map((option, i) => (i === index ? { ...option, size: value } : option)),
+      );
+    }
+  };
+
+  const handlePriceSizeChange = (index, value) => {
+    if (index < sizeOptions.length) {
+      setSizeOptions((prevSizeOptions) =>
+        prevSizeOptions.map((option, i) => (i === index ? { ...option, price: value } : option)),
+      );
+    }
+  };
+
+  const handleAddSize = () => {
+    setSizeOptions((prevSizeOptions) => [...prevSizeOptions, { size: "", price: "" }]);
+  };
+
+  const handleDeleteSize = (index) => {
+    if (index < sizeOptions.length) {
+      setSizeOptions((prevSizeOptions) => prevSizeOptions.filter((_, i) => i !== index));
+    }
+  };
+
+  // const handleImageUpload = (e) => {
+  //   if (e.target.files?.length > 0) {
+  //     const file = e.target.files[0];
+
+  //     const reader = new FileReader();
+
+  //     reader.onloadend = () => {
+  //       setUploadedImage(reader.result);
+  //     };
+
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+  // const handleUploadButtonClick = () => {
+  //   const inputElement = document.createElement("input");
+  //   inputElement.type = "file";
+  //   inputElement.accept = "image/*";
+  //   inputElement.onchange = handleImageUpload;
+  //   inputElement.click();
+  // };
+
   const handleAddsave = () => {
+    if (!category || !name || !ingredient || !stock || !price) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Please fill in all the required fields and upload an image.",
+        onClickClose: handleCloseSnackbar,
+      });
+      return;
+    }
+
+    const newProduct = {
+      id: data.length + 1,
+      code: "ABCD1234",
+      category,
+      name,
+      ingredient,
+      stock,
+      price,
+      size,
+    };
+
+    setData((prevData) => [...prevData, newProduct]);
+
     setIsAdd(false);
-    setSnackbar({
-      variant: "success",
-      size: "lg",
-      label: "Success",
-      desc: `Congratulations, you have successfully to Add New Product to our store`,
-      onClickClose: handleCloseSnackbar,
-      onClickAction: {},
-    });
 
-    setTimeout(() => {
-      setSnackbar(null);
-    }, 5000);
-  };
-
-  const handleEdit = () => {
-    setIsEdit(true);
-  };
-
-  const handleEditSave = () => {
-    setIsEdit(false);
     setSnackbar({
       variant: "success",
       size: "sm",
       label: "Success",
-      desc: `Congratulations, you have successfully Edit Product`,
+      desc: `Congratulations, you have successfully added a new product to our store.`,
       onClickClose: handleCloseSnackbar,
-      onClickAction: {},
     });
 
     setTimeout(() => {
@@ -560,75 +625,153 @@ export const Main = () => {
       </section>
       {isAdd && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-3/5 rounded-xl bg-N1 p-8">
-            <div className="rounded-xl border border-N2 p-8">
-              <div className="flex flex-col gap-10">
-                <div className="flex items-center justify-between self-stretch">
-                  <h1 className="text-2xl font-semibold">Add New Product</h1>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-8">
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-xl font-semibold">Category :</h2>
-                      <Select options={["Coffee", "Non Coffee"]} size={"sm"} />
+          <div className=" w-3/5 rounded-xl bg-N1">
+            <div className="flex flex-col items-start gap-10 self-stretch p-10">
+              <h1 className="text-2xl font-semibold">Add New Product</h1>
+              <div className="flex items-start justify-between gap-6 self-stretch">
+                <div className="flex w-1/2 flex-col gap-5 self-stretch">
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-semibold">Category</h2>
+                    <Select
+                      label={"Select"}
+                      options={["Coffee", "Non Coffee", "Snack", "Meal"]}
+                      size={"sm"}
+                      value={category || ""}
+                      onChange={handleCategoryChange}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-semibold">Name</h2>
+                    <Input
+                      label={"Product"}
+                      type={"text"}
+                      size={"sm"}
+                      value={name}
+                      onChange={(e) => handleNameChange(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-semibold">Ingredient</h2>
+                    <Input
+                      label={"Desc"}
+                      type={"text"}
+                      size={"md"}
+                      value={ingredient}
+                      onChange={(e) => handleIngredientChange(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex gap-5">
+                    <div className="flex w-full flex-col gap-2">
+                      <h2 className="font-semibold">Stock</h2>
+                      <Input
+                        label={"Available"}
+                        type={"text"}
+                        size={"sm"}
+                        value={stock}
+                        onChange={(e) => handleStockChange(e.target.value)}
+                      />
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-xl font-semibold">Name :</h2>
-                      <Input type={"text"} size={"sm"} />
+                    <div className="flex w-full flex-col gap-2">
+                      <h2 className="font-semibold">Price</h2>
+                      <Input
+                        label={"Rp"}
+                        type={"text"}
+                        size={"sm"}
+                        value={price}
+                        onChange={(e) => handlePriceChange(e.target.value)}
+                      />
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-xl font-semibold">Ingredienst :</h2>
-                      <Input type={"text"} size={"sm"} />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="flex flex-col gap-2">
-                        <h2 className="text-xl font-semibold">Stock :</h2>
-                        <Input type={"text"} size={"sm"} />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <h2 className="text-xl font-semibold">Price :</h2>
-                        <Input type={"text"} size={"sm"} />
-                      </div>
-                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2 self-stretch">
                     <div className="flex items-center justify-between gap-2 self-stretch">
-                      <h2 className="text-xl font-semibold">Size :</h2>
+                      <h2 className="font-semibold">Size</h2>
                       <div className="flex items-start gap-2">
                         <IconButton
                           size={"sm"}
                           variant={"outline"}
                           icon={<AddIcon fontSize="small" />}
-                          onClick={() => {}}
+                          onClick={handleAddSize}
                         />
                       </div>
                     </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex w-full flex-col gap-2">
+                        <h3 className="text-N2">Detail</h3>
+                      </div>
+                      <div className="flex w-full flex-col gap-2">
+                        <h3 className="text-N2">Price</h3>
+                      </div>
+                    </div>
+
+                    {sizeOptions.map((sizeOption, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <div className="flex w-full flex-col gap-2">
+                          <Select
+                            label={"Select"}
+                            options={["Small", "Large"]}
+                            size={"sm"}
+                            value={sizeOption.size}
+                            onChange={(value) => handleSizeChange(index, value)}
+                          />
+                        </div>
+                        <div className="flex w-full flex-col gap-2">
+                          <Input
+                            label={"Desc"}
+                            type={"text"}
+                            size={"sm"}
+                            value={sizeOption.price}
+                            onChange={(e) => handlePriceSizeChange(index, e.target.value)}
+                          />
+                        </div>
+                        <IconButton
+                          size={"sm"}
+                          variant={"outline"}
+                          icon={<DeleteIcon fontSize="small" />}
+                          onClick={() => handleDeleteSize(index)}
+                        />
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex flex-col gap-8">
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-xl font-semibold">Product Image :</h2>
-                      <Input type={"text"} size={"sm"} />
+                </div>
+                <div className="flex w-1/2 flex-col gap-10 self-stretch">
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-semibold">Product Image</h2>
+                    <div className="h-80 w-full border border-N2">
+                      {!uploadedImage && (
+                        <div className="flex h-full content-center items-center justify-center">
+                          <CloudUploadIcon className="text-8xl text-N2" />
+                        </div>
+                      )}
+                      {uploadedImage && (
+                        <Image
+                          src={uploadedImage}
+                          alt="Uploaded Product"
+                          className="h-full w-full object-cover"
+                        />
+                      )}
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        type={"button"}
-                        variant={"outline"}
-                        size={"md-full"}
-                        label={"Upload Image"}
-                      />
-                    </div>
-                    <div className="flex w-full items-center justify-center gap-4 self-stretch">
-                      <Button
-                        type={"button"}
-                        variant={"outline"}
-                        size={"md-full"}
-                        label={"Cancel"}
-                      />
-                      <Button
-                        type={"button"}
-                        size={"md-full"}
-                        label={"Save"}
-                        onClick={handleAddsave}
-                      />
-                    </div>
+                  </div>
+                  <Button
+                    type={"button"}
+                    variant={"outline"}
+                    size={"md-full"}
+                    label={"Upload Image"}
+                    // onClick={handleUploadButtonClick}
+                  />
+                  <div className="flex items-center gap-6 self-stretch">
+                    <Button
+                      type={"button"}
+                      variant={"outline"}
+                      size={"md-full"}
+                      label={"Cancel"}
+                      onClick={() => setIsAdd(false)}
+                    />
+                    <Button
+                      type={"button"}
+                      size={"md-full"}
+                      label={"Save"}
+                      onClick={handleAddsave}
+                    />
                   </div>
                 </div>
               </div>
@@ -637,7 +780,6 @@ export const Main = () => {
         </section>
       )}
 
-      {isEdit && <div></div>}
       {snackbar && (
         <section className="fixed inset-0 top-10 z-50 flex justify-center">
           <SnackBar
