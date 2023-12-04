@@ -317,30 +317,52 @@ export const Main = () => {
 
   const handleEdit = (rowId) => {
     const rowToEdit = data.find((row) => row.id === rowId);
-    setEditedData({
-      id: rowToEdit.id,
-      name: rowToEdit.name,
-      category: rowToEdit.category,
-      size: rowToEdit.size,
-      price: rowToEdit.price,
-      stock: rowToEdit.stock,
-    });
-    setIsEdit(true);
+
+    // Check if rowToEdit is not undefined before accessing its properties
+    if (rowToEdit) {
+      setEditedData({
+        id: rowToEdit.id,
+        name: rowToEdit.name,
+        category: rowToEdit.category,
+        size: rowToEdit.size,
+        price: rowToEdit.price,
+        stock: rowToEdit.stock,
+      });
+      setIsEdit(true);
+    } else {
+      console.error(`Row with id ${rowId} not found in data.`);
+    }
   };
 
   const handleEditSave = () => {
+    const updatedData = data.map((rowToEdit) => {
+      if (rowToEdit.id === editedData.id) {
+        return {
+          ...rowToEdit,
+          name: editedData.name,
+          category: editedData.category,
+          size: editedData.size,
+          price: editedData.price,
+          stock: editedData.stock,
+        };
+      }
+      return rowToEdit;
+    });
+
+    setData(updatedData);
+
     setIsEdit(false);
     setSnackbar({
       variant: "success",
       size: "sm",
       label: "Success",
-      desc: `Congratulations, you have successfully Edit Membership`,
+      desc: `Congratulations, you have successfully edited the Membership`,
       onClickClose: handleCloseSnackbar,
       onClickAction: {},
     });
 
     setTimeout(() => {
-      setSnackbar(null)
+      setSnackbar(null);
     }, 5000);
   };
 
@@ -833,15 +855,7 @@ export const Main = () => {
                             <CloudUploadIcon className="text-8xl text-N2" />
                           </div>
                         )}
-                        {imagePreview && (
-                          <Image
-                            src={imagePreview}
-                            alt="Uploaded Product"
-                            className="h-full w-full object-cover"
-                            width={800}
-                            height={600}
-                          />
-                        )}
+                        {imagePreview && <Image src={imagePreview} alt="Uploaded Product" />}
                       </div>
                     </label>
                     <input
@@ -897,7 +911,7 @@ export const Main = () => {
                       name="category"
                       options={categoryOptions}
                       value={editedData.category}
-                      onChange={(e) => setEditedData({...editedData, category: e.target.value})}
+                      onChange={(e) => setEditedData({ ...editedData, category: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -907,17 +921,12 @@ export const Main = () => {
                       type={"text"}
                       size={"sm"}
                       value={editedData.name}
-                      onChange={(e) => setEditedData({...editedData, name: e.target.value})}
+                      onChange={(e) => setEditedData({ ...editedData, name: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
                     <h2 className="font-semibold">Ingredient</h2>
-                    <Input
-                      label={"Desc"}
-                      type={"text"}
-                      size={"md"}
-                      
-                    />
+                    <Input label={"Desc"} type={"text"} size={"md"} />
                   </div>
                   <div className="flex gap-5">
                     <div className="flex w-full flex-col gap-2">
@@ -927,7 +936,7 @@ export const Main = () => {
                         type={"text"}
                         size={"sm"}
                         value={editedData.stock}
-                        onChange={(e) => setEditedData({...editedData, stock: e.target.value})}
+                        onChange={(e) => setEditedData({ ...editedData, stock: e.target.value })}
                       />
                     </div>
                     <div className="flex w-full flex-col gap-2">
@@ -937,7 +946,7 @@ export const Main = () => {
                         type={"text"}
                         size={"sm"}
                         value={editedData.price}
-                        onChange={(e) => setEditedData({...editedData, price: e.target.value})}
+                        onChange={(e) => setEditedData({ ...editedData, price: e.target.value })}
                       />
                     </div>
                   </div>
@@ -971,7 +980,7 @@ export const Main = () => {
                             name={`size-${index}`}
                             options={sizeOptionsList}
                             value={editedData.size}
-                            onChange={(e) => setEditedData({...editedData, size: e.target.value})}
+                            onChange={(e) => setEditedData({ ...editedData, size: e.target.value })}
                           />
                         </div>
                         <div className="flex w-full flex-col gap-2">
@@ -991,7 +1000,6 @@ export const Main = () => {
                         />
                       </div>
                     ))}
-                    
                   </div>
                 </div>
                 <div className="flex w-1/2 flex-col gap-5 self-stretch">
