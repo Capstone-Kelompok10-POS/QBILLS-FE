@@ -45,6 +45,8 @@ export const Main = () => {
     size: "",
     price: "",
     stock: "",
+    uploadedImage: null,
+    imagePreview: null,
   });
 
   const [data, setData] = useState([
@@ -192,114 +194,6 @@ export const Main = () => {
       price: "Rp 25.000",
       stock: "200",
     },
-    {
-      id: 17,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 18,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 19,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 20,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 21,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 22,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 23,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 24,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 25,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 26,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 27,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "-",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 28,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
   ]);
 
   const filteredData = data.filter((row) => {
@@ -317,8 +211,6 @@ export const Main = () => {
 
   const handleEdit = (rowId) => {
     const rowToEdit = data.find((row) => row.id === rowId);
-
-    // Check if rowToEdit is not undefined before accessing its properties
     if (rowToEdit) {
       setEditedData({
         id: rowToEdit.id,
@@ -327,6 +219,8 @@ export const Main = () => {
         size: rowToEdit.size,
         price: rowToEdit.price,
         stock: rowToEdit.stock,
+        uploadedImage: rowToEdit.uploadedImage,
+        imagePreview: rowToEdit.imagePreview,
       });
       setIsEdit(true);
     } else {
@@ -344,6 +238,8 @@ export const Main = () => {
           size: editedData.size,
           price: editedData.price,
           stock: editedData.stock,
+          uploadedImage: editedData.uploadedImage,
+          imagePreview: editedData.imagePreview,
         };
       }
       return rowToEdit;
@@ -363,7 +259,7 @@ export const Main = () => {
 
     setTimeout(() => {
       setSnackbar(null);
-    }, 5000);
+    }, 3000);
   };
 
   const handleDeleteIcon = (rowId) => {
@@ -411,7 +307,7 @@ export const Main = () => {
 
       setTimeout(() => {
         setSnackbar(null);
-      }, 5000);
+      }, 3000);
     } catch (error) {
       handleCloseSnackbar();
       setSnackbar({
@@ -448,7 +344,7 @@ export const Main = () => {
 
       setTimeout(() => {
         setSnackbar(null);
-      }, 5000);
+      }, 3000);
     } catch (error) {
       handleCloseSnackbar();
       setSnackbar({
@@ -462,7 +358,7 @@ export const Main = () => {
 
       setTimeout(() => {
         setSnackbar(null);
-      }, 5000);
+      }, 3000);
     }
   };
 
@@ -525,7 +421,7 @@ export const Main = () => {
 
       setTimeout(() => {
         setSnackbar(null);
-      }, 5000);
+      }, 3000);
     } catch (error) {
       handleCloseSnackbar();
       setSnackbar({
@@ -539,7 +435,7 @@ export const Main = () => {
 
       setTimeout(() => {
         setSnackbar(null);
-      }, 10000);
+      }, 3000);
     }
   };
 
@@ -588,7 +484,10 @@ export const Main = () => {
   };
 
   const handleAddSize = () => {
-    setSizeOptions((prevSizeOptions) => [...prevSizeOptions, { size: "", price: "" }]);
+    setSizeOptions((prevSizeOptions) => {
+      const updatedSizeOptions = [...prevSizeOptions, {}];
+      return updatedSizeOptions;
+    });
   };
 
   const handleSizeChange = (index, value) => {
@@ -605,10 +504,7 @@ export const Main = () => {
   const handleDesc = (index, value) => {
     setSizeOptions((prevSizeOptions) => {
       const updatedSizeOptions = [...prevSizeOptions];
-      if (!updatedSizeOptions[index]) {
-        updatedSizeOptions[index] = {};
-      }
-      updatedSizeOptions[index].price = value;
+      updatedSizeOptions[index] = { price: value }; // Update the specific size option
       return updatedSizeOptions;
     });
   };
@@ -855,7 +751,15 @@ export const Main = () => {
                             <CloudUploadIcon className="text-8xl text-N2" />
                           </div>
                         )}
-                        {imagePreview && <Image src={imagePreview} alt="Uploaded Product" />}
+                        {imagePreview && (
+                          <Image
+                            src={imagePreview}
+                            alt="Uploaded Product"
+                            className="h-full w-full object-cover"
+                            width={800}
+                            height={600}
+                          />
+                        )}
                       </div>
                     </label>
                     <input
