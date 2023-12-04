@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import {
   Button,
-  Input,
   Select,
+  Input,
   Table,
   Checkbox,
   IconButton,
@@ -17,6 +17,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Image from "next/image";
+
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,14 +26,17 @@ export const Main = () => {
   const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [snackbar, setSnackbar] = useState(null);
   const [isAdd, setIsAdd] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState("");
   const [name, setName] = useState("");
   const [ingredient, setIngredient] = useState("");
   const [stock, setStock] = useState("");
   const [price, setPrice] = useState("");
-  const [size, setSize] = useState("");
-  const [sizeOptions, setSizeOptions] = useState([{ size: "", price: "" }]);
+  const [sizeOptions, setSizeOptions] = useState([]);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const categoryOptions = ["Coffee", "Non Coffee", "Snack", "Meal"];
+  const sizeOptionsList = ["Small", "Large"];
 
   const [data, setData] = useState([
     {
@@ -295,122 +299,12 @@ export const Main = () => {
       row.name.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
+
   const perPage = 10;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
   const totalPage = Math.ceil(filteredData.length / perPage);
-
-  const handleAdd = () => {
-    setIsAdd(true);
-  };
-
-  const handleCategoryChange = (value) => {
-    setCategory(value);
-  };
-
-  const handleNameChange = (value) => {
-    setName(value);
-  };
-
-  const handleIngredientChange = (value) => {
-    setIngredient(value);
-  };
-
-  const handleStockChange = (value) => {
-    setStock(value);
-  };
-
-  const handlePriceChange = (value) => {
-    setPrice(value);
-  };
-
-  const handleSizeChange = (index, value) => {
-    if (index < sizeOptions.length) {
-      setSizeOptions((prevSizeOptions) =>
-        prevSizeOptions.map((option, i) => (i === index ? { ...option, size: value } : option)),
-      );
-    }
-  };
-
-  const handlePriceSizeChange = (index, value) => {
-    if (index < sizeOptions.length) {
-      setSizeOptions((prevSizeOptions) =>
-        prevSizeOptions.map((option, i) => (i === index ? { ...option, price: value } : option)),
-      );
-    }
-  };
-
-  const handleAddSize = () => {
-    setSizeOptions((prevSizeOptions) => [...prevSizeOptions, { size: "", price: "" }]);
-  };
-
-  const handleDeleteSize = (index) => {
-    if (index < sizeOptions.length) {
-      setSizeOptions((prevSizeOptions) => prevSizeOptions.filter((_, i) => i !== index));
-    }
-  };
-
-  // const handleImageUpload = (e) => {
-  //   if (e.target.files?.length > 0) {
-  //     const file = e.target.files[0];
-
-  //     const reader = new FileReader();
-
-  //     reader.onloadend = () => {
-  //       setUploadedImage(reader.result);
-  //     };
-
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-  // const handleUploadButtonClick = () => {
-  //   const inputElement = document.createElement("input");
-  //   inputElement.type = "file";
-  //   inputElement.accept = "image/*";
-  //   inputElement.onchange = handleImageUpload;
-  //   inputElement.click();
-  // };
-
-  const handleAddsave = () => {
-    if (!category || !name || !ingredient || !stock || !price) {
-      setSnackbar({
-        variant: "error",
-        size: "sm",
-        label: "Error",
-        desc: "Please fill in all the required fields and upload an image.",
-        onClickClose: handleCloseSnackbar,
-      });
-      return;
-    }
-
-    const newProduct = {
-      id: data.length + 1,
-      code: "ABCD1234",
-      category,
-      name,
-      ingredient,
-      stock,
-      price,
-      size,
-    };
-
-    setData((prevData) => [...prevData, newProduct]);
-
-    setIsAdd(false);
-
-    setSnackbar({
-      variant: "success",
-      size: "sm",
-      label: "Success",
-      desc: `Congratulations, you have successfully added a new product to our store.`,
-      onClickClose: handleCloseSnackbar,
-    });
-
-    setTimeout(() => {
-      setSnackbar(null);
-    }, 5000);
-  };
 
   const handleDeleteIcon = (rowId) => {
     setSnackbar({
@@ -452,7 +346,7 @@ export const Main = () => {
         label: "Success",
         desc: `Congratulations, you have successfully deleted the Product`,
         onClickClose: handleCloseSnackbar,
-        onClickAction: {},
+        onClickAction: () => {},
       });
 
       setTimeout(() => {
@@ -466,7 +360,7 @@ export const Main = () => {
         label: "Error",
         desc: error.message,
         onClickClose: handleCloseSnackbar,
-        onClickAction: {},
+        onClickAction: () => {},
       });
 
       setTimeout(() => {
@@ -489,7 +383,7 @@ export const Main = () => {
         label: "Success",
         desc: `Congratulations, you have successfully deleted ${selectedRowCount} Products`,
         onClickClose: handleCloseSnackbar,
-        onClickAction: {},
+        onClickAction: () => {},
       });
 
       setTimeout(() => {
@@ -503,12 +397,12 @@ export const Main = () => {
         label: "Error",
         desc: error.message,
         onClickClose: handleCloseSnackbar,
-        onClickAction: {},
+        onClickAction: () => {},
       });
 
       setTimeout(() => {
         setSnackbar(null);
-      }, 10000);
+      }, 5000);
     }
   };
 
@@ -526,12 +420,158 @@ export const Main = () => {
     });
   };
 
+  const handleAddsave = () => {
+    try {
+      if (!category || !name || !ingredient || !stock || !price) {
+        setSnackbar({
+          variant: "error",
+          size: "sm",
+          label: "Error",
+          desc: `Please fill in all the required fields and upload an image.`,
+          onClickClose: handleCloseSnackbar,
+        });
+        return;
+      }
+
+      const newProduct = {
+        id: data.length + 1,
+        code: `ABCD123${data.length + 1}`,
+        name,
+        category,
+        size: sizeOptions.map((option) => option.size),
+        price,
+        stock,
+      };
+
+      setData((prevData) => [...prevData, newProduct]);
+      setIsAdd(false);
+      setCategory("");
+      setName("");
+      setIngredient("");
+      setStock("");
+      setPrice("");
+      setSizeOptions([]);
+      setUploadedImage(null);
+      setImagePreview(null);
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: "Congratulations, you have successfully added a new Product",
+        onClickClose: handleCloseSnackbar,
+        onClickAction: () => {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 5000);
+    } catch (error) {
+      handleCloseSnackbar();
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: error.message,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: () => {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 10000);
+    }
+  };
+
+  const handleAdd = () => {
+    setIsAdd(!isAdd);
+    if (!isAdd) {
+      setCategory("");
+      setName("");
+      setIngredient("");
+      setStock("");
+      setPrice("");
+      setSizeOptions([]);
+      setUploadedImage(null);
+    }
+  };
+
+  const handleUploadButtonClick = () => {
+    const fileInput = document.getElementById("file-input");
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   const handleCloseSnackbar = () => {
     setSnackbar(null);
   };
 
+  const handleCategoryChange = (value) => {
+    setCategory(value);
+  };
+
+  const handleNameChange = (value) => {
+    setName(value);
+  };
+
+  const handleIngredientChange = (value) => {
+    setIngredient(value);
+  };
+
+  const handleStockChange = (value) => {
+    setStock(value);
+  };
+
+  const handlePriceChange = (value) => {
+    setPrice(value);
+  };
+
+  const handleAddSize = () => {
+    setSizeOptions((prevSizeOptions) => [...prevSizeOptions, { size: "", price: "" }]);
+  };
+
+  const handleSizeChange = (index, value) => {
+    setSizeOptions((prevSizeOptions) => {
+      const updatedSizeOptions = [...prevSizeOptions];
+      if (!updatedSizeOptions[index]) {
+        updatedSizeOptions[index] = {};
+      }
+      updatedSizeOptions[index].size = value;
+      return updatedSizeOptions;
+    });
+  };
+
+  const handleDesc = (index, value) => {
+    setSizeOptions((prevSizeOptions) => {
+      const updatedSizeOptions = [...prevSizeOptions];
+      if (!updatedSizeOptions[index]) {
+        updatedSizeOptions[index] = {};
+      }
+      updatedSizeOptions[index].price = value;
+      return updatedSizeOptions;
+    });
+  };
+
+  const handleDeleteSize = (index) => {
+    setSizeOptions((prevSizeOptions) => prevSizeOptions.filter((_, i) => i !== index));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setUploadedImage({ file, error: null });
+    }
+  };
+
   return (
     <main className="space-y-5">
+      {/* HEADER */}
       <section className="flex w-full gap-5 ">
         <div className="w-7/12">
           <p className="text-2xl font-semibold">List Product</p>
@@ -562,6 +602,8 @@ export const Main = () => {
           </div>
         </div>
       </section>
+
+      {/* TABLE */}
       <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
           {currentData.map((row, index) => (
@@ -577,8 +619,12 @@ export const Main = () => {
               <td className="px-4 py-2 text-center">{row.code}</td>
               <td className="px-4 py-2 text-center">{row.name}</td>
               <td className="px-4 py-2 text-center">{row.category}</td>
-              <td className="px-4 py-2 text-center">{row.size}</td>
-              <td className="px-4 py-2 text-center">{row.price}</td>
+              <td className="px-4 py-2 text-center">
+                {Array.isArray(row.size) ? row.size.join(", ") : row.size}
+              </td>
+              <td className="px-4 py-2 text-center">
+                {row.price.startsWith("Rp ") ? row.price : "Rp " + row.price}
+              </td>
               <td className="px-4 py-2 text-center">{row.stock}</td>
 
               <td className="px-4 py-2 text-center">
@@ -612,6 +658,8 @@ export const Main = () => {
           ))}
         </Table>
       </section>
+
+      {/* PAGINATION */}
       <section>
         <Pagination
           startData={indexOfFirstData + 1}
@@ -623,6 +671,8 @@ export const Main = () => {
           onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
         />
       </section>
+
+      {/* POP UP ADD PRODUCT */}
       {isAdd && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
           <div className=" w-3/5 rounded-xl bg-N1">
@@ -633,11 +683,12 @@ export const Main = () => {
                   <div className="flex flex-col gap-2">
                     <h2 className="font-semibold">Category</h2>
                     <Select
-                      label={"Select"}
-                      options={["Coffee", "Non Coffee", "Snack", "Meal"]}
-                      size={"sm"}
-                      value={category || ""}
-                      onChange={handleCategoryChange}
+                      size="md"
+                      label="Category"
+                      name="category"
+                      options={categoryOptions}
+                      value={category}
+                      onChange={(e) => handleCategoryChange(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -699,7 +750,7 @@ export const Main = () => {
                         <h3 className="text-N2">Detail</h3>
                       </div>
                       <div className="flex w-full flex-col gap-2">
-                        <h3 className="text-N2">Price</h3>
+                        <h3 className="text-N2">Desc</h3>
                       </div>
                     </div>
 
@@ -707,11 +758,12 @@ export const Main = () => {
                       <div key={index} className="flex items-center gap-2">
                         <div className="flex w-full flex-col gap-2">
                           <Select
-                            label={"Select"}
-                            options={["Small", "Large"]}
-                            size={"sm"}
+                            size="md"
+                            label="Size"
+                            name={`size-${index}`}
+                            options={sizeOptionsList}
                             value={sizeOption.size}
-                            onChange={(value) => handleSizeChange(index, value)}
+                            onChange={(e) => handleSizeChange(index, e.target.value)}
                           />
                         </div>
                         <div className="flex w-full flex-col gap-2">
@@ -720,7 +772,7 @@ export const Main = () => {
                             type={"text"}
                             size={"sm"}
                             value={sizeOption.price}
-                            onChange={(e) => handlePriceSizeChange(index, e.target.value)}
+                            onChange={(e) => handleDesc(index, e.target.value)}
                           />
                         </div>
                         <IconButton
@@ -733,30 +785,41 @@ export const Main = () => {
                     ))}
                   </div>
                 </div>
-                <div className="flex w-1/2 flex-col gap-10 self-stretch">
+                <div className="flex w-1/2 flex-col gap-5 self-stretch">
                   <div className="flex flex-col gap-2">
                     <h2 className="font-semibold">Product Image</h2>
-                    <div className="h-80 w-full border border-N2">
-                      {!uploadedImage && (
-                        <div className="flex h-full content-center items-center justify-center">
-                          <CloudUploadIcon className="text-8xl text-N2" />
-                        </div>
-                      )}
-                      {uploadedImage && (
-                        <Image
-                          src={uploadedImage}
-                          alt="Uploaded Product"
-                          className="h-full w-full object-cover"
-                        />
-                      )}
-                    </div>
+                    <label htmlFor="file-input" className="cursor-pointer">
+                      <div className="h-80 w-full border border-N2">
+                        {!uploadedImage && !imagePreview && (
+                          <div className="flex h-full content-center items-center justify-center">
+                            <CloudUploadIcon className="text-8xl text-N2" />
+                          </div>
+                        )}
+                        {imagePreview && (
+                          <Image
+                            src={imagePreview}
+                            alt="Uploaded Product"
+                            className="h-full w-full object-cover"
+                            width={800}
+                            height={600}
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      id="file-input"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={(e) => handleFileChange(e)}
+                    />
                   </div>
                   <Button
                     type={"button"}
                     variant={"outline"}
                     size={"md-full"}
                     label={"Upload Image"}
-                    // onClick={handleUploadButtonClick}
+                    onClick={handleUploadButtonClick}
                   />
                   <div className="flex items-center gap-6 self-stretch">
                     <Button
@@ -780,6 +843,7 @@ export const Main = () => {
         </section>
       )}
 
+      {/* SNACK BAR */}
       {snackbar && (
         <section className="fixed inset-0 top-10 z-50 flex justify-center">
           <SnackBar
