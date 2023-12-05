@@ -85,6 +85,18 @@ export const Main = () => {
   };
 
   const handleEditSave = () => {
+    const updatedData = data.map((rowToEdit) => {
+      if (rowToEdit.id === editedData.id) {
+        return {
+          ...rowToEdit,
+          name: editedData.name,
+          numberphone: editedData.numberphone,
+          point: editedData.point,
+        };
+      }
+      return rowToEdit;
+    });
+    setData(updatedData);
     setIsEdit(false);
     setSnackbar({
       variant: "success",
@@ -243,18 +255,16 @@ export const Main = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="w-2/12 flex-col">
-          <div>
+        <div className="ms-auto flex w-3/12  items-center justify-end gap-5">
+          <Button
+            onClick={handleDeleteSelected}
+            size={"md"}
+            label={`Delete (${selectedRowCount})`}
+            color={"error"}
+            disabled={selectedRowCount === 0}
+          />
+          <div className="w-52">
             <Button onClick={() => {}} size={"md-full"} label={"Print Card"} />
-          </div>
-          <div className="mt-5">
-            <Button
-              onClick={handleDeleteSelected}
-              size={"md-full"}
-              label={`Delete Member (${selectedRowCount})`}
-              color={"error"}
-              disabled={selectedRowCount === 0}
-            />
           </div>
         </div>
       </section>
@@ -398,14 +408,7 @@ export const Main = () => {
       )}
       {isOpenCard && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <CloseRoundedIcon
-            fontSize="large"
-            className="z-20 -mt-96 mb-10 mr-5 cursor-pointer text-white"
-            onClick={() => {
-              handleCloseCard();
-            }}
-          />
-          <CardMembership name={editedData.name} />
+          <CardMembership name={editedData.name} onClick={handleCloseCard} />
         </section>
       )}
     </main>
