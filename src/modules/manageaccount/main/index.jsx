@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button, Input, Table, Checkbox, IconButton, Pagination, SnackBar } from "@/components";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
@@ -10,6 +10,10 @@ export const Main = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const tableHead = [[], "Fullname", "Username", "Password", []];
   const [isAdd, setIsAdd] = useState(false);
+  const [snackbar, setSnackbar] = useState(null);
+  const [newFullname, setNewFullname] = useState("");
+  const [newUsername, setNewUsername] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const [data, setData] = useState([
     {
@@ -142,6 +146,38 @@ export const Main = () => {
     setIsAdd(false);
   };
 
+  const handleSave = () => {
+    const newData = {
+      id: data.length + 1,
+      fullname: newFullname,
+      username: newUsername,
+      password: newPassword,
+    };
+
+    setData((prevData) => [...prevData, newData]);
+    setNewFullname("");
+    setNewUsername("");
+    setNewPassword("");
+    handleCloseAdd();
+
+    setSnackbar({
+      variant: "success",
+      size: "sm",
+      label: "Success",
+      desc: "Congratulations, you have successfully added a new cashier account",
+      onClickClose: handleCloseSnackbar,
+      onClickAction: {},
+    });
+
+    setTimeout(() => {
+      setSnackbar(null);
+    }, 5000);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(null);
+  };
+
   return (
     <main className="space-y-5">
       {/* HEADER */}
@@ -235,15 +271,30 @@ export const Main = () => {
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Fullname</h2>
-                    <Input type={"text"} size={"sm"} />
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={newFullname}
+                      onChange={(e) => setNewFullname(e.target.value)}
+                    />
                   </div>
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Username</h2>
-                    <Input type={"text"} size={"sm"} />
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={newUsername}
+                      onChange={(e) => setNewUsername(e.target.value)}
+                    />
                   </div>
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Password</h2>
-                    <Input type={"text"} size={"sm"} />
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-center gap-4 self-stretch">
@@ -254,11 +305,27 @@ export const Main = () => {
                     label={"Cancel"}
                     onClick={handleCloseAdd}
                   />
-                  <Button type={"button"} size={"md-full"} label={"Save"} />
+                  <Button type={"button"} size={"md-full"} label={"Save"} onClick={handleSave} />
                 </div>
               </div>
             </div>
           </div>
+        </section>
+      )}
+
+      {/* SNACKBAR */}
+      {snackbar && (
+        <section className="fixed inset-0 top-10 z-50 flex justify-center">
+          <SnackBar
+            variant={snackbar.variant}
+            size={snackbar.size}
+            label={snackbar.label}
+            desc={snackbar.desc}
+            action={snackbar.action}
+            actionLabel={snackbar.actionLabel}
+            onClickClose={snackbar.onClickClose}
+            onClickAction={snackbar.onClickAction}
+          />
         </section>
       )}
     </main>
