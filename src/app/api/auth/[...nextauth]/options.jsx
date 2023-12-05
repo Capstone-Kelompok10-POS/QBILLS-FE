@@ -9,7 +9,7 @@ export const options = {
         const { username, password } = credentials;
 
         try {
-          const response = await fetch("http://34.70.16.113:8080/api/v1/super-admin/login", {
+          const response = await fetch("https://www.ariefbook.my.id/api/v1/super-admin/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -25,8 +25,25 @@ export const options = {
               return null;
             }
           } else {
-            console.error("Error fetching user data. HTTP Status:", response.status);
-            return null;
+            const response = await fetch("https://www.ariefbook.my.id/api/v1/admin/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+              const user = await response.json();
+              if (user.results) {
+                return user;
+              } else {
+                return null;
+              }
+            } else {
+              console.error("Invalid Username And Password:", response.status);
+              return null;
+            }
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
