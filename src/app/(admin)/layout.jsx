@@ -1,5 +1,10 @@
 import { HeaderAdmin, NavigationDrawer } from "@/components";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 0.5,
+};
+
 const AdminLayout = ({ children }) => {
   return (
     <>
