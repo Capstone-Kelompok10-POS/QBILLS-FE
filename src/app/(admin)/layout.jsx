@@ -5,6 +5,11 @@ export const viewport = {
   initialScale: 0.5,
 };
 
+export const metadata = {
+  title: "",
+  description: "",
+};
+
 const AdminLayout = ({ children }) => {
   return (
     <>
