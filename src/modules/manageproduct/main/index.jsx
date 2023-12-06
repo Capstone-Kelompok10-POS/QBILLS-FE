@@ -21,7 +21,16 @@ import Image from "next/image";
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const tableHead = [[], "Code", "Name", "Category", "Size", "Price/pcs", "Stock", []];
+  const tableHead = [
+    "Checkbox",
+    "Code",
+    "Name",
+    "Category",
+    "Size",
+    "Price/pcs",
+    "Stock",
+    "Action",
+  ];
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [snackbar, setSnackbar] = useState(null);
@@ -527,12 +536,11 @@ export const Main = () => {
 
   return (
     <main className="space-y-5">
-      {/* HEADER */}
-      <section className="flex w-full gap-5 ">
-        <div className="w-7/12">
-          <p className="text-2xl font-semibold">List Product</p>
-        </div>
-        <div className="ms-auto w-3/12">
+      {/* TOP SECTION */}
+      <section className="flex w-full items-center gap-5">
+        <h2 className="mr-auto text-2xl font-semibold">List Product</h2>
+
+        <div className="w-96">
           <Input
             type={"text"}
             size={"sm"}
@@ -543,24 +551,24 @@ export const Main = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="w-2/12 flex-col">
-          <div>
+
+        <div className="flex gap-5">
+          <Button
+            type={"button"}
+            size={"md"}
+            label={`Delete (${selectedRowCount})`}
+            color={"error"}
+            onClick={handleDeleteSelected}
+            disabled={selectedRowCount === 0}
+          />
+          <div className="w-52">
             <Button onClick={handleAdd} size={"md-full"} label={"Add product"} />
-          </div>
-          <div className="mt-5">
-            <Button
-              onClick={handleDeleteSelected}
-              size={"md-full"}
-              label={`Delete Product (${selectedRowCount})`}
-              color={"error"}
-              disabled={selectedRowCount === 0}
-            />
           </div>
         </div>
       </section>
 
       {/* TABLE */}
-      <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
+      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
           {currentData.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
@@ -572,43 +580,41 @@ export const Main = () => {
                   />
                 </div>
               </td>
+
               <td className="px-4 py-2 text-center">{row.code}</td>
+
               <td className="px-4 py-2 text-center">{row.name}</td>
+
               <td className="px-4 py-2 text-center">{row.category}</td>
+
               <td className="px-4 py-2 text-center">
                 {Array.isArray(row.size) ? row.size.join(", ") : row.size}
               </td>
+
               <td className="px-4 py-2 text-center">
                 {row.price.startsWith("Rp ") ? row.price : "Rp " + row.price}
               </td>
+
               <td className="px-4 py-2 text-center">{row.stock}</td>
 
-              <td className="px-4 py-2 text-center">
-                <div className="flex items-center justify-center">
-                  <span>
-                    <IconButton
-                      size={"sm"}
-                      color={"success"}
-                      icon={<EditIcon fontSize="small" />}
-                      onClick={() => handleEdit(row.id)}
-                    />
-                  </span>
-                  <span className="mx-2">
-                    <IconButton
-                      size={"sm"}
-                      color={"error"}
-                      icon={<DeleteIcon fontSize="small" />}
-                      onClick={() => handleDeleteIcon(row.id)}
-                    />
-                  </span>
-                  <span>
-                    <IconButton
-                      size={"sm"}
-                      icon={<MoreVertIcon fontSize="small" />}
-                      variant={"outline"}
-                    />
-                  </span>
-                </div>
+              <td className="flex items-center justify-center gap-2 px-4 py-2">
+                <IconButton
+                  size={"sm"}
+                  color={"success"}
+                  icon={<EditIcon fontSize="small" />}
+                  onClick={() => handleEdit(row.id)}
+                />
+                <IconButton
+                  size={"sm"}
+                  color={"error"}
+                  icon={<DeleteIcon fontSize="small" />}
+                  onClick={() => handleDeleteIcon(row.id)}
+                />
+                <IconButton
+                  size={"sm"}
+                  icon={<MoreVertIcon fontSize="small" />}
+                  variant={"outline"}
+                />
               </td>
             </tr>
           ))}
