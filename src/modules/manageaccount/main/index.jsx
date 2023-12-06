@@ -230,8 +230,52 @@ export const Main = () => {
     }, 3000);
   };
 
-  const handleCloseSnackbar = () => {
-    setSnackbar(null);
+  const handleDeleteIcon = (rowId) => {
+    setSnackbar({
+      variant: "error",
+      size: "sm",
+      label: "Delete Confirmation",
+      desc: `Are you sure you want to delete this account?`,
+      onClickClose: handleCloseSnackbar,
+      action: true,
+      actionLabel: "Delete",
+      onClickAction: () => handleDeleteIconConfirm(rowId),
+    });
+  };
+
+  const handleDeleteIconConfirm = (rowId) => {
+    try {
+      const updatedData = data.filter((row) => row.id !== rowId);
+      setData(updatedData);
+      handleCloseSnackbar();
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: `Congratulations, you have successfully deleted the Account`,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 5000);
+    } catch (error) {
+      handleCloseSnackbar();
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: error.message,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 10000);
+    }
   };
 
   return (
