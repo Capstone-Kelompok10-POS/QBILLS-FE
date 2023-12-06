@@ -10,10 +10,18 @@ export const Main = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const tableHead = [[], "Fullname", "Username", "Password", []];
   const [isAdd, setIsAdd] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [snackbar, setSnackbar] = useState(null);
   const [newFullname, setNewFullname] = useState("");
   const [newUsername, setNewUsername] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [editedData, setEditedData] = useState({
+    id: null,
+    fullname: "",
+    username: "",
+    password: "",
+    price: "",
+  });
 
   const [data, setData] = useState([
     {
@@ -145,6 +153,9 @@ export const Main = () => {
   const handleCloseAdd = () => {
     setIsAdd(false);
   };
+  const handleCloseEdit = () => {
+    setIsEdit(false);
+  };
 
   const handleSave = () => {
     const newData = {
@@ -172,6 +183,51 @@ export const Main = () => {
     setTimeout(() => {
       setSnackbar(null);
     }, 5000);
+  };
+  const handleEdit = (rowId) => {
+    const rowToEdit = data.find((row) => row.id === rowId);
+    if (rowToEdit) {
+      setEditedData({
+        id: rowToEdit.id,
+        fullname: rowToEdit.fullname,
+        username: rowToEdit.username,
+        password: rowToEdit.password,
+      });
+      setIsEdit(true);
+    } else {
+      console.error(`Row with id ${rowId} not found in data.`);
+    }
+  };
+  
+
+  const handleEditSave = () => {
+    const updatedData = data.map((rowToEdit) => {
+      if (rowToEdit.id === editedData.id) {
+        return {
+          ...rowToEdit,
+          fullname: editedData.fullname,
+          username: editedData.username,
+          password: editedData.password,
+        };
+      }
+      return rowToEdit;
+    });
+
+    setData(updatedData);
+
+    setIsEdit(false);
+    setSnackbar({
+      variant: "success",
+      size: "sm",
+      label: "Success",
+      desc: `Congratulations, you have successfully edited the cashier account`,
+      onClickClose: handleCloseSnackbar,
+      onClickAction: {},
+    });
+
+    setTimeout(() => {
+      setSnackbar(null);
+    }, 3000);
   };
 
   const handleCloseSnackbar = () => {
@@ -227,6 +283,7 @@ export const Main = () => {
                       size={"sm"}
                       color={"success"}
                       icon={<EditIcon fontSize="small" />}
+                      onClick={() => handleEdit(row.id)}
                     />
                   </span>
                   <span className="mx-2">
@@ -306,6 +363,65 @@ export const Main = () => {
                     onClick={handleCloseAdd}
                   />
                   <Button type={"button"} size={"md-full"} label={"Save"} onClick={handleSave} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* POP UP EDIT ACCOUNT */}
+      {isEdit && (
+        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-2/5 rounded-xl bg-N1 p-8">
+            <div className="rounded-xl border border-N2 p-8">
+              <div className="flex flex-col gap-10">
+                <div className="flex items-center justify-between self-stretch">
+                  <h1 className="text-2xl font-semibold">Edit Account Cashier</h1>
+                </div>
+                <div className="flex flex-col gap-8">
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Fullname</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={editedData.fullname}
+                      onChange={(e) => setEditedData({ ...editedData, fullname: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Username</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={editedData.username}
+                      onChange={(e) => setEditedData({ ...editedData, username: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Password</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={editedData.password}
+                      onChange={(e) => setEditedData({ ...editedData, password: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div className="flex w-full items-center justify-center gap-4 self-stretch">
+                  <Button
+                    type={"button"}
+                    variant={"outline"}
+                    size={"md-full"}
+                    label={"Cancel"}
+                    onClick={handleCloseEdit}
+                  />
+                  <Button
+                    type={"button"}
+                    size={"md-full"}
+                    label={"Save"}
+                    onClick={handleEditSave}
+                  />
                 </div>
               </div>
             </div>
