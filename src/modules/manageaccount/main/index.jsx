@@ -146,6 +146,10 @@ export const Main = () => {
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
   const totalPage = Math.ceil(filteredData.length / perPage);
 
+  const handleCloseSnackbar = () => {
+    setSnackbar(null);
+  };
+
   const handleAdd = () => {
     setIsAdd(true);
   };
@@ -198,7 +202,6 @@ export const Main = () => {
       console.error(`Row with id ${rowId} not found in data.`);
     }
   };
-  
 
   const handleEditSave = () => {
     const updatedData = data.map((rowToEdit) => {
@@ -235,7 +238,7 @@ export const Main = () => {
       variant: "error",
       size: "sm",
       label: "Delete Confirmation",
-      desc: `Are you sure you want to delete this account?`,
+      desc: `Are you sure you want to delete this record?`,
       onClickClose: handleCloseSnackbar,
       action: true,
       actionLabel: "Delete",
@@ -335,6 +338,7 @@ export const Main = () => {
                       size={"sm"}
                       color={"error"}
                       icon={<DeleteIcon fontSize="small" />}
+                      onClick={() => handleDeleteIcon(row.id)}
                     />
                   </span>
                 </div>
