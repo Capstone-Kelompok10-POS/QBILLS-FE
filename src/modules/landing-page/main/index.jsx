@@ -3,6 +3,10 @@ import bgEllipse from "@/public/assets/images/landing-page/ellipse-hero-section.
 import mockHeroSection from "@/public/assets/images/landing-page/mockup-hero-section.png";
 import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import { Button } from "@/components";
+import TakeoutDiningIcon from '@mui/icons-material/TakeoutDining';
+import AccountCircleIcon from '@mui/icons-material/AccountCircleRounded';
+import StoreMallDirectoryOutlinedIcon from '@mui/icons-material/StoreMallDirectoryOutlined';
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 export const Main = () => {
   return (
@@ -52,6 +56,44 @@ export const Main = () => {
       </section>
 
       {/* ABOUT US */}
+      <section className="w-full h-[703px] bg-P1 flex justify-center">
+        <div className="w-[606px] h-[304px] ml-[101px] my-[155px]">
+          <h1 className="font-semibold text-[64px] text-N07">About Us</h1>
+          <p className="text-justify text-[20px] mt-[50px] font-normal text-N5 leading-9">
+          Elevate your sales strategy and delight customers with our state-of-the-art POS application, offering a seamless and user-friendly interface for enhanced transactions. Qbills is here to be a solution for your business, features are available to make your work easier, use it now
+          </p>
+        </div>
+          
+        <div className="w-[924px] h-[369px] ml-[165px] mr-[101px] my-[155px]">
+          <div className="flex gap-20">
+          <div className="w-[422px] h-[152px]">
+              <div><TakeoutDiningIcon className="text-P3 text-[50px]"/></div>
+              <h2 className="text-[24px] font-semibold">Create Order</h2>
+              <p className="text-N5 text-[16px] leading-6 font-normal">You have the option to request food through the Qbilss POS application.</p>
+            </div>
+            <div className="w-[422px] h-[152px]">
+              <div><AccountCircleIcon className="text-P3 text-[50px]"/></div>
+              <h2 className="text-[24px] font-semibold">Manage Account Cashier</h2>
+              <p className="text-N5 text-[16px] leading-6 font-normal">The use of membership provides its users with coupons, discounts, rewards, loyalty points.</p>
+            </div>
+          </div>
+
+          <div className="mt-20 flex gap-20">
+          <div className="w-[422px] h-[152px]">
+              <div><StoreMallDirectoryOutlinedIcon className="text-P3 text-[50px]"/></div>
+              <h2 className="text-[24px] font-semibold">Manage Product</h2>
+              <p className="text-N5 text-[16px] leading-6 font-normal">In the admin features there are product management features for coffee shops.</p>
+            </div>
+            <div className="w-[422px] h-[152px]">
+              <div><PaymentsIcon className="text-P3 text-[50px]"/></div>
+              <h2 className="text-[24px] font-semibold">Track Transaction History</h2>
+              <p className="text-N5 text-[16px] leading-6 font-normal">The use of membership provides its users with coupons, discounts, rewards, loyalty points.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Features */}
       <section></section>
     </main>
   );
