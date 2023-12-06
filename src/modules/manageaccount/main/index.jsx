@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Input, Table, Checkbox, IconButton, Pagination, SnackBar } from "@/components";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
@@ -15,6 +15,8 @@ export const Main = () => {
   const [newFullname, setNewFullname] = useState("");
   const [newUsername, setNewUsername] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [selectedRow, setSelectedRow] = useState([]);
+  const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [editedData, setEditedData] = useState({
     id: null,
     fullname: "",
@@ -281,6 +283,71 @@ export const Main = () => {
     }
   };
 
+  const handleDeleteSelected = () => {
+    if (selectedRowCount > 0) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Delete Confirmation",
+        desc: `Are you sure you want to delete ${selectedRowCount} records?`,
+        onClickClose: handleCloseSnackbar,
+        action: true,
+        actionLabel:"Delete",
+        onClickAction: handleDeleteSelectedConfirm,
+      });
+    }
+  };
+
+  const handleDeleteSelectedConfirm = () => {
+    try {
+      const updatedData = data.filter((row, index) => !selectedRow.includes(index));
+      setData(updatedData);
+      setSelectedRow([]);
+      setSelectedRowCount(0);
+      handleCloseSnackbar();
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: `Congratulations, you have successfully deleted ${selectedRowCount} Accounts`,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {}
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 5000)
+    } catch (error) {
+      handleCloseSnackbar();
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: error.message,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {},
+      });
+      setTimeout(() =>{
+        setSnackbar(null);
+      }, 10000)
+    }
+  };
+
+  useEffect(() => {
+    setSelectedRowCount(selectedRow.length);
+  }, [selectedRow]);
+
+  const handleCheckboxChange = (rowIndex) => {
+    setSelectedRow((prevSelectedRow) => {
+      if (prevSelectedRow.includes(rowIndex)) {
+        return prevSelectedRow.filter((index) => index !== rowIndex);
+      } else {
+        return [...prevSelectedRow, rowIndex];
+      }
+    });
+  };
+
   return (
     <main className="space-y-5">
       {/* HEADER */}
@@ -301,7 +368,12 @@ export const Main = () => {
         </div>
         <div className="flex items-center gap-5 self-stretch">
           <div>
-            <Button size={"md-full"} label={`Delete (0)`} color={"error"} disabled={true} />
+            <Button
+            onClick={handleDeleteSelected} 
+            size={"md-full"} 
+            label={`Delete (${selectedRowCount})`} 
+            color={"error"} 
+            disabled={selectedRowCount === 0} />
           </div>
           <div>
             <Button size={"md-full"} label={"Add Account"} onClick={handleAdd} />
@@ -316,7 +388,10 @@ export const Main = () => {
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
-                  <Checkbox />
+                  <Checkbox 
+                  checked={selectedRow.includes(index)}
+                  onChange={() => handleCheckboxChange(index)}
+                  />
                 </div>
               </td>
               <td className="px-4 py-2 text-center">{row.fullname}</td>
