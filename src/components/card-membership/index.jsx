@@ -1,11 +1,17 @@
 import LogoET from "@/public/assets/images/logos/white/logo-5.png";
 import Logo from "@/public/assets/images/logos/white/logo-2.png";
 import LogoQbills from "@/public/assets/images/logos/black/logo-2.png";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Image from "next/image";
 
-export const CardMembership = ({ name }) => {
+export const CardMembership = ({ name, onClick }) => {
   return (
-    <section className="flex h-[469px] w-[774px]">
+    <section className="relative flex h-[469px] w-[774px]">
+      <CloseRoundedIcon
+        fontSize="large"
+        className="absolute left-5 top-5 z-20 cursor-pointer text-white"
+        onClick={onClick}
+      />
       <div className="background relative w-[85%] rounded-l-[20px]">
         <div className="flex items-center justify-center pt-24">
           <Image className="pt-5" src={Logo} alt="Logo" width={105} />
@@ -21,7 +27,7 @@ export const CardMembership = ({ name }) => {
 
       {/* Headline  */}
       <div className="relative w-[15%] rounded-r-[20px] bg-P4">
-        <p className="absolute -right-16 top-36 rotate-90 text-[28px] font-semibold leading-10 text-N1 truncate">
+        <p className="absolute -right-16 top-36 rotate-90 truncate text-[28px] font-semibold leading-10 text-N1">
           MEMBERSHIP CARD
         </p>
 
