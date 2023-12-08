@@ -9,6 +9,7 @@ import {
   IconButton,
   Pagination,
   SnackBar,
+  ProductDetail,
 } from "@/components";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
@@ -44,9 +45,11 @@ export const Main = () => {
   const [sizeOptions, setSizeOptions] = useState([]);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [isProductDetail, setIsProductDetail] = useState(false);
 
   const categoryOptions = ["Coffee", "Non Coffee", "Snack", "Meal"];
-  const sizeOptionsList = ["Small", "Large"];
+  const sizeOptionsList = ["Small", "Normal", "Big"];
+
   const [editedData, setEditedData] = useState({
     id: null,
     name: "",
@@ -533,6 +536,13 @@ export const Main = () => {
       setUploadedImage({ file, error: null });
     }
   };
+  const handleOpenProductDetail = () => {
+    setIsProductDetail(true);
+  };
+
+  const handleCloseProductDetail = () => {
+    setIsProductDetail(false);
+  };
 
   return (
     <main className="space-y-5">
@@ -581,9 +591,19 @@ export const Main = () => {
                 </div>
               </td>
 
-              <td className="px-4 py-2 text-center">{row.code}</td>
+              <td
+                className="cursor-pointer px-4 py-2 text-center"
+                onClick={() => handleOpenProductDetail()}
+              >
+                {row.code}
+              </td>
 
-              <td className="px-4 py-2 text-center">{row.name}</td>
+              <td
+                className="cursor-pointer px-4 py-2 text-center"
+                onClick={() => handleOpenProductDetail()}
+              >
+                {row.name}
+              </td>
 
               <td className="px-4 py-2 text-center">{row.category}</td>
 
@@ -982,6 +1002,26 @@ export const Main = () => {
             actionLabel={snackbar.actionLabel}
             onClickClose={snackbar.onClickClose}
             onClickAction={snackbar.onClickAction}
+          />
+        </section>
+      )}
+
+      {/* PRODUCT DETAIL */}
+      {isProductDetail && (
+        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
+          <ProductDetail
+            category={"Coffee"}
+            name={"Cappuccino Espresso"}
+            stock={"250"}
+            ingredient={
+              "Cappuccino Espresso is a coffee drink that stands out by combining espresso and steamed milk in proportions that provide perfect harmony between the strength of the coffee and the smoothness of the milk. The main advantage of latte lies in its balanced taste and creaminess, creating a smooth and satisfying coffee experience."
+            }
+            imagePreview={"/assets/images/product-detail/image_coffee.png"}
+            size={"Small"}
+            price={"Rp. 25.000"}
+            sizeOptionsList={sizeOptionsList}
+            onSizeChange={handleSizeChange}
+            onClick={handleCloseProductDetail}
           />
         </section>
       )}

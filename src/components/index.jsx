@@ -14,3 +14,4 @@ export * from "./snack-bar";
 export * from "./table";
 export * from "./card-membership";
 export * from "./checkbox";
+export * from "./product-detail";
