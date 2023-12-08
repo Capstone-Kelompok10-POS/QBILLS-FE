@@ -73,11 +73,13 @@ export const Main = () => {
   // CHECKBOX
   const handleCheckbox = (rowId) => {
     setSelectedRow((prevSelectedRow) => {
-      if (prevSelectedRow.includes(rowId)) {
-        return prevSelectedRow.filter((id) => id !== rowId);
-      } else {
-        return [...prevSelectedRow, rowId];
-      }
+      const isSelected = prevSelectedRow.includes(rowId);
+      const updatedSelectedRow = isSelected
+        ? prevSelectedRow.filter((id) => id !== rowId)
+        : [...prevSelectedRow, rowId];
+
+      setSelectedRowCount(updatedSelectedRow.length);
+      return updatedSelectedRow;
     });
   };
 
@@ -255,7 +257,7 @@ export const Main = () => {
         variant: "success",
         size: "sm",
         label: "Success",
-        desc: `Congratulations, you have successfully deleted ${selectedRowCount} Memberships`,
+        desc: `Congratulations, you have successfully deleted ${deletedIds.length} Memberships`,
         onClickClose: () => setSnackbar(),
       });
 
@@ -383,6 +385,7 @@ export const Main = () => {
         onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
       />
 
+      {/* EDIT */}
       {isEdit && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
           <div className="w-2/5 rounded-xl bg-N1 p-8">
@@ -455,6 +458,7 @@ export const Main = () => {
         </section>
       )}
 
+      {/* CARD */}
       {isOpenCard && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
           <CardMembership name={editDataValue.name} onClick={() => setIsOpenCard(false)} />
