@@ -8,7 +8,7 @@ import Link from "next/link";
 export const Header = () => {
   return (
     <header>
-      <nav className="fixed left-0 top-0 z-10 flex w-full items-center justify-between px-24 py-5">
+      <nav className="fixed left-0 top-0 z-50 flex w-full items-center justify-between px-24 py-5">
         <section className="flex items-center justify-center gap-2">
           <Image
             src={logoQbills}
