@@ -82,7 +82,7 @@ export const Main = () => {
 
   // PAGINATION
   useEffect(() => {
-    if (dataGET?.results) {
+    if (dataGET?.results.length !== 0) {
       setCurrentPage(1);
     }
   }, [dataGET]);
@@ -381,7 +381,7 @@ export const Main = () => {
 
       {/* PAGINATION */}
       <Pagination
-        startData={indexOfFirstData + 1 || 0}
+        startData={indexOfFirstData >= 0 ? indexOfFirstData + 1 : 0}
         endData={Math.min(indexOfLastData, filteredData?.length) || 0}
         total={filteredData?.length || 0}
         currentPage={currentPage || 0}
