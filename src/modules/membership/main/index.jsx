@@ -233,26 +233,28 @@ export const Main = () => {
 
   const handleDeleteSelectedConfirmed = async () => {
     try {
-      const deletedIds = selectedRow.map((_, index) => dataGET.results[index].id);
+      const deletedIds = selectedRow.map((rowId) => {
+        const selectedData = dataGET.results.find((data) => data.id === rowId);
+        return selectedData.id;
+      });
 
-      await Promise.all(
-        deletedIds.map(async (id) => {
-          const response = await fetch(`https://qbills.biz.id/api/v1/membership/${id}`, {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          });
+      const deleteRequests = deletedIds.map(async (id) => {
+        const response = await fetch(`https://qbills.biz.id/api/v1/membership/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-          if (!response.ok) {
-            throw new Error("Delete request failed");
-          }
+        if (!response.ok) {
+          throw new Error(`Failed to delete membership with ID ${id}`);
+        }
 
-          return response.json();
-        }),
-      );
+        return response.json();
+      });
 
+      await Promise.all(deleteRequests);
       await fetchGET();
 
       setSelectedRow([]);
