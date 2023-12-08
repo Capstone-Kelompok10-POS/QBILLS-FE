@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import {
   Button,
@@ -15,231 +16,243 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-export const Main = () => {
-  const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const tableHead = [[], "Name", "Number Phone", "Point", []];
-  const [selectedRow, setSelectedRow] = useState([]);
-  const [selectedRowCount, setSelectedRowCount] = useState(0);
-  const [snackbar, setSnackbar] = useState(null);
-  const [isEdit, setIsEdit] = useState(false);
-  const [isOpenCard, setIsOpenCard] = useState(false);
-  const [editedData, setEditedData] = useState({
-    id: null,
-    name: "",
-    numberphone: "",
-    point: "",
-  });
-  const [data, setData] = useState([
-    { id: 1, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 2, name: "Nabiel", numberphone: "083463514268", point: "256 Point" },
-    { id: 3, name: "Alpa", numberphone: "083463514268", point: "256 Point" },
-    { id: 4, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 5, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 6, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 7, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 8, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 9, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 10, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 11, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 12, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 13, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 14, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 15, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 16, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 17, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 18, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 19, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 20, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 21, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 22, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 23, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 24, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 25, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 26, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 27, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-    { id: 28, name: "Dika Pradana", numberphone: "083463514268", point: "256 Point" },
-  ]);
+import { useSession } from "next-auth/react";
 
-  const filteredData = data.filter((row) => {
+export const Main = () => {
+  const session = useSession();
+  const token = session.data?.user?.results.token;
+  const [dataGET, setDataGET] = useState();
+
+  const [search, setSearch] = useState("");
+  const tableHead = ["Checkbox", "Name", "Number Phone", "Point", "Action"];
+  // const [selectedRow, setSelectedRow] = useState([]);
+  // const [selectedRowCount, setSelectedRowCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editDataValue, setEditDataValue] = useState();
+  const [isOpenCard, setIsOpenCard] = useState(false);
+  const [snackbar, setSnackbar] = useState(null);
+
+  // FETCH GET / GET DATA
+  const fetchGET = async () => {
+    fetch("https://qbills.biz.id/api/v1/memberships", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 10 },
+    })
+      .then((response) => response.json())
+      .then((data) => setDataGET(data))
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchGET();
+    }
+  }, [token]);
+
+  // SEARCH DATA
+  const filteredData = dataGET?.results?.filter((data) => {
     const matchesSearch =
-      row.name.toLowerCase().includes(search.toLowerCase()) ||
-      row.numberphone.toLowerCase().includes(search.toLowerCase());
+      data.name.toLowerCase().includes(search.toLowerCase()) ||
+      data.phoneNumber.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
-  const perPage = 10;
+
+  // PAGINATION
+  const perPage = 30;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
-  const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
-  const totalPage = Math.ceil(filteredData.length / perPage);
+  const currentData = filteredData?.slice(indexOfFirstData, indexOfLastData);
+  const totalPage = Math.ceil(filteredData?.length / perPage);
 
-  const handleEdit = (rowId) => {
-    const rowToEdit = data.find((row) => row.id === rowId);
-    setEditedData({
-      id: rowToEdit.id,
-      name: rowToEdit.name,
-      numberphone: rowToEdit.numberphone,
-      point: rowToEdit.point,
+  // EDIT DATA
+  const handleEdit = (id) => {
+    const selectedData = dataGET?.results?.find((data) => data.id === id);
+
+    setEditDataValue({
+      id: selectedData.id,
+      name: selectedData.name,
+      phoneNumber: selectedData.phoneNumber,
+      point: selectedData.point,
     });
+
     setIsEdit(true);
   };
 
-  const handleEditSave = () => {
-    const updatedData = data.map((rowToEdit) => {
-      if (rowToEdit.id === editedData.id) {
-        return {
-          ...rowToEdit,
-          name: editedData.name,
-          numberphone: editedData.numberphone,
-          point: editedData.point,
-        };
-      }
-      return rowToEdit;
-    });
-    setData(updatedData);
+  const handleSave = async () => {
+    fetch(`https://qbills.biz.id/api/v1/membership/${editDataValue.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: editDataValue.name, phoneNumber: editDataValue.phoneNumber }),
+    })
+      .then((response) => response.json())
+      .then(() => fetchGET())
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
     setIsEdit(false);
+
     setSnackbar({
       variant: "success",
       size: "sm",
       label: "Success",
       desc: `Congratulations, you have successfully Edit Membership`,
-      onClickClose: handleCloseSnackbar,
-      onClickAction: {},
+      onClickClose: () => setSnackbar(),
     });
 
     setTimeout(() => {
-      setSnackbar(null);
-    }, 5000);
+      setSnackbar();
+    }, 2000);
   };
 
-  const handleDeleteIcon = (rowId) => {
+  // DELETE DATA
+  const handleDeleteConfirmed = async (id) => {
+    fetch(`https://qbills.biz.id/api/v1/membership/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then(() => fetchGET())
+      .catch((error) => {
+        setSnackbar({
+          variant: "error",
+          size: "sm",
+          label: "Error",
+          desc: "Delete data failed",
+          onClickClose: () => setSnackbar(),
+        });
+
+        setTimeout(() => {
+          setSnackbar();
+        }, 2000);
+
+        console.error("Error:", error);
+      });
+
+    setSnackbar({
+      variant: "success",
+      size: "sm",
+      label: "Success",
+      desc: "Congratulations, you have successfully deleted the Membership",
+      onClickClose: () => setSnackbar(),
+    });
+
+    setTimeout(() => {
+      setSnackbar();
+    }, 2000);
+  };
+
+  const handleDelete = (id) => {
     setSnackbar({
       variant: "error",
       size: "sm",
       label: "Delete Confirmation",
       desc: `Are you sure you want to delete this record?`,
-      onClickClose: handleCloseSnackbar,
+      onClickClose: () => setSnackbar(),
       action: true,
       actionLabel: "Delete",
-      onClickAction: () => handleDeleteIconConfirm(rowId),
+      onClickAction: () => handleDeleteConfirmed(id),
     });
   };
 
-  const handleDeleteSelected = () => {
-    if (selectedRowCount > 0) {
-      setSnackbar({
-        variant: "error",
-        size: "sm",
-        label: "Delete Confirmation",
-        desc: `Are you sure you want to delete ${selectedRowCount} records?`,
-        onClickClose: handleCloseSnackbar,
-        action: true,
-        actionLabel: "Delete",
-        onClickAction: handleDeleteSelectedConfirm,
-      });
-    }
-  };
+  // const handleDeleteSelected = () => {
+  //   if (selectedRowCount > 0) {
+  //     setSnackbar({
+  //       variant: "error",
+  //       size: "sm",
+  //       label: "Delete Confirmation",
+  //       desc: `Are you sure you want to delete ${selectedRowCount} records?`,
+  //       onClickClose: ()=>setSnackbar(),
+  //       action: true,
+  //       actionLabel: "Delete",
+  //       onClickAction: handleDeleteSelectedConfirm,
+  //     });
+  //   }
+  // };
 
-  const handleDeleteIconConfirm = (rowId) => {
-    try {
-      const updatedData = data.filter((row) => row.id !== rowId);
-      setData(updatedData);
-      handleCloseSnackbar();
+  // const handleDeleteSelectedConfirm = () => {
+  //   try {
+  //     const updatedData = data.filter((row, index) => !selectedRow.includes(index));
+  //     setData(updatedData);
+  //     setSelectedRow([]);
+  //     setSelectedRowCount(0);
+  //     setSnackbar();
 
-      setSnackbar({
-        variant: "success",
-        size: "sm",
-        label: "Success",
-        desc: `Congratulations, you have successfully deleted the Membership`,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: {},
-      });
+  //     setSnackbar({
+  //       variant: "success",
+  //       size: "sm",
+  //       label: "Success",
+  //       desc: `Congratulations, you have successfully deleted ${selectedRowCount} Memberships`,
+  //       onClickClose: ()=>setSnackbar(),
+  //       onClickAction:()=> {}
+  //     });
 
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 5000);
-    } catch (error) {
-      handleCloseSnackbar();
-      setSnackbar({
-        variant: "error",
-        size: "sm",
-        label: "Error",
-        desc: error.message,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: {},
-      });
+  //     setTimeout(() => {
+  //       setSnackbar();
+  //     }, 5000);
+  //   } catch (error) {
+  //     setSnackbar();
+  //     setSnackbar({
+  //       variant: "error",
+  //       size: "sm",
+  //       label: "Error",
+  //       desc: error.message,
+  //       onClickClose: ()=>setSnackbar(),
+  //       onClickAction:()=> {}
+  //     });
 
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 10000);
-    }
-  };
+  //     setTimeout(() => {
+  //       setSnackbar();
+  //     }, 10000);
+  //   }
+  // };
 
-  const handleDeleteSelectedConfirm = () => {
-    try {
-      const updatedData = data.filter((row, index) => !selectedRow.includes(index));
-      setData(updatedData);
-      setSelectedRow([]);
-      setSelectedRowCount(0);
-      handleCloseSnackbar();
+  // useEffect(() => {
+  //   setSelectedRowCount(selectedRow.length);
+  // }, [selectedRow]);
 
-      setSnackbar({
-        variant: "success",
-        size: "sm",
-        label: "Success",
-        desc: `Congratulations, you have successfully deleted ${selectedRowCount} Memberships`,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: {},
-      });
+  // const handleCheckboxChange = (rowIndex) => {
+  //   setSelectedRow((prevSelectedRow) => {
+  //     if (prevSelectedRow.includes(rowIndex)) {
+  //       return prevSelectedRow.filter((index) => index !== rowIndex);
+  //     } else {
+  //       return [...prevSelectedRow, rowIndex];
+  //     }
+  //   });
+  // };
 
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 5000);
-    } catch (error) {
-      handleCloseSnackbar();
-      setSnackbar({
-        variant: "error",
-        size: "sm",
-        label: "Error",
-        desc: error.message,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: {},
-      });
-
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 10000);
-    }
-  };
-
-  useEffect(() => {
-    setSelectedRowCount(selectedRow.length);
-  }, [selectedRow]);
-
-  const handleCheckboxChange = (rowIndex) => {
-    setSelectedRow((prevSelectedRow) => {
-      if (prevSelectedRow.includes(rowIndex)) {
-        return prevSelectedRow.filter((index) => index !== rowIndex);
-      } else {
-        return [...prevSelectedRow, rowIndex];
-      }
-    });
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar(null);
-  };
-
-  const handleOpenCard = () => {
-    setIsEdit(false);
-    setIsOpenCard(true);
-  };
-
-  const handleCloseCard = () => {
-    setIsOpenCard(false);
-  };
   return (
     <main className="space-y-5">
+      {/* SNACKBAR */}
+      {snackbar && (
+        <section className="fixed inset-0 top-10 z-50 flex justify-center">
+          <SnackBar
+            variant={snackbar?.variant}
+            size={snackbar?.size}
+            label={snackbar?.label}
+            desc={snackbar?.desc}
+            action={snackbar?.action}
+            actionLabel={snackbar?.actionLabel}
+            onClickClose={snackbar?.onClickClose}
+            onClickAction={snackbar?.onClickAction}
+          />
+        </section>
+      )}
+
+      {/* TOP */}
       <section className="flex w-full gap-5 ">
         <div className="w-7/12">
           <p className="text-2xl font-semibold">All Membership</p>
@@ -256,32 +269,34 @@ export const Main = () => {
           />
         </div>
         <div className="ms-auto flex w-3/12  items-center justify-end gap-5">
-          <Button
+          {/* <Button
             onClick={handleDeleteSelected}
             size={"md"}
             label={`Delete (${selectedRowCount})`}
             color={"error"}
             disabled={selectedRowCount === 0}
-          />
+          /> */}
           <div className="w-52">
             <Button onClick={() => {}} size={"md-full"} label={"Print Card"} />
           </div>
         </div>
       </section>
+
+      {/* TABLE */}
       <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
-          {currentData.map((row, index) => (
+          {currentData?.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedRow.includes(index)}
                     onChange={() => handleCheckboxChange(index)}
-                  />
+                  /> */}
                 </div>
               </td>
               <td className="px-4 py-2 text-center">{row.name}</td>
-              <td className="px-4 py-2 text-center">{row.numberphone}</td>
+              <td className="px-4 py-2 text-center">{row.phoneNumber}</td>
               <td className="px-4 py-2 text-center">{row.point}</td>
 
               <td className="px-4 py-2 text-center">
@@ -299,7 +314,7 @@ export const Main = () => {
                       size={"sm"}
                       color={"error"}
                       icon={<DeleteIcon fontSize="small" />}
-                      onClick={() => handleDeleteIcon(row.id)}
+                      onClick={() => handleDelete(row.id)}
                     />
                   </span>
                 </div>
@@ -308,17 +323,18 @@ export const Main = () => {
           ))}
         </Table>
       </section>
-      <section>
-        <Pagination
-          startData={indexOfFirstData + 1}
-          endData={Math.min(indexOfLastData, filteredData.length)}
-          total={filteredData.length}
-          currentPage={currentPage}
-          totalPage={totalPage}
-          onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
-        />
-      </section>
+
+      {/* PAGINATION */}
+      <Pagination
+        startData={indexOfFirstData + 1}
+        endData={Math.min(indexOfLastData, filteredData?.length) || 0}
+        total={filteredData?.length || 0}
+        currentPage={currentPage}
+        totalPage={totalPage || 1}
+        onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+        onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
+      />
+
       {isEdit && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
           <div className="w-2/5 rounded-xl bg-N1 p-8">
@@ -332,9 +348,7 @@ export const Main = () => {
                       variant={"outline"}
                       size={"sm"}
                       label={"View Card"}
-                      onClick={() => {
-                        handleOpenCard();
-                      }}
+                      onClick={() => setIsOpenCard(true)}
                     />
                     <IconButton
                       size={"sm"}
@@ -350,8 +364,8 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editedData.name}
-                      onChange={(e) => setEditedData({ ...editedData, name: e.target.value })}
+                      value={editDataValue.name}
+                      onChange={(e) => setEditDataValue({ ...editDataValue, name: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -359,15 +373,15 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editedData.numberphone}
+                      value={editDataValue.phoneNumber}
                       onChange={(e) =>
-                        setEditedData({ ...editedData, numberphone: e.target.value })
+                        setEditDataValue({ ...editDataValue, phoneNumber: e.target.value })
                       }
                     />
                   </div>
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Point :</h2>
-                    <Input type={"text"} size={"sm"} value={editedData.point} disabled={true} />
+                    <Input type={"text"} size={"sm"} value={editDataValue.point} disabled={true} />
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-center gap-4 self-stretch">
@@ -384,7 +398,7 @@ export const Main = () => {
                     color={"success"}
                     size={"md-full"}
                     label={"Save"}
-                    onClick={handleEditSave}
+                    onClick={handleSave}
                   />
                 </div>
               </div>
@@ -392,23 +406,10 @@ export const Main = () => {
           </div>
         </section>
       )}
-      {snackbar && (
-        <section className="fixed inset-0 top-10 z-50 flex justify-center">
-          <SnackBar
-            variant={snackbar.variant}
-            size={snackbar.size}
-            label={snackbar.label}
-            desc={snackbar.desc}
-            action={snackbar.action}
-            actionLabel={snackbar.actionLabel}
-            onClickClose={snackbar.onClickClose}
-            onClickAction={snackbar.onClickAction}
-          />
-        </section>
-      )}
+
       {isOpenCard && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <CardMembership name={editedData.name} onClick={handleCloseCard} />
+          <CardMembership name={editDataValue.name} onClick={() => setIsOpenCard(false)} />
         </section>
       )}
     </main>
