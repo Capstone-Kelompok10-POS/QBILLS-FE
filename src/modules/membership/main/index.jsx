@@ -21,16 +21,13 @@ export const Main = () => {
   const session = useSession();
   const token = session.data?.user?.results.token;
   const [dataGET, setDataGET] = useState();
-
-  console.log(token);
-
   const [search, setSearch] = useState("");
   const tableHead = ["Checkbox", "Name", "Number Phone", "Point", "Action"];
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
-  const [editDataValue, setEditDataValue] = useState();
+  const [editDataValues, setEditDataValues] = useState();
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [snackbar, setSnackbar] = useState(null);
 
@@ -84,6 +81,11 @@ export const Main = () => {
   };
 
   // PAGINATION
+  useEffect(() => {
+    if (dataGET?.results) {
+      setCurrentPage(1);
+    }
+  }, [dataGET]);
   const perPage = 30;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
@@ -94,7 +96,7 @@ export const Main = () => {
   const handleEdit = (id) => {
     const selectedData = dataGET?.results?.find((data) => data.id === id);
 
-    setEditDataValue({
+    setEditDataValues({
       id: selectedData.id,
       name: selectedData.name,
       phoneNumber: selectedData.phoneNumber,
@@ -106,13 +108,16 @@ export const Main = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`https://qbills.biz.id/api/v1/membership/${editDataValue.id}`, {
+      const response = await fetch(`https://qbills.biz.id/api/v1/membership/${editDataValues.id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: editDataValue.name, phoneNumber: editDataValue.phoneNumber }),
+        body: JSON.stringify({
+          name: editDataValues.name,
+          phoneNumber: editDataValues.phoneNumber,
+        }),
       });
 
       if (!response.ok) {
@@ -376,11 +381,11 @@ export const Main = () => {
 
       {/* PAGINATION */}
       <Pagination
-        startData={indexOfFirstData + 1}
+        startData={indexOfFirstData + 1 || 0}
         endData={Math.min(indexOfLastData, filteredData?.length) || 0}
         total={filteredData?.length || 0}
-        currentPage={currentPage}
-        totalPage={totalPage || 1}
+        currentPage={currentPage || 0}
+        totalPage={totalPage || 0}
         onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
         onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
       />
@@ -415,8 +420,10 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editDataValue.name}
-                      onChange={(e) => setEditDataValue({ ...editDataValue, name: e.target.value })}
+                      value={editDataValues.name}
+                      onChange={(e) =>
+                        setEditDataValues({ ...editDataValues, name: e.target.value })
+                      }
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -424,15 +431,15 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editDataValue.phoneNumber}
+                      value={editDataValues.phoneNumber}
                       onChange={(e) =>
-                        setEditDataValue({ ...editDataValue, phoneNumber: e.target.value })
+                        setEditDataValues({ ...editDataValues, phoneNumber: e.target.value })
                       }
                     />
                   </div>
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Point :</h2>
-                    <Input type={"text"} size={"sm"} value={editDataValue.point} disabled={true} />
+                    <Input type={"text"} size={"sm"} value={editDataValues.point} disabled={true} />
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-center gap-4 self-stretch">
@@ -461,7 +468,7 @@ export const Main = () => {
       {/* CARD */}
       {isOpenCard && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <CardMembership name={editDataValue.name} onClick={() => setIsOpenCard(false)} />
+          <CardMembership name={editDataValues.name} onClick={() => setIsOpenCard(false)} />
         </section>
       )}
     </main>
