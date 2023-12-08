@@ -1,32 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
   Button,
-  Input,
-  Table,
+  CardMembership,
   Checkbox,
   IconButton,
+  Input,
   Pagination,
   SnackBar,
-  CardMembership,
+  Table,
 } from "@/components";
-import SearchIcon from "@mui/icons-material/Search";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import SearchIcon from "@mui/icons-material/Search";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export const Main = () => {
   const session = useSession();
   const token = session.data?.user?.results.token;
   const [dataGET, setDataGET] = useState();
 
+  console.log(token);
+
   const [search, setSearch] = useState("");
   const tableHead = ["Checkbox", "Name", "Number Phone", "Point", "Action"];
-  // const [selectedRow, setSelectedRow] = useState([]);
-  // const [selectedRowCount, setSelectedRowCount] = useState(0);
+  const [selectedRow, setSelectedRow] = useState([]);
+  const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [isEdit, setIsEdit] = useState(false);
   const [editDataValue, setEditDataValue] = useState();
@@ -35,19 +36,24 @@ export const Main = () => {
 
   // FETCH GET / GET DATA
   const fetchGET = async () => {
-    fetch("https://qbills.biz.id/api/v1/memberships", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      next: { revalidate: 10 },
-    })
-      .then((response) => response.json())
-      .then((data) => setDataGET(data))
-      .catch((error) => {
-        console.error("Error:", error);
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/memberships", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
+
+      if (!response.ok) {
+        throw new Error("Fetch request failed");
+      }
+
+      const data = await response.json();
+      setDataGET(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   useEffect(() => {
@@ -63,6 +69,17 @@ export const Main = () => {
       data.phoneNumber.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
+
+  // CHECKBOX
+  const handleCheckbox = (rowId) => {
+    setSelectedRow((prevSelectedRow) => {
+      if (prevSelectedRow.includes(rowId)) {
+        return prevSelectedRow.filter((id) => id !== rowId);
+      } else {
+        return [...prevSelectedRow, rowId];
+      }
+    });
+  };
 
   // PAGINATION
   const perPage = 30;
@@ -86,73 +103,97 @@ export const Main = () => {
   };
 
   const handleSave = async () => {
-    fetch(`https://qbills.biz.id/api/v1/membership/${editDataValue.id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: editDataValue.name, phoneNumber: editDataValue.phoneNumber }),
-    })
-      .then((response) => response.json())
-      .then(() => fetchGET())
-      .catch((error) => {
-        console.error("Error:", error);
+    try {
+      const response = await fetch(`https://qbills.biz.id/api/v1/membership/${editDataValue.id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: editDataValue.name, phoneNumber: editDataValue.phoneNumber }),
       });
 
-    setIsEdit(false);
+      if (!response.ok) {
+        throw new Error("Edit request failed");
+      }
 
-    setSnackbar({
-      variant: "success",
-      size: "sm",
-      label: "Success",
-      desc: `Congratulations, you have successfully Edit Membership`,
-      onClickClose: () => setSnackbar(),
-    });
+      await response.json();
+      await fetchGET();
 
-    setTimeout(() => {
-      setSnackbar();
-    }, 2000);
+      setIsEdit(false);
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: "Congratulations, you have successfully edited the Membership",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+    } catch (error) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Edit data failed",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
+    }
   };
 
   // DELETE DATA
   const handleDeleteConfirmed = async (id) => {
-    fetch(`https://qbills.biz.id/api/v1/membership/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then(() => fetchGET())
-      .catch((error) => {
-        setSnackbar({
-          variant: "error",
-          size: "sm",
-          label: "Error",
-          desc: "Delete data failed",
-          onClickClose: () => setSnackbar(),
-        });
-
-        setTimeout(() => {
-          setSnackbar();
-        }, 2000);
-
-        console.error("Error:", error);
+    try {
+      const response = await fetch(`https://qbills.biz.id/api/v1/membership/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
 
-    setSnackbar({
-      variant: "success",
-      size: "sm",
-      label: "Success",
-      desc: "Congratulations, you have successfully deleted the Membership",
-      onClickClose: () => setSnackbar(),
-    });
+      if (!response.ok) {
+        throw new Error("Delete request failed");
+      }
 
-    setTimeout(() => {
-      setSnackbar();
-    }, 2000);
+      await response.json();
+      await fetchGET();
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: "Congratulations, you have successfully deleted the Membership",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+    } catch (error) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Delete data failed",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
+    }
   };
 
   const handleDelete = (id) => {
@@ -168,71 +209,78 @@ export const Main = () => {
     });
   };
 
-  // const handleDeleteSelected = () => {
-  //   if (selectedRowCount > 0) {
-  //     setSnackbar({
-  //       variant: "error",
-  //       size: "sm",
-  //       label: "Delete Confirmation",
-  //       desc: `Are you sure you want to delete ${selectedRowCount} records?`,
-  //       onClickClose: ()=>setSnackbar(),
-  //       action: true,
-  //       actionLabel: "Delete",
-  //       onClickAction: handleDeleteSelectedConfirm,
-  //     });
-  //   }
-  // };
+  const handleDeleteSelected = () => {
+    if (selectedRowCount > 0) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Delete Confirmation",
+        desc: `Are you sure you want to delete ${selectedRowCount} records?`,
+        onClickClose: () => setSnackbar(),
+        action: true,
+        actionLabel: "Delete",
+        onClickAction: () => handleDeleteSelectedConfirmed(),
+      });
+    }
+  };
 
-  // const handleDeleteSelectedConfirm = () => {
-  //   try {
-  //     const updatedData = data.filter((row, index) => !selectedRow.includes(index));
-  //     setData(updatedData);
-  //     setSelectedRow([]);
-  //     setSelectedRowCount(0);
-  //     setSnackbar();
+  const handleDeleteSelectedConfirmed = async () => {
+    try {
+      const deletedIds = selectedRow.map((index) => dataGET.results[index].id);
 
-  //     setSnackbar({
-  //       variant: "success",
-  //       size: "sm",
-  //       label: "Success",
-  //       desc: `Congratulations, you have successfully deleted ${selectedRowCount} Memberships`,
-  //       onClickClose: ()=>setSnackbar(),
-  //       onClickAction:()=> {}
-  //     });
+      await Promise.all(
+        deletedIds.map(async (id) => {
+          const response = await fetch(`https://qbills.biz.id/api/v1/membership/${id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
 
-  //     setTimeout(() => {
-  //       setSnackbar();
-  //     }, 5000);
-  //   } catch (error) {
-  //     setSnackbar();
-  //     setSnackbar({
-  //       variant: "error",
-  //       size: "sm",
-  //       label: "Error",
-  //       desc: error.message,
-  //       onClickClose: ()=>setSnackbar(),
-  //       onClickAction:()=> {}
-  //     });
+          if (!response.ok) {
+            throw new Error("Delete request failed");
+          }
 
-  //     setTimeout(() => {
-  //       setSnackbar();
-  //     }, 10000);
-  //   }
-  // };
+          return response.json();
+        }),
+      );
 
-  // useEffect(() => {
-  //   setSelectedRowCount(selectedRow.length);
-  // }, [selectedRow]);
+      await fetchGET();
 
-  // const handleCheckboxChange = (rowIndex) => {
-  //   setSelectedRow((prevSelectedRow) => {
-  //     if (prevSelectedRow.includes(rowIndex)) {
-  //       return prevSelectedRow.filter((index) => index !== rowIndex);
-  //     } else {
-  //       return [...prevSelectedRow, rowIndex];
-  //     }
-  //   });
-  // };
+      setSelectedRow([]);
+      setSelectedRowCount(0);
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: `Congratulations, you have successfully deleted ${selectedRowCount} Memberships`,
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+    } catch (error) {
+      setSelectedRow([]);
+      setSelectedRowCount(0);
+
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Delete data failed",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <main className="space-y-5">
@@ -269,13 +317,13 @@ export const Main = () => {
           />
         </div>
         <div className="ms-auto flex w-3/12  items-center justify-end gap-5">
-          {/* <Button
+          <Button
             onClick={handleDeleteSelected}
             size={"md"}
             label={`Delete (${selectedRowCount})`}
             color={"error"}
             disabled={selectedRowCount === 0}
-          /> */}
+          />
           <div className="w-52">
             <Button onClick={() => {}} size={"md-full"} label={"Print Card"} />
           </div>
@@ -285,14 +333,14 @@ export const Main = () => {
       {/* TABLE */}
       <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
-          {currentData?.map((row, index) => (
-            <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
+          {currentData?.map((row) => (
+            <tr key={row.id} className={`${row.id % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
-                  {/* <Checkbox
-                    checked={selectedRow.includes(index)}
-                    onChange={() => handleCheckboxChange(index)}
-                  /> */}
+                  <Checkbox
+                    checked={selectedRow.includes(row.id)}
+                    onChange={() => handleCheckbox(row.id)}
+                  />
                 </div>
               </td>
               <td className="px-4 py-2 text-center">{row.name}</td>
