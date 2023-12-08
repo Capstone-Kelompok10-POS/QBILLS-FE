@@ -13,35 +13,40 @@ export default withAuth(
 
     if (
       request.nextUrl.pathname.startsWith("/manageaccount") &&
-      request.nextauth.token?.results.role !== "SuperAdmin"
+      request.nextauth.token?.results.role !== "SuperAdmin" &&
+      request.nextauth.token?.results.role !== "Admin"
     ) {
       return NextResponse.rewrite(new URL("/login", request.url));
     }
 
     if (
       request.nextUrl.pathname.startsWith("/manageproduct") &&
-      request.nextauth.token?.results.role !== "SuperAdmin"
+      request.nextauth.token?.results.role !== "SuperAdmin" &&
+      request.nextauth.token?.results.role !== "Admin"
     ) {
       return NextResponse.rewrite(new URL("/login", request.url));
     }
 
     if (
       request.nextUrl.pathname.startsWith("/membership") &&
-      request.nextauth.token?.results.role !== "SuperAdmin"
+      request.nextauth.token?.results.role !== "SuperAdmin" &&
+      request.nextauth.token?.results.role !== "Admin"
     ) {
       return NextResponse.rewrite(new URL("/login", request.url));
     }
 
     if (
       request.nextUrl.pathname.startsWith("/transaction") &&
-      request.nextauth.token?.results.role !== "SuperAdmin"
+      request.nextauth.token?.results.role !== "SuperAdmin" &&
+      request.nextauth.token?.results.role !== "Admin"
     ) {
       return NextResponse.rewrite(new URL("/login", request.url));
     }
 
     if (
       request.nextUrl.pathname.startsWith("/report") &&
-      request.nextauth.token?.results.role !== "SuperAdmin"
+      request.nextauth.token?.results.role !== "SuperAdmin" &&
+      request.nextauth.token?.results.role !== "Admin"
     ) {
       return NextResponse.rewrite(new URL("/login", request.url));
     }
