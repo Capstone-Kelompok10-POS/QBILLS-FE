@@ -233,7 +233,7 @@ export const Main = () => {
 
   const handleDeleteSelectedConfirmed = async () => {
     try {
-      const deletedIds = selectedRow.map((index) => dataGET.results[index].id);
+      const deletedIds = selectedRow.map((_, index) => dataGET.results[index].id);
 
       await Promise.all(
         deletedIds.map(async (id) => {
@@ -340,8 +340,8 @@ export const Main = () => {
       {/* TABLE */}
       <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
-          {currentData?.map((row) => (
-            <tr key={row.id} className={`${row.id % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
+          {currentData?.map((row, index) => (
+            <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
                   <Checkbox
