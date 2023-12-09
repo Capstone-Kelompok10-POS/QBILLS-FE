@@ -1,54 +1,25 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
+const paths = [
+  "/dashboard",
+  "/manageaccount",
+  "/manageproduct",
+  "/membership",
+  "/transaction",
+  "/report",
+];
+
 export default withAuth(
   function middleware(request) {
-    if (
-      request.nextUrl.pathname.startsWith("/dashboard") &&
-      request.nextauth.token?.results.role !== "SuperAdmin" &&
-      request.nextauth.token?.results.role !== "Admin"
-    ) {
-      return NextResponse.rewrite(new URL("/login", request.url));
-    }
-
-    if (
-      request.nextUrl.pathname.startsWith("/manageaccount") &&
-      request.nextauth.token?.results.role !== "SuperAdmin" &&
-      request.nextauth.token?.results.role !== "Admin"
-    ) {
-      return NextResponse.rewrite(new URL("/login", request.url));
-    }
-
-    if (
-      request.nextUrl.pathname.startsWith("/manageproduct") &&
-      request.nextauth.token?.results.role !== "SuperAdmin" &&
-      request.nextauth.token?.results.role !== "Admin"
-    ) {
-      return NextResponse.rewrite(new URL("/login", request.url));
-    }
-
-    if (
-      request.nextUrl.pathname.startsWith("/membership") &&
-      request.nextauth.token?.results.role !== "SuperAdmin" &&
-      request.nextauth.token?.results.role !== "Admin"
-    ) {
-      return NextResponse.rewrite(new URL("/login", request.url));
-    }
-
-    if (
-      request.nextUrl.pathname.startsWith("/transaction") &&
-      request.nextauth.token?.results.role !== "SuperAdmin" &&
-      request.nextauth.token?.results.role !== "Admin"
-    ) {
-      return NextResponse.rewrite(new URL("/login", request.url));
-    }
-
-    if (
-      request.nextUrl.pathname.startsWith("/report") &&
-      request.nextauth.token?.results.role !== "SuperAdmin" &&
-      request.nextauth.token?.results.role !== "Admin"
-    ) {
-      return NextResponse.rewrite(new URL("/login", request.url));
+    for (let path of paths) {
+      if (
+        request.nextUrl.pathname.startsWith(path) &&
+        request.nextauth.token?.results.role !== "SuperAdmin" &&
+        request.nextauth.token?.results.role !== "Admin"
+      ) {
+        return NextResponse.rewrite(new URL("/login", request.url));
+      }
     }
   },
   {
@@ -59,12 +30,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: [
-    "/dashboard",
-    "/manageaccount",
-    "/manageproduct",
-    "/membership",
-    "/transaction",
-    "/report",
-  ],
+  matcher: paths,
 };
