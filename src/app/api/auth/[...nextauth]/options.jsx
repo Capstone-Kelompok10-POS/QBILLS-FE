@@ -1,5 +1,22 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 
+const login = async (url, username, password) => {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (response.ok) {
+    const user = await response.json();
+    return user.results ? user : null;
+  }
+
+  return null;
+};
+
 export const options = {
   providers: [
     CredentialsProvider({
@@ -9,42 +26,16 @@ export const options = {
         const { username, password } = credentials;
 
         try {
-          const response = await fetch("https://www.ariefbook.my.id/api/v1/super-admin/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-          });
-
-          if (response.ok) {
-            const user = await response.json();
-            if (user.results) {
-              return user;
-            } else {
-              return null;
-            }
-          } else {
-            const response = await fetch("https://www.ariefbook.my.id/api/v1/admin/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ username, password }),
-            });
-
-            if (response.ok) {
-              const user = await response.json();
-              if (user.results) {
-                return user;
-              } else {
-                return null;
-              }
-            } else {
-              console.error("Invalid Username And Password:", response.status);
-              return null;
-            }
+          let user = await login(process.env.SUPER_ADMIN_LOGIN_URL, username, password);
+          if (!user) {
+            user = await login(process.env.ADMIN_LOGIN_URL, username, password);
           }
+
+          if (!user) {
+            console.error("Invalid Username And Password");
+          }
+
+          return user;
         } catch (error) {
           console.error("Error fetching user data:", error);
           return null;
@@ -68,7 +59,10 @@ export const options = {
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60,
+  },
   pages: {
     signIn: "/login",
   },
