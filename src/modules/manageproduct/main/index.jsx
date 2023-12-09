@@ -544,6 +544,23 @@ export const Main = () => {
     setIsProductDetail(false);
   };
 
+  const UpdateStock = () => {
+    const [quantity, setQuantity] = useState(100);
+  
+    const handleQuantityChange = (event) => {
+      const inputValue = event.target.value;
+      if (/^[0-9]*$/.test(inputValue) || inputValue === "") {
+        setQuantity(inputValue);
+      }
+    };
+  
+    const handleSubmit = (event) => {
+      event.preventDefault();
+  
+      console.log("Quantity:", quantity);
+    };
+  };
+
   return (
     <main className="space-y-5">
       {/* TOP SECTION */}
@@ -1024,6 +1041,52 @@ export const Main = () => {
             onClick={handleCloseProductDetail}
           />
         </section>
+
+        {/* STOCK PRODUCT */}
+        <section className="flex items-center justify-center min-h-screen">
+        <form onSubmit={handleSubmit}>
+          <div className="bg-[#E6E6E6] rounded-md flex flex-col items-center p-2">
+            <div className="bg-[#E6E6E6] p-6 rounded-md border border-gray-300 shadow-md max-w-md">
+              <p className="text-lg font-bold text-gray-800 mb-2 pl-2">Update Stock</p>
+              <div className="mb-4 p-2 bg-[#F4F4F4] rounded-md flex items-center">
+                <img src={coffeeImage} alt="Coffee A" className="mr-4 w-16 h-16 object-cover rounded-full" />
+                <div>
+                  <p className="text-lg font-bold text-gray-800">Coffee A</p>
+                  <p className="text-sm text-gray-600">
+                    Cappuccino Espresso is a coffee drink that stands out by...
+                  </p>
+                </div>
+              </div>
+              <div className="mb-4">
+                <label className="mr-2 text-gray-800 block">Tambah Stock</label>
+                <input
+                  type="text"
+                  name="quantity"
+                  id="quantity"
+                  className="border border-[#E6E6E6] rounded-md p-2 w-full text-gray-600" 
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                />
+              </div>
+              <div className="flex justify-center"> 
+                <button
+                  type="button"
+                  className="bg-white border border-[#BE8465] rounded-md p-2 text-[#BE8465] w-1/2 mr-2"
+                  onClick={() => setQuantity(100)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-[#BE8465] rounded-md p-2 text-white w-1/2 ml-2"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
       )}
     </main>
   );
