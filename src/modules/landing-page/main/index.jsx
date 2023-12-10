@@ -7,12 +7,12 @@ import mockOurFeatures3 from "@/public/assets/images/landing-page/mockup-ourfeat
 import mockOurFeatures4 from "@/public/assets/images/landing-page/mockup-ourfeatures-4.png";
 import mockOurFeatures5 from "@/public/assets/images/landing-page/mockup-ourfeatures-5.png";
 import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
-import { Button } from "@/components";
+import { Button, IconButton } from "@/components";
 import TakeoutDiningIcon from "@mui/icons-material/TakeoutDining";
 import AccountCircleIcon from "@mui/icons-material/AccountCircleRounded";
 import StoreMallDirectoryOutlinedIcon from "@mui/icons-material/StoreMallDirectoryOutlined";
 import PaymentsIcon from "@mui/icons-material/Payments";
-
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 export const Main = () => {
   return (
     <main>
@@ -187,6 +187,56 @@ export const Main = () => {
           </div>
           <div className="ms-auto">
             <Image src={mockOurFeatures5} width={600} />
+          </div>
+        </div>
+      </section>
+      {/* FAQ */}
+      <section className="mx-auto bg-P1 ">
+        <p className="pt-48  text-center text-6xl font-semibold text-N7">Frequently Asked Questions (FAQ)</p>
+        <div className="mx-auto mt-24 grid w-full grid-cols-2 place-items-center gap-y-10">
+          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">How to add products/manage products/access products?</p>
+            <div className="mr-8 ms-auto">
+              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+            </div>
+          </div>
+          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">
+              How is the management of cashier accounts handled within the application?
+            </p>
+            <div className="mr-8 ms-auto">
+              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+            </div>
+          </div>
+          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">What payments are possible?</p>
+            <div className="mr-8 ms-auto">
+              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+            </div>
+          </div>
+          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">
+              Where can users view transaction history, both on mobile and the dashboard?
+            </p>
+            <div className="mr-8 ms-auto">
+              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+            </div>
+          </div>
+          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">
+              How can first-time users access a manual guide when initially using the application?
+            </p>
+            <div className="mr-8 ms-auto">
+              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+            </div>
+          </div>
+          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">
+              How does the application allow for the management of member accounts?
+            </p>
+            <div className="mr-8 ms-auto">
+              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+            </div>
           </div>
         </div>
       </section>
