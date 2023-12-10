@@ -199,6 +199,13 @@ export const Main = () => {
     { name: "Wahyu", point: 300 },
     { name: "Mustika", point: 225 },
     { name: "Wiwaha", point: 105 },
+    { name: "Wiwaha", point: 105 },
+    { name: "Wiwaha", point: 105 },
+    { name: "Wiwaha", point: 105 },
+    { name: "Wiwaha", point: 105 },
+    { name: "Wiwaha", point: 105 },
+    { name: "Wiwaha", point: 105 },
+    { name: "Wiwaha", point: 105 },
   ];
 
   return (
@@ -259,12 +266,12 @@ export const Main = () => {
           </section>
         </div>
 
-        <div className="flex h-auto flex-col gap-5">
-          <section className="h-full w-[800px] space-y-5 rounded-lg border p-5">
+        <div className="flex h-auto w-[700px] flex-col gap-5">
+          <section className="h-full space-y-5 rounded-lg border p-5">
             <h2 className="text-2xl font-semibold">Transaction</h2>
-            <div className="flex max-h-[500px] flex-col gap-5 overflow-y-scroll pr-5">
+            <ul className="flex max-h-[500px] flex-col gap-5 overflow-y-scroll pr-5">
               {transactionData.map((data, index) => (
-                <section className="flex items-center gap-5" key={index}>
+                <li className="flex items-center gap-5" key={index}>
                   <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-N2.2">
                     {data.price > 0 ? (
                       <AccountBalanceWalletOutlinedIcon fontSize="large" className="text-S4" />
@@ -284,18 +291,13 @@ export const Main = () => {
                   >
                     {formatPrice(data.price)}
                   </p>
-                </section>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
 
-          <section className="h-full w-[800px] space-y-5 rounded-lg border p-5">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold">Top Membership</h2>
-              <button type="button" className="font-semibold text-P4 hover:text-P5 active:scale-95">
-                View All
-              </button>
-            </div>
+          <section className="h-full space-y-5 rounded-lg border p-5">
+            <h2 className="text-2xl font-semibold">Top Membership</h2>
 
             <div className="flex items-center justify-between font-semibold text-N3">
               <div className="mx-5 space-x-5">
@@ -305,7 +307,7 @@ export const Main = () => {
               <span className="mr-10">Point</span>
             </div>
 
-            <ul className="max-h-max space-y-5 overflow-y-scroll font-semibold">
+            <ul className="max-h-[290px] space-y-5 overflow-y-scroll font-semibold">
               {topMembership.map((data, index) => (
                 <li className="flex items-center justify-between" key={index}>
                   <div className="mx-5 flex items-center gap-5">
