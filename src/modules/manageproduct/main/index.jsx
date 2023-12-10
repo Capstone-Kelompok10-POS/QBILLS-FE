@@ -24,7 +24,7 @@ import coffeeImage from "@/public/assets/images/product-detail/image_coffee.png"
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const tableHead = ["Checkbox", "Code", "Name", "Category", "Ingredients", "Image", "Action"];
+  const tableHead = ["Checkbox", "Code", "Name", "Category", "Ingredients", "Action"];
   const [isUpdateStockVisible, setUpdateStockVisible] = useState(false);
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
@@ -530,10 +530,6 @@ export const Main = () => {
               <td className="px-4 py-2 text-center">{row.productType.typeName}</td>
 
               <td className="px-4 py-2 text-center">{row.ingredients}</td>
-
-              <td className="px-4 py-2 text-center">
-                <Image src={row.image} alt={`Image of ${row.name}`} width={50} height={50} />
-              </td>
 
               <td className="flex items-center justify-center gap-2 px-4 py-2">
                 <IconButton
