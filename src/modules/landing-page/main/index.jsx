@@ -6,6 +6,8 @@ import mockOurFeatures2 from "@/public/assets/images/landing-page/mockup-ourfeat
 import mockOurFeatures3 from "@/public/assets/images/landing-page/mockup-ourfeatures-3.png";
 import mockOurFeatures4 from "@/public/assets/images/landing-page/mockup-ourfeatures-4.png";
 import mockOurFeatures5 from "@/public/assets/images/landing-page/mockup-ourfeatures-5.png";
+import getApps from "@/public/assets/images/landing-page/getapps.png";
+import downloadImage from "@/public/assets/images/landing-page/get_app.png";
 import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import { Button, IconButton } from "@/components";
 import TakeoutDiningIcon from "@mui/icons-material/TakeoutDining";
@@ -17,7 +19,7 @@ export const Main = () => {
   return (
     <main>
       {/* HERO SECTION */}
-      <section className="relative h-screen w-screen overflow-hidden bg-gradient-to-r from-P3 to-P4">
+      <section className="relative h-screen w-full overflow-hidden bg-gradient-to-r from-P3 to-P4">
         <Image
           src={logoQbills}
           alt="QBills"
@@ -120,7 +122,7 @@ export const Main = () => {
       </section>
 
       {/* Our Features */}
-      <section className="mx-auto bg-P1">
+      <section className="w-full mx-auto bg-P1">
         <p className="pt-16 text-center text-6xl font-semibold text-N7">Our Features</p>
         <div className="mx-auto mt-20 flex w-11/12 items-center justify-center gap-x-2">
           <div className="w-5/12">
@@ -191,17 +193,21 @@ export const Main = () => {
         </div>
       </section>
       {/* FAQ */}
-      <section className="mx-auto bg-P1 ">
-        <p className="pt-48  text-center text-6xl font-semibold text-N7">Frequently Asked Questions (FAQ)</p>
+      <section className="w-full mx-auto bg-P1 ">
+        <p className="pt-48  text-center text-6xl font-semibold text-N7">
+          Frequently Asked Questions (FAQ)
+        </p>
         <div className="mx-auto mt-24 grid w-full grid-cols-2 place-items-center gap-y-10">
           <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
-            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">How to add products/manage products/access products?</p>
+            <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
+              How to add products/manage products/access products?
+            </p>
             <div className="mr-8 ms-auto">
               <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
             </div>
           </div>
           <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
-            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">
+            <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               How is the management of cashier accounts handled within the application?
             </p>
             <div className="mr-8 ms-auto">
@@ -209,13 +215,15 @@ export const Main = () => {
             </div>
           </div>
           <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
-            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">What payments are possible?</p>
+            <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
+              What payments are possible?
+            </p>
             <div className="mr-8 ms-auto">
               <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
             </div>
           </div>
           <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
-            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">
+            <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               Where can users view transaction history, both on mobile and the dashboard?
             </p>
             <div className="mr-8 ms-auto">
@@ -223,7 +231,7 @@ export const Main = () => {
             </div>
           </div>
           <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
-            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">
+            <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               How can first-time users access a manual guide when initially using the application?
             </p>
             <div className="mr-8 ms-auto">
@@ -231,12 +239,32 @@ export const Main = () => {
             </div>
           </div>
           <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
-            <p className="w-9/12 me-auto ml-10 font-semibold text-lg">
+            <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               How does the application allow for the management of member accounts?
             </p>
             <div className="mr-8 ms-auto">
               <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
             </div>
+          </div>
+        </div>
+      </section>
+      {/*  Gets App */}
+      <section className="w-full bg-P1">
+        <div className="mx-auto flex w-[1711px] items-center justify-center pt-40">
+          <div className="w-5/12">
+            <p className="text-[60px] font-semibold text-P6">
+              QBills is available for iOS and Android
+            </p>
+            <p>
+              The Qbills application can be downloaded for iOS and Android devices via the App Store
+              and Google Play Store. Download QBills now and experience the difference. Join
+              thousands who've embraced a smarter, more efficient way to empower businesses of all
+              sizes with an intuitive, robust, and flexible point-of-sale solution.
+            </p>
+            <Image src={downloadImage} width={250} className="mt-5" />
+          </div>
+          <div className="ms-auto">
+            <Image src={getApps} width={600} />
           </div>
         </div>
       </section>
