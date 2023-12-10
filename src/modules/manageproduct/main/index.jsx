@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import {
   Button,
   Select,
@@ -18,20 +19,13 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Image from "next/image";
+import coffeeImage from "@/public/assets/images/product-detail/image_coffee.png";
 
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const tableHead = [
-    "Checkbox",
-    "Code",
-    "Name",
-    "Category",
-    "Size",
-    "Price/pcs",
-    "Stock",
-    "Action",
-  ];
+  const tableHead = ["Checkbox", "Code", "Name", "Category", "Ingredients", "Image", "Action"];
+  const [isUpdateStockVisible, setUpdateStockVisible] = useState(false);
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [snackbar, setSnackbar] = useState(null);
@@ -46,6 +40,10 @@ export const Main = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [isProductDetail, setIsProductDetail] = useState(false);
+  const [quantity, setQuantity] = useState(100);
+  const session = useSession();
+  const token = session.data?.user?.results.token;
+  const [dataGET, setDataGET] = useState();
 
   const categoryOptions = ["Coffee", "Non Coffee", "Snack", "Meal"];
   const sizeOptionsList = ["Small", "Normal", "Big"];
@@ -61,165 +59,65 @@ export const Main = () => {
     imagePreview: null,
   });
 
-  const [data, setData] = useState([
-    {
-      id: 1,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 2,
-      code: "ABCD1235",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 3,
-      code: "ABCD1236",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Large",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 4,
-      code: "ABCD1237",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 5,
-      code: "ABCD1238",
-      name: "Alpa",
-      category: "Coffee",
-      size: "-",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 6,
-      code: "ABCD1239",
-      name: "Alpa",
-      category: "Coffee",
-      size: "-",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 7,
-      code: "ABCD12310",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Large",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 8,
-      code: "ABCD12311",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 9,
-      code: "ABCD12312",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Large",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 10,
-      code: "ABCD12313",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 11,
-      code: "ABCD12314",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 12,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 13,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 14,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 15,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-    {
-      id: 16,
-      code: "ABCD1234",
-      name: "Alpa",
-      category: "Coffee",
-      size: "Small",
-      price: "Rp 25.000",
-      stock: "200",
-    },
-  ]);
+  const fetchGET = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/products", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
-  const filteredData = data.filter((row) => {
+      if (!response.ok) {
+        throw new Error("Fetch request failed");
+      }
+
+      const data = await response.json();
+      setDataGET(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchGET();
+    }
+  }, [token]);
+
+  const filteredData = dataGET?.results?.filter((data) => {
     const matchesSearch =
-      row.code.toLowerCase().includes(search.toLowerCase()) ||
-      row.name.toLowerCase().includes(search.toLowerCase());
+      data.name.toLowerCase().includes(search.toLowerCase()) ||
+      data.phoneNumber.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
 
-  const perPage = 10;
+  // CHECKBOX
+  const handleCheckbox = (rowId) => {
+    setSelectedRow((prevSelectedRow) => {
+      const isSelected = prevSelectedRow.includes(rowId);
+      const updatedSelectedRow = isSelected
+        ? prevSelectedRow.filter((id) => id !== rowId)
+        : [...prevSelectedRow, rowId];
+
+      setSelectedRowCount(updatedSelectedRow.length);
+      return updatedSelectedRow;
+    });
+  };
+
+  // PAGINATION
+  useEffect(() => {
+    if (dataGET?.results.length !== 0) {
+      setCurrentPage(1);
+    }
+  }, [dataGET]);
+
+  const perPage = 30;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
-  const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
-  const totalPage = Math.ceil(filteredData.length / perPage);
+  const currentData = filteredData?.slice(indexOfFirstData, indexOfLastData);
+  const totalPage = Math.ceil(filteredData?.length / perPage);
 
   const handleEdit = (rowId) => {
     const rowToEdit = data.find((row) => row.id === rowId);
@@ -544,21 +442,38 @@ export const Main = () => {
     setIsProductDetail(false);
   };
 
-  const UpdateStock = () => {
-    const [quantity, setQuantity] = useState(100);
-  
-    const handleQuantityChange = (event) => {
-      const inputValue = event.target.value;
-      if (/^[0-9]*$/.test(inputValue) || inputValue === "") {
-        setQuantity(inputValue);
-      }
-    };
-  
-    const handleSubmit = (event) => {
-      event.preventDefault();
-  
-      console.log("Quantity:", quantity);
-    };
+  const handleToggleUpdateStock = (productId) => {
+    const productToUpdate = data.find((product) => product.id === productId);
+
+    if (productToUpdate) {
+      setUpdateStockVisible(!isUpdateStockVisible);
+      setQuantity(100);
+      setEditedData({
+        id: productToUpdate.id,
+        name: productToUpdate.name,
+        category: productToUpdate.category,
+        size: productToUpdate.size,
+        price: productToUpdate.price,
+        stock: productToUpdate.stock,
+        uploadedImage: productToUpdate.uploadedImage,
+        imagePreview: productToUpdate.imagePreview,
+      });
+    } else {
+      console.error(`Product with id ${productId} not found in data.`);
+    }
+  };
+
+  const handleQuantityChange = (event) => {
+    const inputValue = event.target.value;
+    if (/^[0-9]*$/.test(inputValue) || inputValue === "") {
+      setQuantity(inputValue);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Quantity:", quantity);
+    // Add any additional logic for handling the stock update here
   };
 
   return (
@@ -597,60 +512,47 @@ export const Main = () => {
       {/* TABLE */}
       <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
-          {currentData.map((row, index) => (
+          {currentData?.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
                   <Checkbox
-                    checked={selectedRow.includes(index)}
-                    onChange={() => handleCheckboxChange(index)}
+                    checked={selectedRow.includes(row.id)}
+                    onChange={() => handleCheckbox(row.id)}
                   />
                 </div>
               </td>
 
-              <td
-                className="cursor-pointer px-4 py-2 text-center"
-                onClick={() => handleOpenProductDetail()}
-              >
-                {row.code}
-              </td>
+              <td className="cursor-pointer px-4 py-2 text-center">{row.Id}</td>
 
-              <td
-                className="cursor-pointer px-4 py-2 text-center"
-                onClick={() => handleOpenProductDetail()}
-              >
-                {row.name}
-              </td>
+              <td className="cursor-pointer px-4 py-2 text-center">{row.name}</td>
 
-              <td className="px-4 py-2 text-center">{row.category}</td>
+              <td className="px-4 py-2 text-center">{row.productType.typeName}</td>
+
+              <td className="px-4 py-2 text-center">{row.ingredients}</td>
 
               <td className="px-4 py-2 text-center">
-                {Array.isArray(row.size) ? row.size.join(", ") : row.size}
+                <Image src={row.image} alt={`Image of ${row.name}`} width={50} height={50} />
               </td>
-
-              <td className="px-4 py-2 text-center">
-                {row.price.startsWith("Rp ") ? row.price : "Rp " + row.price}
-              </td>
-
-              <td className="px-4 py-2 text-center">{row.stock}</td>
 
               <td className="flex items-center justify-center gap-2 px-4 py-2">
                 <IconButton
                   size={"sm"}
                   color={"success"}
                   icon={<EditIcon fontSize="small" />}
-                  onClick={() => handleEdit(row.id)}
+                  onClick={() => handleEdit(row.Id)}
                 />
                 <IconButton
                   size={"sm"}
                   color={"error"}
                   icon={<DeleteIcon fontSize="small" />}
-                  onClick={() => handleDeleteIcon(row.id)}
+                  onClick={() => handleDeleteIcon(row.Id)}
                 />
                 <IconButton
                   size={"sm"}
                   icon={<MoreVertIcon fontSize="small" />}
                   variant={"outline"}
+                  onClick={() => handleToggleUpdateStock(row.Id)}
                 />
               </td>
             </tr>
@@ -659,17 +561,15 @@ export const Main = () => {
       </section>
 
       {/* PAGINATION */}
-      <section>
-        <Pagination
-          startData={indexOfFirstData + 1}
-          endData={Math.min(indexOfLastData, filteredData.length)}
-          total={filteredData.length}
-          currentPage={currentPage}
-          totalPage={totalPage}
-          onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
-        />
-      </section>
+      <Pagination
+        startData={indexOfFirstData >= 0 ? indexOfFirstData + 1 : 0}
+        endData={Math.min(indexOfLastData, filteredData?.length) || 0}
+        total={filteredData?.length || 0}
+        currentPage={currentPage || 0}
+        totalPage={totalPage || 0}
+        onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+        onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
+      />
 
       {/* POP UP ADD PRODUCT */}
       {isAdd && (
@@ -1041,52 +941,58 @@ export const Main = () => {
             onClick={handleCloseProductDetail}
           />
         </section>
+      )}
 
-        {/* STOCK PRODUCT */}
-        <section className="flex items-center justify-center min-h-screen">
-        <form onSubmit={handleSubmit}>
-          <div className="bg-[#E6E6E6] rounded-md flex flex-col items-center p-2">
-            <div className="bg-[#E6E6E6] p-6 rounded-md border border-gray-300 shadow-md max-w-md">
-              <p className="text-lg font-bold text-gray-800 mb-2 pl-2">Update Stock</p>
-              <div className="mb-4 p-2 bg-[#F4F4F4] rounded-md flex items-center">
-                <img src={coffeeImage} alt="Coffee A" className="mr-4 w-16 h-16 object-cover rounded-full" />
-                <div>
-                  <p className="text-lg font-bold text-gray-800">Coffee A</p>
-                  <p className="text-sm text-gray-600">
-                    Cappuccino Espresso is a coffee drink that stands out by...
-                  </p>
+      {/* UPDATE STOCK SECTION */}
+      {isUpdateStockVisible && (
+        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col items-center rounded-md bg-[#E6E6E6] p-2">
+              <div className="max-w-md rounded-md border border-gray-300 bg-[#E6E6E6] p-6 shadow-md">
+                <p className="mb-2 pl-2 text-lg font-bold text-gray-800">Update Stock</p>
+                <div className="mb-4 flex items-center rounded-md bg-[#F4F4F4] p-2">
+                  <Image
+                    src={coffeeImage}
+                    alt="Coffee A"
+                    className="mr-4 h-16 w-16 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="text-lg font-bold text-gray-800">Coffee A</p>
+                    <p className="text-sm text-gray-600">
+                      Cappuccino Espresso is a coffee drink that stands out by...
+                    </p>
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <label className="mr-2 block text-gray-800">Tambah Stock</label>
+                  <input
+                    type="text"
+                    name="quantity"
+                    id="quantity"
+                    className="w-full rounded-md border border-[#E6E6E6] p-2 text-gray-600"
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                  />
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    type="button"
+                    className="mr-2 w-1/2 rounded-md border border-[#BE8465] bg-white p-2 text-[#BE8465]"
+                    onClick={() => setUpdateStockVisible(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="ml-2 w-1/2 rounded-md bg-[#BE8465] p-2 text-white"
+                  >
+                    Save
+                  </button>
                 </div>
               </div>
-              <div className="mb-4">
-                <label className="mr-2 text-gray-800 block">Tambah Stock</label>
-                <input
-                  type="text"
-                  name="quantity"
-                  id="quantity"
-                  className="border border-[#E6E6E6] rounded-md p-2 w-full text-gray-600" 
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                />
-              </div>
-              <div className="flex justify-center"> 
-                <button
-                  type="button"
-                  className="bg-white border border-[#BE8465] rounded-md p-2 text-[#BE8465] w-1/2 mr-2"
-                  onClick={() => setQuantity(100)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-[#BE8465] rounded-md p-2 text-white w-1/2 ml-2"
-                >
-                  Save
-                </button>
-              </div>
             </div>
-          </div>
-        </form>
-      </section>
+          </form>
+        </section>
       )}
     </main>
   );
