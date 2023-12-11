@@ -31,6 +31,10 @@ export const Main = () => {
   const [dataRecentTransaction, setDataRecentTransaction] = useState();
   const [dataBestSellingProduct, setDataBestSellingProduct] = useState();
   const [dataMonthlyRevenue, setDataMonthlyRevenue] = useState();
+  const [transactions, setTransactions] = useState();
+  const [yearlyRevenue, setYearlyRevenue] = useState();
+  const [products, setProducts] = useState();
+  const [cashier, setCashier] = useState();
 
   const fetchTopMembership = async () => {
     try {
@@ -117,12 +121,100 @@ export const Main = () => {
     }
   };
 
+  const fetchTransactions = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/transactions", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Fetch request failed");
+      }
+
+      const data = await response.json();
+      setTransactions(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const fetchYearlyRevenue = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/transaction/revenue/yearly", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Fetch request failed");
+      }
+
+      const data = await response.json();
+      setYearlyRevenue(data.results);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/products", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Fetch request failed");
+      }
+
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const fetchCashier = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/cashier", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Fetch request failed");
+      }
+
+      const data = await response.json();
+      setCashier(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       fetchTopMembership();
       fetchRecentTransaction();
       fetchBestSellingProduct();
       fetchMonthlyRevenue();
+      fetchTransactions();
+      fetchYearlyRevenue();
+      fetchProducts();
+      fetchCashier();
     }
   }, [token]);
 
@@ -157,10 +249,6 @@ export const Main = () => {
     "December",
   ];
 
-  const generateRandomData = () => {
-    return labels.map(() => Math.floor(Math.random() * (1000 - -1000 + 1)) + -1000);
-  };
-
   const chartData = {
     labels,
     datasets: [
@@ -176,116 +264,6 @@ export const Main = () => {
   };
 
   const tableHead = ["Image", "Product Name", "Category", "Price", "Quantity", "Ammount"];
-
-  const tableData = [
-    {
-      image: logoQBills,
-      productName: "Cappuccino Espresso",
-      category: "Coffee",
-      price: "Rp 45.000",
-      quantity: 50,
-      amount: "Rp 2.250.000",
-    },
-    {
-      image: logoQBills,
-      productName: "Cappuccino Espresso",
-      category: "Coffee",
-      price: "Rp 45.000",
-      quantity: 50,
-      amount: "Rp 2.250.000",
-    },
-    {
-      image: logoQBills,
-      productName: "Cappuccino Espresso",
-      category: "Coffee",
-      price: "Rp 45.000",
-      quantity: 50,
-      amount: "Rp 2.250.000",
-    },
-  ];
-
-  const transactionData = [
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: 1000000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: -500000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: 100000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: -800000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: 2000000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: -50000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: 500000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: -500000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: 1000000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: -500000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: 100000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: -800000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: 2000000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: -50000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: 500000,
-    },
-    {
-      name: "Maren Vetrovs",
-      date: "14/11/2023, 11.58",
-      price: -500000,
-    },
-  ];
 
   const formatPrice = (price) => {
     const formattedPrice = new Intl.NumberFormat("id-ID", {
@@ -306,25 +284,25 @@ export const Main = () => {
             <Analytics
               icon={<ImportExportIcon sx={{ fontSize: 50 }} className="text-S4" />}
               label={"Total Order"}
-              numberData={"65"}
+              numberData={transactions?.total}
             />
 
             <Analytics
               icon={<AccountBalanceWalletIcon sx={{ fontSize: 50 }} className="text-I4" />}
               label={"Revenue"}
-              numberData={"Rp 1.600.000"}
+              numberData={formatPrice(yearlyRevenue?.revenue).replace("+", "").replace("-", "")}
             />
 
             <Analytics
               icon={<TakeoutDiningIcon sx={{ fontSize: 50 }} className="text-W4" />}
               label={"Total Product"}
-              numberData={"Rp 650.000"}
+              numberData={products?.total}
             />
 
             <Analytics
               icon={<GroupIcon sx={{ fontSize: 50 }} className="text-E4" />}
               label={"Total Cashier"}
-              numberData={"18"}
+              numberData={cashier?.total}
             />
           </section>
 
