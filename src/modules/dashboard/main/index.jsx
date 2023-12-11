@@ -30,10 +30,11 @@ export const Main = () => {
   const [dataTopMembership, setDataTopMembership] = useState();
   const [dataRecentTransaction, setDataRecentTransaction] = useState();
   const [dataBestSellingProduct, setDataBestSellingProduct] = useState();
+  const [dataMonthlyRevenue, setDataMonthlyRevenue] = useState();
 
   const fetchTopMembership = async () => {
     try {
-      const response = await fetch("https://www.ariefbook.my.id/api/v1/memberships/top", {
+      const response = await fetch("https://qbills.biz.id/api/v1/memberships/top", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,7 +55,7 @@ export const Main = () => {
 
   const fetchRecentTransaction = async () => {
     try {
-      const response = await fetch("https://www.ariefbook.my.id/api/v1/transactions/recent", {
+      const response = await fetch("https://qbills.biz.id/api/v1/transactions/recent", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -75,7 +76,7 @@ export const Main = () => {
 
   const fetchBestSellingProduct = async () => {
     try {
-      const response = await fetch("https://www.ariefbook.my.id/api/v1/products/best", {
+      const response = await fetch("https://qbills.biz.id/api/v1/products/best", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -94,11 +95,34 @@ export const Main = () => {
     }
   };
 
+  const fetchMonthlyRevenue = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/transactions/revenue/monthly", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Fetch request failed");
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setDataMonthlyRevenue(data.results);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       fetchTopMembership();
       fetchRecentTransaction();
       fetchBestSellingProduct();
+      fetchMonthlyRevenue();
     }
   }, [token]);
 
@@ -142,7 +166,9 @@ export const Main = () => {
     datasets: [
       {
         label: "Revenue",
-        data: generateRandomData(),
+        data: Array.isArray(dataMonthlyRevenue)
+          ? dataMonthlyRevenue.map((item) => item.revenue)
+          : [],
         borderColor: "rgb(190, 132, 101)",
         backgroundColor: "rgb(190, 132, 101)",
       },
