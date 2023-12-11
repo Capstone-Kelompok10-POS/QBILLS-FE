@@ -24,7 +24,17 @@ import coffeeImage from "@/public/assets/images/product-detail/image_coffee.png"
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const tableHead = ["Checkbox", "Code", "Name", "Category", "Ingredients", "Action"];
+  const tableHead = [
+    "Checkbox",
+    "Code",
+    "Name",
+    "Category",
+    "Ingredients",
+    "price",
+    "size",
+    "stock",
+    "Action",
+  ];
   const [isUpdateStockVisible, setUpdateStockVisible] = useState(false);
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
@@ -49,7 +59,7 @@ export const Main = () => {
   const sizeOptionsList = ["Small", "Normal", "Big"];
 
   const [editedData, setEditedData] = useState({
-    id: null,
+    Id: null,
     name: "",
     category: "",
     size: "",
@@ -89,7 +99,7 @@ export const Main = () => {
   const filteredData = dataGET?.results?.filter((data) => {
     const matchesSearch =
       data.name.toLowerCase().includes(search.toLowerCase()) ||
-      data.phoneNumber.toLowerCase().includes(search.toLowerCase());
+      data.ingredients.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
 
@@ -120,10 +130,11 @@ export const Main = () => {
   const totalPage = Math.ceil(filteredData?.length / perPage);
 
   const handleEdit = (rowId) => {
-    const rowToEdit = data.find((row) => row.id === rowId);
+    const rowToEdit = dataGET.results.find((row) => row.Id === rowId);
+
     if (rowToEdit) {
       setEditedData({
-        id: rowToEdit.id,
+        Id: rowToEdit.Id,
         name: rowToEdit.name,
         category: rowToEdit.category,
         size: rowToEdit.size,
@@ -134,13 +145,13 @@ export const Main = () => {
       });
       setIsEdit(true);
     } else {
-      console.error(`Row with id ${rowId} not found in data.`);
+      console.error(`Row with Id ${rowId} not found in data.`);
     }
   };
 
   const handleEditSave = () => {
     const updatedData = data.map((rowToEdit) => {
-      if (rowToEdit.id === editedData.id) {
+      if (rowToEdit.Id === editedData.Id) {
         return {
           ...rowToEdit,
           name: editedData.name,
@@ -155,14 +166,14 @@ export const Main = () => {
       return rowToEdit;
     });
 
-    setData(updatedData);
+    setDataGET(updatedData);
 
     setIsEdit(false);
     setSnackbar({
       variant: "success",
       size: "sm",
       label: "Success",
-      desc: `Congratulations, you have successfully edited the Membership`,
+      desc: `Congratulations, you have successfully edited the product`,
       onClickClose: handleCloseSnackbar,
       onClickAction: {},
     });
@@ -170,183 +181,6 @@ export const Main = () => {
     setTimeout(() => {
       setSnackbar(null);
     }, 3000);
-  };
-
-  const handleDeleteIcon = (rowId) => {
-    setSnackbar({
-      variant: "error",
-      size: "sm",
-      label: "Delete Confirmation",
-      desc: `Are you sure you want to delete this record?`,
-      onClickClose: handleCloseSnackbar,
-      action: true,
-      actionLabel: "Delete",
-      onClickAction: () => handleDeleteIconConfirm(rowId),
-    });
-  };
-
-  const handleDeleteSelected = () => {
-    if (selectedRowCount > 0) {
-      setSnackbar({
-        variant: "error",
-        size: "sm",
-        label: "Delete Confirmation",
-        desc: `Are you sure you want to delete ${selectedRowCount} records?`,
-        onClickClose: handleCloseSnackbar,
-        action: true,
-        actionLabel: "Delete",
-        onClickAction: handleDeleteSelectedConfirm,
-      });
-    }
-  };
-
-  const handleDeleteIconConfirm = (rowId) => {
-    try {
-      const updatedData = data.filter((row) => row.id !== rowId);
-      setData(updatedData);
-      handleCloseSnackbar();
-
-      setSnackbar({
-        variant: "success",
-        size: "sm",
-        label: "Success",
-        desc: `Congratulations, you have successfully deleted the Product`,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: () => {},
-      });
-
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 3000);
-    } catch (error) {
-      handleCloseSnackbar();
-      setSnackbar({
-        variant: "error",
-        size: "sm",
-        label: "Error",
-        desc: error.message,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: () => {},
-      });
-
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 10000);
-    }
-  };
-
-  const handleDeleteSelectedConfirm = () => {
-    try {
-      const updatedData = data.filter((row, index) => !selectedRow.includes(index));
-      setData(updatedData);
-      setSelectedRow([]);
-      setSelectedRowCount(0);
-      handleCloseSnackbar();
-
-      setSnackbar({
-        variant: "success",
-        size: "sm",
-        label: "Success",
-        desc: `Congratulations, you have successfully deleted ${selectedRowCount} Products`,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: () => {},
-      });
-
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 3000);
-    } catch (error) {
-      handleCloseSnackbar();
-      setSnackbar({
-        variant: "error",
-        size: "sm",
-        label: "Error",
-        desc: error.message,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: () => {},
-      });
-
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 3000);
-    }
-  };
-
-  useEffect(() => {
-    setSelectedRowCount(selectedRow.length);
-  }, [selectedRow]);
-
-  const handleCheckboxChange = (rowIndex) => {
-    setSelectedRow((prevSelectedRow) => {
-      if (prevSelectedRow.includes(rowIndex)) {
-        return prevSelectedRow.filter((index) => index !== rowIndex);
-      } else {
-        return [...prevSelectedRow, rowIndex];
-      }
-    });
-  };
-
-  const handleAddsave = () => {
-    try {
-      if (!category || !name || !ingredient || !stock || !price) {
-        setSnackbar({
-          variant: "error",
-          size: "sm",
-          label: "Error",
-          desc: `Please fill in all the required fields and upload an image.`,
-          onClickClose: handleCloseSnackbar,
-        });
-        return;
-      }
-
-      const newProduct = {
-        id: data.length + 1,
-        code: `ABCD123${data.length + 1}`,
-        name,
-        category,
-        size: sizeOptions.map((option) => option.size),
-        price,
-        stock,
-      };
-
-      setData((prevData) => [...prevData, newProduct]);
-      setIsAdd(false);
-      setCategory("");
-      setName("");
-      setIngredient("");
-      setStock("");
-      setPrice("");
-      setSizeOptions([]);
-      setUploadedImage(null);
-      setImagePreview(null);
-
-      setSnackbar({
-        variant: "success",
-        size: "sm",
-        label: "Success",
-        desc: "Congratulations, you have successfully added a new Product",
-        onClickClose: handleCloseSnackbar,
-        onClickAction: () => {},
-      });
-
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 3000);
-    } catch (error) {
-      handleCloseSnackbar();
-      setSnackbar({
-        variant: "error",
-        size: "sm",
-        label: "Error",
-        desc: error.message,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: () => {},
-      });
-
-      setTimeout(() => {
-        setSnackbar(null);
-      }, 3000);
-    }
   };
 
   const handleAdd = () => {
@@ -411,7 +245,7 @@ export const Main = () => {
     });
   };
 
-  const handleDesc = (index, value) => {
+  const handlePrice = (index, value) => {
     setSizeOptions((prevSizeOptions) => {
       const updatedSizeOptions = [...prevSizeOptions];
       updatedSizeOptions[index] = { price: value }; // Update the specific size option
@@ -434,22 +268,19 @@ export const Main = () => {
       setUploadedImage({ file, error: null });
     }
   };
-  const handleOpenProductDetail = () => {
-    setIsProductDetail(true);
-  };
 
   const handleCloseProductDetail = () => {
     setIsProductDetail(false);
   };
 
   const handleToggleUpdateStock = (productId) => {
-    const productToUpdate = data.find((product) => product.id === productId);
+    const productToUpdate = data.find((product) => product.Id === productId);
 
     if (productToUpdate) {
       setUpdateStockVisible(!isUpdateStockVisible);
       setQuantity(100);
       setEditedData({
-        id: productToUpdate.id,
+        Id: productToUpdate.Id,
         name: productToUpdate.name,
         category: productToUpdate.category,
         size: productToUpdate.size,
@@ -459,7 +290,7 @@ export const Main = () => {
         imagePreview: productToUpdate.imagePreview,
       });
     } else {
-      console.error(`Product with id ${productId} not found in data.`);
+      console.error(`Product with Id ${productId} not found in data.`);
     }
   };
 
@@ -474,6 +305,219 @@ export const Main = () => {
     event.preventDefault();
     console.log("Quantity:", quantity);
     // Add any additional logic for handling the stock update here
+  };
+
+  // DELETE DATA
+  const handleDeleteConfirmed = async (Id) => {
+    try {
+      const response = await fetch(`https://qbills.biz.id/api/v1/product/${Id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Delete request failed");
+      }
+
+      await response.json();
+      await fetchGET();
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: "Congratulations, you have successfully deleted the product",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+    } catch (error) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Delete data failed",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
+    }
+  };
+
+  const handleDelete = (Id) => {
+    setSnackbar({
+      variant: "error",
+      size: "sm",
+      label: "Delete Confirmation",
+      desc: `Are you sure you want to delete this record?`,
+      onClickClose: () => setSnackbar(),
+      action: true,
+      actionLabel: "Delete",
+      onClickAction: () => handleDeleteConfirmed(Id),
+    });
+  };
+
+  const handleDeleteSelected = () => {
+    if (selectedRowCount > 0) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Delete Confirmation",
+        desc: `Are you sure you want to delete ${selectedRowCount} records?`,
+        onClickClose: () => setSnackbar(),
+        action: true,
+        actionLabel: "Delete",
+        onClickAction: () => handleDeleteSelectedConfirmed(),
+      });
+    }
+  };
+
+  const handleDeleteSelectedConfirmed = async () => {
+    try {
+      const deletedIds = selectedRow.map((rowId) => {
+        const selectedData = dataGET.results.find((data) => data.Id === rowId);
+        return selectedData.Id;
+      });
+
+      const deleteRequests = deletedIds.map(async (ID) => {
+        const response = await fetch(`https://qbills.biz.id/api/v1/product/${ID}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to delete product with ID ${ID}`);
+        }
+
+        return response.json();
+      });
+
+      await Promise.all(deleteRequests);
+      await fetchGET();
+
+      setSelectedRow([]);
+      setSelectedRowCount(0);
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: `Congratulations, you have successfully deleted ${deletedIds.length} products`,
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+    } catch (error) {
+      setSelectedRow([]);
+      setSelectedRowCount(0);
+
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Delete data failed",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
+    }
+  };
+
+  const postData = async (url, data) => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Post request failed");
+      }
+
+      const responseData = await response.json();
+      return responseData;
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  };
+
+  const handleAddsave = async () => {
+    try {
+      const newProduct = {
+        name,
+        category,
+        ingredients: ingredient,
+        stock,
+        price,
+      };
+
+      const responseData = await postData("https://qbills.biz.id/api/v1/product", newProduct);
+
+      setDataGET({
+        ...dataGET,
+        results: [...dataGET.results, responseData.result],
+      });
+
+      setIsAdd(false);
+      setCategory("");
+      setName("");
+      setIngredient("");
+      setStock("");
+      setPrice("");
+      setSizeOptions([]);
+      setUploadedImage(null);
+      setImagePreview(null);
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: "Congratulations, you have successfully added a new Product",
+        onClickClose: handleCloseSnackbar,
+        onClickAction: () => {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 3000);
+    } catch (error) {
+      handleCloseSnackbar();
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: error.message,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: () => {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 3000);
+    }
   };
 
   return (
@@ -496,11 +540,10 @@ export const Main = () => {
 
         <div className="flex gap-5">
           <Button
-            type={"button"}
+            onClick={handleDeleteSelected}
             size={"md"}
             label={`Delete (${selectedRowCount})`}
             color={"error"}
-            onClick={handleDeleteSelected}
             disabled={selectedRowCount === 0}
           />
           <div className="w-52">
@@ -514,11 +557,12 @@ export const Main = () => {
         <Table tableHead={tableHead}>
           {currentData?.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
-              <td className="px-4 py-2 text-center ">
+              {/* Main Row */}
+              <td className="px-4 py-2 text-center">
                 <div className="flex items-center justify-center">
                   <Checkbox
-                    checked={selectedRow.includes(row.id)}
-                    onChange={() => handleCheckbox(row.id)}
+                    checked={selectedRow.includes(row.Id)}
+                    onChange={() => handleCheckbox(row.Id)}
                   />
                 </div>
               </td>
@@ -531,6 +575,30 @@ export const Main = () => {
 
               <td className="px-4 py-2 text-center">{row.ingredients}</td>
 
+              {/* Price Column */}
+              <td className="px-4 py-2 text-center">
+                {row.productDetail.length > 0 &&
+                  row.productDetail.map((detail, index) => (
+                    <div key={index}>{`Price: ${detail.price}`}</div>
+                  ))}
+              </td>
+
+              {/* Size Column */}
+              <td className="px-4 py-2 text-center">
+                {row.productDetail.length > 0 &&
+                  row.productDetail.map((detail, index) => (
+                    <div key={index}>{`Size: ${detail.size}`}</div>
+                  ))}
+              </td>
+
+              {/* Stock Column */}
+              <td className="px-4 py-2 text-center">
+                {row.productDetail.length > 0 &&
+                  row.productDetail.map((detail, index) => (
+                    <div key={index}>{`Stock: ${detail.totalStock}`}</div>
+                  ))}
+              </td>
+
               <td className="flex items-center justify-center gap-2 px-4 py-2">
                 <IconButton
                   size={"sm"}
@@ -542,7 +610,7 @@ export const Main = () => {
                   size={"sm"}
                   color={"error"}
                   icon={<DeleteIcon fontSize="small" />}
-                  onClick={() => handleDeleteIcon(row.Id)}
+                  onClick={() => handleDelete(row.Id)}
                 />
                 <IconButton
                   size={"sm"}
@@ -645,7 +713,7 @@ export const Main = () => {
                         <h3 className="text-N2">Detail</h3>
                       </div>
                       <div className="flex w-full flex-col gap-2">
-                        <h3 className="text-N2">Desc</h3>
+                        <h3 className="text-N2">price</h3>
                       </div>
                     </div>
 
@@ -663,11 +731,11 @@ export const Main = () => {
                         </div>
                         <div className="flex w-full flex-col gap-2">
                           <Input
-                            label={"Desc"}
+                            label={"price"}
                             type={"text"}
                             size={"sm"}
                             value={sizeOption.price}
-                            onChange={(e) => handleDesc(index, e.target.value)}
+                            onChange={(e) => handlePrice(index, e.target.value)}
                           />
                         </div>
                         <IconButton
@@ -694,7 +762,7 @@ export const Main = () => {
                           <Image
                             src={imagePreview}
                             alt="Uploaded Product"
-                            className="h-full w-full object-cover"
+                            className="h-[320px] w-full object-cover"
                             width={800}
                             height={600}
                           />
@@ -703,7 +771,7 @@ export const Main = () => {
                     </label>
                     <input
                       type="file"
-                      id="file-input"
+                      Id="file-input"
                       accept="image/*"
                       style={{ display: "none" }}
                       onChange={(e) => handleFileChange(e)}
@@ -810,7 +878,7 @@ export const Main = () => {
                         <h3 className="text-N2">Detail</h3>
                       </div>
                       <div className="flex w-full flex-col gap-2">
-                        <h3 className="text-N2">Desc</h3>
+                        <h3 className="text-N2">Price</h3>
                       </div>
                     </div>
 
@@ -828,11 +896,11 @@ export const Main = () => {
                         </div>
                         <div className="flex w-full flex-col gap-2">
                           <Input
-                            label={"Desc"}
+                            label={"Price"}
                             type={"text"}
                             size={"sm"}
                             value={sizeOption.price}
-                            onChange={(e) => handleDesc(index, e.target.value)}
+                            onChange={(e) => handlePrice(index, e.target.value)}
                           />
                         </div>
                         <IconButton
@@ -868,7 +936,7 @@ export const Main = () => {
                     </label>
                     <input
                       type="file"
-                      id="file-input"
+                      Id="file-input"
                       accept="image/*"
                       style={{ display: "none" }}
                       onChange={(e) => handleFileChange(e)}
@@ -903,18 +971,18 @@ export const Main = () => {
         </section>
       )}
 
-      {/* SNACK BAR */}
+      {/* SNACKBAR */}
       {snackbar && (
         <section className="fixed inset-0 top-10 z-50 flex justify-center">
           <SnackBar
-            variant={snackbar.variant}
-            size={snackbar.size}
-            label={snackbar.label}
-            desc={snackbar.desc}
-            action={snackbar.action}
-            actionLabel={snackbar.actionLabel}
-            onClickClose={snackbar.onClickClose}
-            onClickAction={snackbar.onClickAction}
+            variant={snackbar?.variant}
+            size={snackbar?.size}
+            label={snackbar?.label}
+            desc={snackbar?.desc}
+            action={snackbar?.action}
+            actionLabel={snackbar?.actionLabel}
+            onClickClose={snackbar?.onClickClose}
+            onClickAction={snackbar?.onClickAction}
           />
         </section>
       )}
@@ -927,7 +995,7 @@ export const Main = () => {
             name={"Cappuccino Espresso"}
             stock={"250"}
             ingredient={
-              "Cappuccino Espresso is a coffee drink that stands out by combining espresso and steamed milk in proportions that provide perfect harmony between the strength of the coffee and the smoothness of the milk. The main advantage of latte lies in its balanced taste and creaminess, creating a smooth and satisfying coffee experience."
+              "Cappuccino Espresso is a coffee drink that stands out by combining espresso and steamed milk in proportions that provIde perfect harmony between the strength of the coffee and the smoothness of the milk. The main advantage of latte lies in its balanced taste and creaminess, creating a smooth and satisfying coffee experience."
             }
             imagePreview={"/assets/images/product-detail/image_coffee.png"}
             size={"Small"}
@@ -964,7 +1032,7 @@ export const Main = () => {
                   <input
                     type="text"
                     name="quantity"
-                    id="quantity"
+                    Id="quantity"
                     className="w-full rounded-md border border-[#E6E6E6] p-2 text-gray-600"
                     value={quantity}
                     onChange={handleQuantityChange}
