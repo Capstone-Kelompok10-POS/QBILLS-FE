@@ -60,11 +60,11 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    "/dashboard",
-    "/manageaccount",
-    "/manageproduct",
-    "/membership",
-    "/transaction",
-    "/report",
+    // "/dashboard",
+    // "/manageaccount",
+    // "/manageproduct",
+    // "/membership",
+    // "/transaction",
+    // "/report",
   ],
 };

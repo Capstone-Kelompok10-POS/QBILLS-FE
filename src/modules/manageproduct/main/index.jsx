@@ -1,40 +1,19 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import {
-  Button,
-  Select,
-  Input,
-  Table,
-  Checkbox,
-  IconButton,
-  Pagination,
-  SnackBar,
-  ProductDetail,
-} from "@/components";
-import SearchIcon from "@mui/icons-material/Search";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutline";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AddIcon from "@mui/icons-material/Add";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import Image from "next/image";
+
+import { Pagination, SnackBar } from "@/components";
 import coffeeImage from "@/public/assets/images/product-detail/image_coffee.png";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import TopSection from "./TopSection";
+import TableSection from "./TableSection";
+import AddProductModal from "./AddProductModal";
+import EditProductModal from "./EditProductModal";
+import ProductDetailModal from "./ProductDetailModal";
+import UpdateStockModal from "./UpdateStockModal";
 
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const tableHead = [
-    "Checkbox",
-    "Code",
-    "Name",
-    "Category",
-    "Ingredients",
-    "price",
-    "size",
-    "stock",
-    "Action",
-  ];
   const [isUpdateStockVisible, setUpdateStockVisible] = useState(false);
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
@@ -149,11 +128,15 @@ export const Main = () => {
     }
   };
 
-  const handleEditSave = () => {
-    const updatedData = data.map((rowToEdit) => {
-      if (rowToEdit.Id === editedData.Id) {
-        return {
-          ...rowToEdit,
+  const handleEditSave = async () => {
+    try {
+      const updatedData = await fetch(`https://qbills.biz.id/api/v1/product/${editedData.Id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           name: editedData.name,
           category: editedData.category,
           size: editedData.size,
@@ -161,26 +144,54 @@ export const Main = () => {
           stock: editedData.stock,
           uploadedImage: editedData.uploadedImage,
           imagePreview: editedData.imagePreview,
-        };
+        }),
+      });
+
+      if (!updatedData.ok) {
+        throw new Error("Update request failed");
       }
-      return rowToEdit;
-    });
 
-    setDataGET(updatedData);
+      const responseData = await updatedData.json();
 
-    setIsEdit(false);
-    setSnackbar({
-      variant: "success",
-      size: "sm",
-      label: "Success",
-      desc: `Congratulations, you have successfully edited the product`,
-      onClickClose: handleCloseSnackbar,
-      onClickAction: {},
-    });
+      setDataGET((prevData) => {
+        const updatedResults = prevData.results.map((rowToEdit) => {
+          if (rowToEdit.Id === responseData.result.Id) {
+            return responseData.result;
+          }
+          return rowToEdit;
+        });
 
-    setTimeout(() => {
-      setSnackbar(null);
-    }, 3000);
+        return { ...prevData, results: updatedResults };
+      });
+
+      setIsEdit(false);
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: `Congratulations, you have successfully edited the product`,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 3000);
+    } catch (error) {
+      setIsEdit(false);
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: error.message,
+        onClickClose: handleCloseSnackbar,
+        onClickAction: () => {},
+      });
+
+      setTimeout(() => {
+        setSnackbar(null);
+      }, 3000);
+    }
   };
 
   const handleAdd = () => {
@@ -469,17 +480,17 @@ export const Main = () => {
       const newProduct = {
         name,
         category,
-        ingredients: ingredient,
+        ingredients: ingredient, // Include ingredients property
         stock,
         price,
       };
 
       const responseData = await postData("https://qbills.biz.id/api/v1/product", newProduct);
 
-      setDataGET({
-        ...dataGET,
-        results: [...dataGET.results, responseData.result],
-      });
+      setDataGET((prevData) => ({
+        ...prevData,
+        results: [...prevData.results, responseData.result],
+      }));
 
       setIsAdd(false);
       setCategory("");
@@ -522,109 +533,23 @@ export const Main = () => {
 
   return (
     <main className="space-y-5">
-      {/* TOP SECTION */}
-      <section className="flex w-full items-center gap-5">
-        <h2 className="mr-auto text-2xl font-semibold">List Product</h2>
+      <TopSection
+        search={search}
+        setSearch={setSearch}
+        handleDeleteSelected={handleDeleteSelected}
+        selectedRowCount={selectedRowCount}
+        handleAdd={handleAdd}
+      />
 
-        <div className="w-96">
-          <Input
-            type={"text"}
-            size={"sm"}
-            label={"Search Product"}
-            name={"search"}
-            value={search}
-            endIcon={<SearchIcon sx={{ fontSize: 30 }} />}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+      <TableSection
+        currentData={currentData}
+        selectedRow={selectedRow}
+        handleCheckbox={handleCheckbox}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        handleToggleUpdateStock={handleToggleUpdateStock}
+      />
 
-        <div className="flex gap-5">
-          <Button
-            onClick={handleDeleteSelected}
-            size={"md"}
-            label={`Delete (${selectedRowCount})`}
-            color={"error"}
-            disabled={selectedRowCount === 0}
-          />
-          <div className="w-52">
-            <Button onClick={handleAdd} size={"md-full"} label={"Add product"} />
-          </div>
-        </div>
-      </section>
-
-      {/* TABLE */}
-      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
-        <Table tableHead={tableHead}>
-          {currentData?.map((row, index) => (
-            <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
-              {/* Main Row */}
-              <td className="px-4 py-2 text-center">
-                <div className="flex items-center justify-center">
-                  <Checkbox
-                    checked={selectedRow.includes(row.Id)}
-                    onChange={() => handleCheckbox(row.Id)}
-                  />
-                </div>
-              </td>
-
-              <td className="cursor-pointer px-4 py-2 text-center">{row.Id}</td>
-
-              <td className="cursor-pointer px-4 py-2 text-center">{row.name}</td>
-
-              <td className="px-4 py-2 text-center">{row.productType.typeName}</td>
-
-              <td className="px-4 py-2 text-center">{row.ingredients}</td>
-
-              {/* Price Column */}
-              <td className="px-4 py-2 text-center">
-                {row.productDetail.length > 0 &&
-                  row.productDetail.map((detail, index) => (
-                    <div key={index}>{`Price: ${detail.price}`}</div>
-                  ))}
-              </td>
-
-              {/* Size Column */}
-              <td className="px-4 py-2 text-center">
-                {row.productDetail.length > 0 &&
-                  row.productDetail.map((detail, index) => (
-                    <div key={index}>{`Size: ${detail.size}`}</div>
-                  ))}
-              </td>
-
-              {/* Stock Column */}
-              <td className="px-4 py-2 text-center">
-                {row.productDetail.length > 0 &&
-                  row.productDetail.map((detail, index) => (
-                    <div key={index}>{`Stock: ${detail.totalStock}`}</div>
-                  ))}
-              </td>
-
-              <td className="flex items-center justify-center gap-2 px-4 py-2">
-                <IconButton
-                  size={"sm"}
-                  color={"success"}
-                  icon={<EditIcon fontSize="small" />}
-                  onClick={() => handleEdit(row.Id)}
-                />
-                <IconButton
-                  size={"sm"}
-                  color={"error"}
-                  icon={<DeleteIcon fontSize="small" />}
-                  onClick={() => handleDelete(row.Id)}
-                />
-                <IconButton
-                  size={"sm"}
-                  icon={<MoreVertIcon fontSize="small" />}
-                  variant={"outline"}
-                  onClick={() => handleToggleUpdateStock(row.Id)}
-                />
-              </td>
-            </tr>
-          ))}
-        </Table>
-      </section>
-
-      {/* PAGINATION */}
       <Pagination
         startData={indexOfFirstData >= 0 ? indexOfFirstData + 1 : 0}
         endData={Math.min(indexOfLastData, filteredData?.length) || 0}
@@ -635,341 +560,66 @@ export const Main = () => {
         onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
       />
 
-      {/* POP UP ADD PRODUCT */}
-      {isAdd && (
-        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <div className=" w-3/5 rounded-xl bg-N1">
-            <div className="flex flex-col items-start gap-10 self-stretch p-10">
-              <h1 className="text-2xl font-semibold">Add New Product</h1>
-              <div className="flex items-start justify-between gap-6 self-stretch">
-                <div className="flex w-1/2 flex-col gap-5 self-stretch">
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold">Category</h2>
-                    <Select
-                      size="md"
-                      label="Category"
-                      name="category"
-                      options={categoryOptions}
-                      value={category}
-                      onChange={(e) => handleCategoryChange(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold">Name</h2>
-                    <Input
-                      label={"Product"}
-                      type={"text"}
-                      size={"sm"}
-                      value={name}
-                      onChange={(e) => handleNameChange(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold">Ingredient</h2>
-                    <Input
-                      label={"Desc"}
-                      type={"text"}
-                      size={"md"}
-                      value={ingredient}
-                      onChange={(e) => handleIngredientChange(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex gap-5">
-                    <div className="flex w-full flex-col gap-2">
-                      <h2 className="font-semibold">Stock</h2>
-                      <Input
-                        label={"Available"}
-                        type={"text"}
-                        size={"sm"}
-                        value={stock}
-                        onChange={(e) => handleStockChange(e.target.value)}
-                      />
-                    </div>
-                    <div className="flex w-full flex-col gap-2">
-                      <h2 className="font-semibold">Price</h2>
-                      <Input
-                        label={"Rp"}
-                        type={"text"}
-                        size={"sm"}
-                        value={price}
-                        onChange={(e) => handlePriceChange(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2 self-stretch">
-                    <div className="flex items-center justify-between gap-2 self-stretch">
-                      <h2 className="font-semibold">Size</h2>
-                      <div className="flex items-start gap-2">
-                        <IconButton
-                          size={"sm"}
-                          variant={"outline"}
-                          icon={<AddIcon fontSize="small" />}
-                          onClick={handleAddSize}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex w-full flex-col gap-2">
-                        <h3 className="text-N2">Detail</h3>
-                      </div>
-                      <div className="flex w-full flex-col gap-2">
-                        <h3 className="text-N2">price</h3>
-                      </div>
-                    </div>
+      <AddProductModal
+        isAdd={isAdd}
+        categoryOptions={categoryOptions}
+        category={category}
+        handleCategoryChange={handleCategoryChange}
+        name={name}
+        handleNameChange={handleNameChange}
+        ingredient={ingredient}
+        handleIngredientChange={handleIngredientChange}
+        stock={stock}
+        handleStockChange={handleStockChange}
+        price={price}
+        handlePriceChange={handlePriceChange}
+        handleAddSize={handleAddSize}
+        sizeOptions={sizeOptions}
+        sizeOptionsList={sizeOptionsList}
+        handleSizeChange={handleSizeChange}
+        handlePrice={handlePrice}
+        handleDeleteSize={handleDeleteSize}
+        uploadedImage={uploadedImage}
+        imagePreview={imagePreview}
+        handleFileChange={handleFileChange}
+        handleUploadButtonClick={handleUploadButtonClick}
+        setIsAdd={setIsAdd}
+        handleAddsave={handleAddsave}
+      />
 
-                    {sizeOptions.map((sizeOption, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <div className="flex w-full flex-col gap-2">
-                          <Select
-                            size="md"
-                            label="Size"
-                            name={`size-${index}`}
-                            options={sizeOptionsList}
-                            value={sizeOption.size}
-                            onChange={(e) => handleSizeChange(index, e.target.value)}
-                          />
-                        </div>
-                        <div className="flex w-full flex-col gap-2">
-                          <Input
-                            label={"price"}
-                            type={"text"}
-                            size={"sm"}
-                            value={sizeOption.price}
-                            onChange={(e) => handlePrice(index, e.target.value)}
-                          />
-                        </div>
-                        <IconButton
-                          size={"sm"}
-                          variant={"outline"}
-                          icon={<DeleteIcon fontSize="small" />}
-                          onClick={() => handleDeleteSize(index)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex w-1/2 flex-col gap-5 self-stretch">
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold">Product Image</h2>
-                    <label htmlFor="file-input" className="cursor-pointer">
-                      <div className="h-80 w-full border border-N2">
-                        {!uploadedImage && !imagePreview && (
-                          <div className="flex h-full content-center items-center justify-center">
-                            <CloudUploadIcon className="text-8xl text-N2" />
-                          </div>
-                        )}
-                        {imagePreview && (
-                          <Image
-                            src={imagePreview}
-                            alt="Uploaded Product"
-                            className="h-[320px] w-full object-cover"
-                            width={800}
-                            height={600}
-                          />
-                        )}
-                      </div>
-                    </label>
-                    <input
-                      type="file"
-                      Id="file-input"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={(e) => handleFileChange(e)}
-                    />
-                  </div>
-                  <Button
-                    type={"button"}
-                    variant={"outline"}
-                    size={"md-full"}
-                    label={"Upload Image"}
-                    onClick={handleUploadButtonClick}
-                  />
-                  <div className="flex items-center gap-6 self-stretch">
-                    <Button
-                      type={"button"}
-                      variant={"outline"}
-                      size={"md-full"}
-                      label={"Cancel"}
-                      onClick={() => setIsAdd(false)}
-                    />
-                    <Button
-                      type={"button"}
-                      size={"md-full"}
-                      label={"Save"}
-                      onClick={handleAddsave}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+      <EditProductModal
+        isEdit={isEdit}
+        categoryOptions={categoryOptions}
+        editedData={editedData}
+        setEditedData={setEditedData}
+        handleAddSize={handleAddSize}
+        sizeOptions={sizeOptions}
+        sizeOptionsList={sizeOptionsList}
+        handlePrice={handlePrice}
+        handleDeleteSize={handleDeleteSize}
+        uploadedImage={uploadedImage}
+        imagePreview={imagePreview}
+        handleFileChange={handleFileChange}
+        handleUploadButtonClick={handleUploadButtonClick}
+        setIsEdit={setIsEdit}
+        handleEditSave={handleEditSave}
+      />
 
-      {/* POP UP EDIT PRODUCT */}
-      {isEdit && (
-        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <div className=" w-3/5 rounded-xl bg-N1">
-            <div className="flex flex-col items-start gap-10 self-stretch p-10">
-              <h1 className="text-2xl font-semibold">Edit Product</h1>
-              <div className="flex items-start justify-between gap-6 self-stretch">
-                <div className="flex w-1/2 flex-col gap-5 self-stretch">
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold">Category</h2>
-                    <Select
-                      size="md"
-                      label="Category"
-                      name="category"
-                      options={categoryOptions}
-                      value={editedData.category}
-                      onChange={(e) => setEditedData({ ...editedData, category: e.target.value })}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold">Name</h2>
-                    <Input
-                      label={"Product"}
-                      type={"text"}
-                      size={"sm"}
-                      value={editedData.name}
-                      onChange={(e) => setEditedData({ ...editedData, name: e.target.value })}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold">Ingredient</h2>
-                    <Input label={"Desc"} type={"text"} size={"md"} />
-                  </div>
-                  <div className="flex gap-5">
-                    <div className="flex w-full flex-col gap-2">
-                      <h2 className="font-semibold">Stock</h2>
-                      <Input
-                        label={"Available"}
-                        type={"text"}
-                        size={"sm"}
-                        value={editedData.stock}
-                        onChange={(e) => setEditedData({ ...editedData, stock: e.target.value })}
-                      />
-                    </div>
-                    <div className="flex w-full flex-col gap-2">
-                      <h2 className="font-semibold">Price</h2>
-                      <Input
-                        label={"Rp"}
-                        type={"text"}
-                        size={"sm"}
-                        value={editedData.price}
-                        onChange={(e) => setEditedData({ ...editedData, price: e.target.value })}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2 self-stretch">
-                    <div className="flex items-center justify-between gap-2 self-stretch">
-                      <h2 className="font-semibold">Size</h2>
-                      <div className="flex items-start gap-2">
-                        <IconButton
-                          size={"sm"}
-                          variant={"outline"}
-                          icon={<AddIcon fontSize="small" />}
-                          onClick={handleAddSize}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex w-full flex-col gap-2">
-                        <h3 className="text-N2">Detail</h3>
-                      </div>
-                      <div className="flex w-full flex-col gap-2">
-                        <h3 className="text-N2">Price</h3>
-                      </div>
-                    </div>
+      <ProductDetailModal
+        isProductDetail={isProductDetail}
+        sizeOptionsList={sizeOptionsList}
+        handleSizeChange={handleSizeChange}
+        handleCloseProductDetail={handleCloseProductDetail}
+      />
 
-                    {sizeOptions.map((sizeOption, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <div className="flex w-full flex-col gap-2">
-                          <Select
-                            size="md"
-                            label="Size"
-                            name={`size-${index}`}
-                            options={sizeOptionsList}
-                            value={editedData.size}
-                            onChange={(e) => setEditedData({ ...editedData, size: e.target.value })}
-                          />
-                        </div>
-                        <div className="flex w-full flex-col gap-2">
-                          <Input
-                            label={"Price"}
-                            type={"text"}
-                            size={"sm"}
-                            value={sizeOption.price}
-                            onChange={(e) => handlePrice(index, e.target.value)}
-                          />
-                        </div>
-                        <IconButton
-                          size={"sm"}
-                          variant={"outline"}
-                          icon={<DeleteIcon fontSize="small" />}
-                          onClick={() => handleDeleteSize(index)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex w-1/2 flex-col gap-5 self-stretch">
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold">Product Image</h2>
-                    <label htmlFor="file-input" className="cursor-pointer">
-                      <div className="h-80 w-full border border-N2">
-                        {!uploadedImage && !imagePreview && (
-                          <div className="flex h-full content-center items-center justify-center">
-                            <CloudUploadIcon className="text-8xl text-N2" />
-                          </div>
-                        )}
-                        {imagePreview && (
-                          <Image
-                            src={imagePreview}
-                            alt="Uploaded Product"
-                            className="h-full w-full object-cover"
-                            width={800}
-                            height={600}
-                          />
-                        )}
-                      </div>
-                    </label>
-                    <input
-                      type="file"
-                      Id="file-input"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={(e) => handleFileChange(e)}
-                    />
-                  </div>
-                  <Button
-                    type={"button"}
-                    variant={"outline"}
-                    size={"md-full"}
-                    label={"Upload Image"}
-                    onClick={handleUploadButtonClick}
-                  />
-                  <div className="flex items-center gap-6 self-stretch">
-                    <Button
-                      type={"button"}
-                      variant={"outline"}
-                      size={"md-full"}
-                      label={"Cancel"}
-                      onClick={() => setIsEdit(false)}
-                    />
-                    <Button
-                      type={"button"}
-                      size={"md-full"}
-                      label={"Save"}
-                      onClick={handleEditSave}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+      <UpdateStockModal
+        isUpdateStockVisible={isUpdateStockVisible}
+        coffeeImage={coffeeImage}
+        quantity={quantity}
+        handleQuantityChange={handleQuantityChange}
+        setUpdateStockVisible={setUpdateStockVisible}
+        handleSubmit={handleSubmit}
+      />
 
       {/* SNACKBAR */}
       {snackbar && (
@@ -984,78 +634,6 @@ export const Main = () => {
             onClickClose={snackbar?.onClickClose}
             onClickAction={snackbar?.onClickAction}
           />
-        </section>
-      )}
-
-      {/* PRODUCT DETAIL */}
-      {isProductDetail && (
-        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <ProductDetail
-            category={"Coffee"}
-            name={"Cappuccino Espresso"}
-            stock={"250"}
-            ingredient={
-              "Cappuccino Espresso is a coffee drink that stands out by combining espresso and steamed milk in proportions that provIde perfect harmony between the strength of the coffee and the smoothness of the milk. The main advantage of latte lies in its balanced taste and creaminess, creating a smooth and satisfying coffee experience."
-            }
-            imagePreview={"/assets/images/product-detail/image_coffee.png"}
-            size={"Small"}
-            price={"Rp. 25.000"}
-            sizeOptionsList={sizeOptionsList}
-            onSizeChange={handleSizeChange}
-            onClick={handleCloseProductDetail}
-          />
-        </section>
-      )}
-
-      {/* UPDATE STOCK SECTION */}
-      {isUpdateStockVisible && (
-        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col items-center rounded-md bg-[#E6E6E6] p-2">
-              <div className="max-w-md rounded-md border border-gray-300 bg-[#E6E6E6] p-6 shadow-md">
-                <p className="mb-2 pl-2 text-lg font-bold text-gray-800">Update Stock</p>
-                <div className="mb-4 flex items-center rounded-md bg-[#F4F4F4] p-2">
-                  <Image
-                    src={coffeeImage}
-                    alt="Coffee A"
-                    className="mr-4 h-16 w-16 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="text-lg font-bold text-gray-800">Coffee A</p>
-                    <p className="text-sm text-gray-600">
-                      Cappuccino Espresso is a coffee drink that stands out by...
-                    </p>
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <label className="mr-2 block text-gray-800">Tambah Stock</label>
-                  <input
-                    type="text"
-                    name="quantity"
-                    Id="quantity"
-                    className="w-full rounded-md border border-[#E6E6E6] p-2 text-gray-600"
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <button
-                    type="button"
-                    className="mr-2 w-1/2 rounded-md border border-[#BE8465] bg-white p-2 text-[#BE8465]"
-                    onClick={() => setUpdateStockVisible(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="ml-2 w-1/2 rounded-md bg-[#BE8465] p-2 text-white"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
         </section>
       )}
     </main>
