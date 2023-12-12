@@ -1,5 +1,4 @@
 "use client";
-
 import { Pagination, SnackBar } from "@/components";
 import coffeeImage from "@/public/assets/images/product-detail/image_coffee.png";
 import { useSession } from "next-auth/react";
@@ -10,7 +9,6 @@ import AddProductModal from "./AddProductModal";
 import EditProductModal from "./EditProductModal";
 import ProductDetailModal from "./ProductDetailModal";
 import UpdateStockModal from "./UpdateStockModal";
-
 export const Main = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,10 +31,8 @@ export const Main = () => {
   const session = useSession();
   const token = session.data?.user?.results.token;
   const [dataGET, setDataGET] = useState();
-
   const categoryOptions = ["Coffee", "Non Coffee", "Snack", "Meal"];
   const sizeOptionsList = ["Small", "Normal", "Big"];
-
   const [editedData, setEditedData] = useState({
     Id: null,
     name: "",
@@ -47,7 +43,6 @@ export const Main = () => {
     uploadedImage: null,
     imagePreview: null,
   });
-
   const fetchGET = async () => {
     try {
       const response = await fetch("https://qbills.biz.id/api/v1/products", {
@@ -57,60 +52,48 @@ export const Main = () => {
           "Content-Type": "application/json",
         },
       });
-
       if (!response.ok) {
         throw new Error("Fetch request failed");
       }
-
       const data = await response.json();
       setDataGET(data);
     } catch (error) {
       console.error("Error:", error);
     }
   };
-
   useEffect(() => {
     if (token) {
       fetchGET();
     }
   }, [token]);
-
   const filteredData = dataGET?.results?.filter((data) => {
     const matchesSearch =
       data.name.toLowerCase().includes(search.toLowerCase()) ||
       data.ingredients.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
-
-  // CHECKBOX
   const handleCheckbox = (rowId) => {
     setSelectedRow((prevSelectedRow) => {
       const isSelected = prevSelectedRow.includes(rowId);
       const updatedSelectedRow = isSelected
         ? prevSelectedRow.filter((id) => id !== rowId)
         : [...prevSelectedRow, rowId];
-
       setSelectedRowCount(updatedSelectedRow.length);
       return updatedSelectedRow;
     });
   };
-
-  // PAGINATION
   useEffect(() => {
     if (dataGET?.results.length !== 0) {
       setCurrentPage(1);
     }
   }, [dataGET]);
-
   const perPage = 30;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
   const currentData = filteredData?.slice(indexOfFirstData, indexOfLastData);
   const totalPage = Math.ceil(filteredData?.length / perPage);
-
   const handleEdit = (rowId) => {
     const rowToEdit = dataGET.results.find((row) => row.Id === rowId);
-
     if (rowToEdit) {
       setEditedData({
         Id: rowToEdit.Id,
@@ -127,7 +110,6 @@ export const Main = () => {
       console.error(`Row with Id ${rowId} not found in data.`);
     }
   };
-
   const handleEditSave = async () => {
     try {
       const updatedData = await fetch(`https://qbills.biz.id/api/v1/product/${editedData.Id}`, {
@@ -146,13 +128,10 @@ export const Main = () => {
           imagePreview: editedData.imagePreview,
         }),
       });
-
       if (!updatedData.ok) {
         throw new Error("Update request failed");
       }
-
       const responseData = await updatedData.json();
-
       setDataGET((prevData) => {
         const updatedResults = prevData.results.map((rowToEdit) => {
           if (rowToEdit.Id === responseData.result.Id) {
@@ -160,10 +139,8 @@ export const Main = () => {
           }
           return rowToEdit;
         });
-
         return { ...prevData, results: updatedResults };
       });
-
       setIsEdit(false);
       setSnackbar({
         variant: "success",
@@ -173,7 +150,6 @@ export const Main = () => {
         onClickClose: handleCloseSnackbar,
         onClickAction: {},
       });
-
       setTimeout(() => {
         setSnackbar(null);
       }, 3000);
@@ -187,13 +163,11 @@ export const Main = () => {
         onClickClose: handleCloseSnackbar,
         onClickAction: () => {},
       });
-
       setTimeout(() => {
         setSnackbar(null);
       }, 3000);
     }
   };
-
   const handleAdd = () => {
     setIsAdd(!isAdd);
     if (!isAdd) {
@@ -206,45 +180,36 @@ export const Main = () => {
       setUploadedImage(null);
     }
   };
-
   const handleUploadButtonClick = () => {
     const fileInput = document.getElementById("file-input");
     if (fileInput) {
       fileInput.click();
     }
   };
-
   const handleCloseSnackbar = () => {
     setSnackbar(null);
   };
-
   const handleCategoryChange = (value) => {
     setCategory(value);
   };
-
   const handleNameChange = (value) => {
     setName(value);
   };
-
   const handleIngredientChange = (value) => {
     setIngredient(value);
   };
-
   const handleStockChange = (value) => {
     setStock(value);
   };
-
   const handlePriceChange = (value) => {
     setPrice(value);
   };
-
   const handleAddSize = () => {
     setSizeOptions((prevSizeOptions) => {
       const updatedSizeOptions = [...prevSizeOptions, {}];
       return updatedSizeOptions;
     });
   };
-
   const handleSizeChange = (index, value) => {
     setSizeOptions((prevSizeOptions) => {
       const updatedSizeOptions = [...prevSizeOptions];
@@ -255,19 +220,16 @@ export const Main = () => {
       return updatedSizeOptions;
     });
   };
-
   const handlePrice = (index, value) => {
     setSizeOptions((prevSizeOptions) => {
       const updatedSizeOptions = [...prevSizeOptions];
-      updatedSizeOptions[index] = { price: value }; // Update the specific size option
+      updatedSizeOptions[index] = { price: value };
       return updatedSizeOptions;
     });
   };
-
   const handleDeleteSize = (index) => {
     setSizeOptions((prevSizeOptions) => prevSizeOptions.filter((_, i) => i !== index));
   };
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -279,14 +241,11 @@ export const Main = () => {
       setUploadedImage({ file, error: null });
     }
   };
-
   const handleCloseProductDetail = () => {
     setIsProductDetail(false);
   };
-
   const handleToggleUpdateStock = (productId) => {
     const productToUpdate = data.find((product) => product.Id === productId);
-
     if (productToUpdate) {
       setUpdateStockVisible(!isUpdateStockVisible);
       setQuantity(100);
@@ -304,21 +263,16 @@ export const Main = () => {
       console.error(`Product with Id ${productId} not found in data.`);
     }
   };
-
   const handleQuantityChange = (event) => {
     const inputValue = event.target.value;
     if (/^[0-9]*$/.test(inputValue) || inputValue === "") {
       setQuantity(inputValue);
     }
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Quantity:", quantity);
-    // Add any additional logic for handling the stock update here
   };
-
-  // DELETE DATA
   const handleDeleteConfirmed = async (Id) => {
     try {
       const response = await fetch(`https://qbills.biz.id/api/v1/product/${Id}`, {
@@ -328,14 +282,11 @@ export const Main = () => {
           "Content-Type": "application/json",
         },
       });
-
       if (!response.ok) {
         throw new Error("Delete request failed");
       }
-
       await response.json();
       await fetchGET();
-
       setSnackbar({
         variant: "success",
         size: "sm",
@@ -343,7 +294,6 @@ export const Main = () => {
         desc: "Congratulations, you have successfully deleted the product",
         onClickClose: () => setSnackbar(),
       });
-
       setTimeout(() => {
         setSnackbar();
       }, 2000);
@@ -355,15 +305,12 @@ export const Main = () => {
         desc: "Delete data failed",
         onClickClose: () => setSnackbar(),
       });
-
       setTimeout(() => {
         setSnackbar();
       }, 2000);
-
       console.error("Error:", error);
     }
   };
-
   const handleDelete = (Id) => {
     setSnackbar({
       variant: "error",
@@ -376,7 +323,6 @@ export const Main = () => {
       onClickAction: () => handleDeleteConfirmed(Id),
     });
   };
-
   const handleDeleteSelected = () => {
     if (selectedRowCount > 0) {
       setSnackbar({
@@ -391,14 +337,12 @@ export const Main = () => {
       });
     }
   };
-
   const handleDeleteSelectedConfirmed = async () => {
     try {
       const deletedIds = selectedRow.map((rowId) => {
         const selectedData = dataGET.results.find((data) => data.Id === rowId);
         return selectedData.Id;
       });
-
       const deleteRequests = deletedIds.map(async (ID) => {
         const response = await fetch(`https://qbills.biz.id/api/v1/product/${ID}`, {
           method: "DELETE",
@@ -407,20 +351,15 @@ export const Main = () => {
             "Content-Type": "application/json",
           },
         });
-
         if (!response.ok) {
           throw new Error(`Failed to delete product with ID ${ID}`);
         }
-
         return response.json();
       });
-
       await Promise.all(deleteRequests);
       await fetchGET();
-
       setSelectedRow([]);
       setSelectedRowCount(0);
-
       setSnackbar({
         variant: "success",
         size: "sm",
@@ -428,14 +367,12 @@ export const Main = () => {
         desc: `Congratulations, you have successfully deleted ${deletedIds.length} products`,
         onClickClose: () => setSnackbar(),
       });
-
       setTimeout(() => {
         setSnackbar();
       }, 2000);
     } catch (error) {
       setSelectedRow([]);
       setSelectedRowCount(0);
-
       setSnackbar({
         variant: "error",
         size: "sm",
@@ -443,15 +380,12 @@ export const Main = () => {
         desc: "Delete data failed",
         onClickClose: () => setSnackbar(),
       });
-
       setTimeout(() => {
         setSnackbar();
       }, 2000);
-
       console.error("Error:", error);
     }
   };
-
   const postData = async (url, data) => {
     try {
       const response = await fetch(url, {
@@ -462,11 +396,9 @@ export const Main = () => {
         },
         body: JSON.stringify(data),
       });
-
       if (!response.ok) {
         throw new Error("Post request failed");
       }
-
       const responseData = await response.json();
       return responseData;
     } catch (error) {
@@ -474,24 +406,20 @@ export const Main = () => {
       throw error;
     }
   };
-
   const handleAddsave = async () => {
     try {
       const newProduct = {
         name,
         category,
-        ingredients: ingredient, // Include ingredients property
+        ingredients: ingredient,
         stock,
         price,
       };
-
       const responseData = await postData("https://qbills.biz.id/api/v1/product", newProduct);
-
       setDataGET((prevData) => ({
         ...prevData,
         results: [...prevData.results, responseData.result],
       }));
-
       setIsAdd(false);
       setCategory("");
       setName("");
@@ -501,7 +429,6 @@ export const Main = () => {
       setSizeOptions([]);
       setUploadedImage(null);
       setImagePreview(null);
-
       setSnackbar({
         variant: "success",
         size: "sm",
@@ -510,7 +437,6 @@ export const Main = () => {
         onClickClose: handleCloseSnackbar,
         onClickAction: () => {},
       });
-
       setTimeout(() => {
         setSnackbar(null);
       }, 3000);
@@ -524,13 +450,11 @@ export const Main = () => {
         onClickClose: handleCloseSnackbar,
         onClickAction: () => {},
       });
-
       setTimeout(() => {
         setSnackbar(null);
       }, 3000);
     }
   };
-
   return (
     <main className="space-y-5">
       <TopSection
@@ -540,7 +464,6 @@ export const Main = () => {
         selectedRowCount={selectedRowCount}
         handleAdd={handleAdd}
       />
-
       <TableSection
         currentData={currentData}
         selectedRow={selectedRow}
@@ -549,7 +472,6 @@ export const Main = () => {
         handleDelete={handleDelete}
         handleToggleUpdateStock={handleToggleUpdateStock}
       />
-
       <Pagination
         startData={indexOfFirstData >= 0 ? indexOfFirstData + 1 : 0}
         endData={Math.min(indexOfLastData, filteredData?.length) || 0}
@@ -559,7 +481,6 @@ export const Main = () => {
         onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
         onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
       />
-
       <AddProductModal
         isAdd={isAdd}
         categoryOptions={categoryOptions}
@@ -586,7 +507,6 @@ export const Main = () => {
         setIsAdd={setIsAdd}
         handleAddsave={handleAddsave}
       />
-
       <EditProductModal
         isEdit={isEdit}
         categoryOptions={categoryOptions}
@@ -604,14 +524,12 @@ export const Main = () => {
         setIsEdit={setIsEdit}
         handleEditSave={handleEditSave}
       />
-
       <ProductDetailModal
         isProductDetail={isProductDetail}
         sizeOptionsList={sizeOptionsList}
         handleSizeChange={handleSizeChange}
         handleCloseProductDetail={handleCloseProductDetail}
       />
-
       <UpdateStockModal
         isUpdateStockVisible={isUpdateStockVisible}
         coffeeImage={coffeeImage}
@@ -620,8 +538,6 @@ export const Main = () => {
         setUpdateStockVisible={setUpdateStockVisible}
         handleSubmit={handleSubmit}
       />
-
-      {/* SNACKBAR */}
       {snackbar && (
         <section className="fixed inset-0 top-10 z-50 flex justify-center">
           <SnackBar
