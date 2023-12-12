@@ -250,7 +250,7 @@ export const Main = () => {
       </section>
       {/*  Gets App */}
       <section className="w-full bg-P1">
-        <div className="mx-auto flex w-[1711px] items-center justify-center pt-40">
+        <div className="mx-auto flex w-[1711px] items-center justify-center py-40">
           <div className="w-5/12">
             <p className="text-[60px] font-semibold text-P6">
               QBills is available for iOS and Android
