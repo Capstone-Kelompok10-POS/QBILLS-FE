@@ -1,157 +1,74 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { Button, Input, Table, Checkbox, IconButton, Pagination, SnackBar } from "@/components";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 
 export const Main = () => {
+  const session = useSession();
+  const token = session.data?.user?.results.token;
+  const [dataGET, setDataGET] = useState();
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const tableHead = [[], "Fullname", "Username", "Password", []];
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [snackbar, setSnackbar] = useState(null);
-  const [newFullname, setNewFullname] = useState("");
-  const [newUsername, setNewUsername] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
-  const [editedData, setEditedData] = useState({
-    id: null,
-    fullname: "",
-    username: "",
-    password: "",
-    price: "",
-  });
+  const [editDataValues, setEditDataValues] = useState();
 
-  const [data, setData] = useState([
-    {
-      id: 1,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 2,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 3,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 4,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 5,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 6,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 7,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 8,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 9,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 10,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 11,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 12,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 14,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 15,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 16,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 17,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-    {
-      id: 18,
-      fullname: "Joe Mama",
-      username: "Joe",
-      password: "JoeMama123",
-    },
-  ]);
+  // FETCH GET / GET DATA
+  const fetchGET = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/cashier", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
-  const filteredData = data.filter((row) => {
+      if (!response.ok) {
+        throw new Error("Fetch request failed");
+      }
+
+      const data = await response.json();
+      setDataGET(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchGET();
+    }
+  }, [token]);
+
+  // SEARCH DATA
+  const filteredData = dataGET?.results?.filter((data) => {
     const matchesSearch =
-      row.fullname.toLowerCase().includes(search.toLowerCase()) ||
-      row.username.toLowerCase().includes(search.toLowerCase());
+      data.fullname.toLowerCase().includes(search.toLowerCase()) ||
+      data.username.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
 
-  const perPage = 10;
+  //PAGINATION
+  useEffect(() => {
+    if (dataGET?.results.length !== 0) {
+      setCurrentPage(1);
+    }
+  }, [dataGET]);
+  const perPage = 30;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
-  const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
-  const totalPage = Math.ceil(filteredData.length / perPage);
+  const currentData = filteredData?.slice(indexOfFirstData, indexOfLastData);
+  const totalPage = Math.ceil(filteredData?.length / perPage);
 
-  const handleCloseSnackbar = () => {
-    setSnackbar(null);
-  };
-
+  // ADD DATA
   const handleAdd = () => {
     setIsAdd(true);
   };
@@ -159,127 +76,184 @@ export const Main = () => {
   const handleCloseAdd = () => {
     setIsAdd(false);
   };
-  const handleCloseEdit = () => {
-    setIsEdit(false);
-  };
 
-  const handleSave = () => {
-    const newData = {
-      id: data.length + 1,
-      fullname: newFullname,
-      username: newUsername,
-      password: newPassword,
-    };
-
-    setData((prevData) => [...prevData, newData]);
-    setNewFullname("");
-    setNewUsername("");
-    setNewPassword("");
-    handleCloseAdd();
-
-    setSnackbar({
-      variant: "success",
-      size: "sm",
-      label: "Success",
-      desc: "Congratulations, you have successfully added a new cashier account",
-      onClickClose: handleCloseSnackbar,
-      onClickAction: {},
-    });
-
-    setTimeout(() => {
-      setSnackbar(null);
-    }, 5000);
-  };
-  const handleEdit = (rowId) => {
-    const rowToEdit = data.find((row) => row.id === rowId);
-    if (rowToEdit) {
-      setEditedData({
-        id: rowToEdit.id,
-        fullname: rowToEdit.fullname,
-        username: rowToEdit.username,
-        password: rowToEdit.password,
+  const handleSave = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/account", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullname: editDataValues.fullname,
+          username: editDataValues.username,
+          password: editDataValues.password,
+        }),
       });
-      setIsEdit(true);
-    } else {
-      console.error(`Row with id ${rowId} not found in data.`);
+
+      if (!response.ok) {
+        throw new Error("Add request failed");
+      }
+
+      await response.json();
+      await fetchGET();
+
+      setIsEdit(false);
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: "Congratulations, you have successfully added the Account",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+    } catch (error) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Add data failed",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
     }
   };
 
-  const handleEditSave = () => {
-    const updatedData = data.map((rowToEdit) => {
-      if (rowToEdit.id === editedData.id) {
-        return {
-          ...rowToEdit,
-          fullname: editedData.fullname,
-          username: editedData.username,
-          password: editedData.password,
-        };
-      }
-      return rowToEdit;
-    });
-
-    setData(updatedData);
-
+  // EDIT DATA
+  const handleCloseEdit = () => {
     setIsEdit(false);
-    setSnackbar({
-      variant: "success",
-      size: "sm",
-      label: "Success",
-      desc: `Congratulations, you have successfully edited the cashier account`,
-      onClickClose: handleCloseSnackbar,
-      onClickAction: {},
+  };
+  const handleEdit = (id) => {
+    const selectedData = dataGET?.results?.find((data) => data.id === id);
+
+    setEditDataValues({
+      id: selectedData.id,
+      fullname: selectedData.fullname,
+      username: selectedData.username,
+      password: selectedData.password,
     });
 
-    setTimeout(() => {
-      setSnackbar(null);
-    }, 3000);
+    setIsEdit(true);
   };
 
-  const handleDeleteIcon = (rowId) => {
+  const handleEditSave = async () => {
+    try {
+      const response = await fetch(`https://qbills.biz.id/api/v1/cashier/${editDataValues.id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullname: editDataValues.fullname,
+          username: editDataValues.username,
+          password: editDataValues.password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Edit request failed");
+      }
+
+      await response.json();
+      await fetchGET();
+
+      setIsEdit(false);
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: "Congratulations, you have successfully edited the Account",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+    } catch (error) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Edit data failed",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
+    }
+  };
+
+  // DELETE DATA
+  const handleDelete = (Id) => {
     setSnackbar({
       variant: "error",
       size: "sm",
       label: "Delete Confirmation",
       desc: `Are you sure you want to delete this record?`,
-      onClickClose: handleCloseSnackbar,
+      onClickClose: () => setSnackbar(),
       action: true,
       actionLabel: "Delete",
-      onClickAction: () => handleDeleteIconConfirm(rowId),
+      onClickAction: () => handleDeleteConfirmed(Id),
     });
   };
 
-  const handleDeleteIconConfirm = (rowId) => {
+  const handleDeleteConfirmed = async (Id) => {
     try {
-      const updatedData = data.filter((row) => row.id !== rowId);
-      setData(updatedData);
-      handleCloseSnackbar();
+      const response = await fetch(`https://qbills.biz.id/api/v1/cashier/${Id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Delete request failed");
+      }
+
+      await response.json();
+      await fetchGET();
 
       setSnackbar({
         variant: "success",
         size: "sm",
         label: "Success",
         desc: `Congratulations, you have successfully deleted the Account`,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: {},
+        onClickClose: () => setSnackbar(),
       });
 
       setTimeout(() => {
-        setSnackbar(null);
-      }, 5000);
+        setSnackbar();
+      }, 2000);
     } catch (error) {
-      handleCloseSnackbar();
       setSnackbar({
         variant: "error",
         size: "sm",
         label: "Error",
-        desc: error.message,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: {},
+        desc: "Delete data failed",
+        onClickClose: () => setSnackbar(),
       });
 
       setTimeout(() => {
-        setSnackbar(null);
-      }, 10000);
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
     }
   };
 
@@ -290,47 +264,70 @@ export const Main = () => {
         size: "sm",
         label: "Delete Confirmation",
         desc: `Are you sure you want to delete ${selectedRowCount} records?`,
-        onClickClose: handleCloseSnackbar,
+        onClickClose: () => setSnackbar(),
         action: true,
-        actionLabel:"Delete",
-        onClickAction: handleDeleteSelectedConfirm,
+        actionLabel: "Delete",
+        onClickAction: () => handleDeleteSelectedConfirmed(),
       });
     }
   };
 
-  const handleDeleteSelectedConfirm = () => {
+  const handleDeleteSelectedConfirmed = async () => {
     try {
-      const updatedData = data.filter((row, index) => !selectedRow.includes(index));
-      setData(updatedData);
+      const deletedIds = selectedRow.map((rowId) => {
+        const selectedData = dataGET.results.find((data) => data.id === rowId);
+        return selectedData.id;
+      });
+
+      const deleteRequests = deletedIds.map(async (id) => {
+        const response = await fetch(`https://qbills.biz.id/api/v1/account/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to delete account with ID ${id}`);
+        }
+
+        return response.json();
+      });
+
+      await Promise.all(deleteRequests);
+      await fetchGET();
+
       setSelectedRow([]);
       setSelectedRowCount(0);
-      handleCloseSnackbar();
 
       setSnackbar({
         variant: "success",
         size: "sm",
         label: "Success",
-        desc: `Congratulations, you have successfully deleted ${selectedRowCount} Accounts`,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: {}
+        desc: `Congratulations, you have successfully deleted ${deletedIds.length} Accounts`,
+        onClickClose: () => setSnackbar(),
       });
 
       setTimeout(() => {
-        setSnackbar(null);
-      }, 5000)
+        setSnackbar();
+      }, 2000);
     } catch (error) {
-      handleCloseSnackbar();
+      setSelectedRow([]);
+      setSelectedRowCount(0);
+
       setSnackbar({
         variant: "error",
         size: "sm",
         label: "Error",
-        desc: error.message,
-        onClickClose: handleCloseSnackbar,
-        onClickAction: {},
+        desc: "Delete data failed",
+        onClickClose: () => setSnackbar(),
       });
-      setTimeout(() =>{
-        setSnackbar(null);
-      }, 10000)
+      setTimeout(() => {
+        setSnackbar();
+      }, 200);
+
+      console.error("Error:", error);
     }
   };
 
@@ -338,13 +335,16 @@ export const Main = () => {
     setSelectedRowCount(selectedRow.length);
   }, [selectedRow]);
 
-  const handleCheckboxChange = (rowIndex) => {
+  // CHECKBOX
+  const handleCheckbox = (rowId) => {
     setSelectedRow((prevSelectedRow) => {
-      if (prevSelectedRow.includes(rowIndex)) {
-        return prevSelectedRow.filter((index) => index !== rowIndex);
-      } else {
-        return [...prevSelectedRow, rowIndex];
-      }
+      const isSelected = prevSelectedRow.includes(rowId);
+      const updatedSelectedRow = isSelected
+        ? prevSelectedRow.filter((id) => id !== rowId)
+        : [...prevSelectedRow, rowId];
+
+      setSelectedRow(updatedSelectedRow.length);
+      return updatedSelectedRow;
     });
   };
 
@@ -369,11 +369,12 @@ export const Main = () => {
         <div className="flex items-center gap-5 self-stretch">
           <div>
             <Button
-            onClick={handleDeleteSelected} 
-            size={"md-full"} 
-            label={`Delete (${selectedRowCount})`} 
-            color={"error"} 
-            disabled={selectedRowCount === 0} />
+              onClick={handleDeleteSelected}
+              size={"md-full"}
+              label={`Delete (${selectedRowCount})`}
+              color={"error"}
+              disabled={selectedRowCount === 0}
+            />
           </div>
           <div>
             <Button size={"md-full"} label={"Add Account"} onClick={handleAdd} />
@@ -384,13 +385,13 @@ export const Main = () => {
       {/* TABLE */}
       <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
         <Table tableHead={tableHead}>
-          {currentData.map((row, index) => (
+          {currentData?.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
               <td className="px-4 py-2 text-center ">
                 <div className="flex items-center justify-center">
-                  <Checkbox 
-                  checked={selectedRow.includes(index)}
-                  onChange={() => handleCheckboxChange(index)}
+                  <Checkbox
+                    checked={selectedRow.includes(row.id)}
+                    onChange={() => handleCheckbox(row.id)}
                   />
                 </div>
               </td>
@@ -413,7 +414,7 @@ export const Main = () => {
                       size={"sm"}
                       color={"error"}
                       icon={<DeleteIcon fontSize="small" />}
-                      onClick={() => handleDeleteIcon(row.id)}
+                      onClick={() => handleDelete(row.id)}
                     />
                   </span>
                 </div>
@@ -424,20 +425,15 @@ export const Main = () => {
       </section>
 
       {/* PAGINATION */}
-      <section>
-        {" "}
-        <section>
-          <Pagination
-            startData={indexOfFirstData + 1}
-            endData={Math.min(indexOfLastData, filteredData.length)}
-            total={filteredData.length}
-            currentPage={currentPage}
-            totalPage={totalPage}
-            onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
-          />
-        </section>
-      </section>
+      <Pagination
+        startData={indexOfFirstData >= 0 ? indexOfFirstData + 1 : 0}
+        endData={Math.min(indexOfLastData, filteredData?.length) || 0}
+        total={filteredData?.length || 0}
+        currentPage={currentPage || 0}
+        totalPage={totalPage || 0}
+        onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+        onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
+      />
 
       {/* POP UP ADD ACCOUNT */}
       {isAdd && (
@@ -454,8 +450,10 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={newFullname}
-                      onChange={(e) => setNewFullname(e.target.value)}
+                      value={fullname}
+                      onChange={(e) =>
+                        setEditDataValues({ ...editDataValues, fullname: e.target.value })
+                      }
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -463,8 +461,8 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={newUsername}
-                      onChange={(e) => setNewUsername(e.target.value)}
+                      value={username}
+                      onChange={setEditDataValues({ ...editDataValues, username: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -472,8 +470,10 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
+                      value={password}
+                      onChange={(e) =>
+                        setEditDataValues({ ...editDataValues, password: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -508,8 +508,10 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editedData.fullname}
-                      onChange={(e) => setEditedData({ ...editedData, fullname: e.target.value })}
+                      value={editDataValues.fullname}
+                      onChange={(e) =>
+                        setEditDataValues({ ...editDataValues, fullname: e.target.value })
+                      }
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -517,8 +519,10 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editedData.username}
-                      onChange={(e) => setEditedData({ ...editedData, username: e.target.value })}
+                      value={editDataValues.username}
+                      onChange={(e) =>
+                        setEditDataValues({ ...editDataValues, username: e.target.value })
+                      }
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -526,8 +530,10 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editedData.password}
-                      onChange={(e) => setEditedData({ ...editedData, password: e.target.value })}
+                      value={editDataValues.password}
+                      onChange={(e) =>
+                        setEditDataValues({ ...editDataValues, password: e.target.value })
+                      }
                     />
                   </div>
                 </div>
