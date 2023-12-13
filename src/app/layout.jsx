@@ -11,7 +11,7 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en">
+    <html className="scroll-smooth" lang="en">
       <body className={openSans.className}>
         <NextAuthProvider>{children}</NextAuthProvider>
       </body>

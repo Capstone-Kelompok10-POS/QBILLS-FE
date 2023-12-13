@@ -1,9 +1,8 @@
-import { Header, Main, Footer } from "@/modules/landing-page";
+import { Main, Footer } from "@/modules/landing-page";
 
 const LandingPage = () => {
   return (
     <>
-      <Header />
       <Main />
       <Footer />
     </>

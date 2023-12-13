@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 import bgEllipse from "@/public/assets/images/landing-page/ellipse-hero-section.svg";
 import mockHeroSection from "@/public/assets/images/landing-page/mockup-hero-section.png";
@@ -6,22 +8,95 @@ import mockOurFeatures2 from "@/public/assets/images/landing-page/mockup-ourfeat
 import mockOurFeatures3 from "@/public/assets/images/landing-page/mockup-ourfeatures-3.png";
 import mockOurFeatures4 from "@/public/assets/images/landing-page/mockup-ourfeatures-4.png";
 import mockOurFeatures5 from "@/public/assets/images/landing-page/mockup-ourfeatures-5.png";
+import logoQbills2 from "@/public/assets/images/logos/white/logo-4.png";
+import logoQbills3 from "@/public/assets/images/logos/white/logo-5.png";
 import getApps from "@/public/assets/images/landing-page/getapps.png";
 import downloadImage from "@/public/assets/images/landing-page/get_app.png";
-import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
+import logoQbills from "@/public/assets/images/logos/white/logo-2.png";
+import bgLogoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import { Button, IconButton } from "@/components";
 import TakeoutDiningIcon from "@mui/icons-material/TakeoutDining";
 import AccountCircleIcon from "@mui/icons-material/AccountCircleRounded";
 import StoreMallDirectoryOutlinedIcon from "@mui/icons-material/StoreMallDirectoryOutlined";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 export const Main = () => {
+  const [isOpen1, setIsOpen1] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen3, setIsOpen3] = useState(false);
+  const [isOpen4, setIsOpen4] = useState(false);
+  const [isOpen5, setIsOpen5] = useState(false);
+  const [isOpen6, setIsOpen6] = useState(false);
   return (
     <main>
+      {/*  NAVBAR SECTION */}
+      <nav className="absolute top-0 z-50 flex w-full items-center justify-between px-24 py-5">
+        <section className="flex items-center justify-center gap-2">
+          <Image
+            src={logoQbills}
+            alt="Qbills"
+            width={40}
+            quality={30}
+            priority
+            className="h-auto"
+          />
+          <div className="flex flex-col items-center justify-center">
+            <Image
+              src={logoQbills2}
+              alt="Qbills"
+              width={110}
+              quality={30}
+              priority
+              className="mb-1 h-auto"
+            />
+            <Image
+              src={logoQbills3}
+              alt="Qbills"
+              width={130}
+              quality={30}
+              priority
+              className="h-auto"
+            />
+          </div>
+        </section>
+        <section>
+          <ul className="flex items-center font-semibold text-P4">
+            <li>
+              <a href="#hero" className="mx-10 hover:text-P5">
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="#about" className="mx-10 hover:text-P5">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="#features" className="mx-10 hover:text-P5">
+                Features
+              </a>
+            </li>
+            <li>
+              <a href="#faq" className="mx-10 hover:text-P5">
+                FAQ
+              </a>
+            </li>
+            <li>
+              <a href="#getapp" className="mx-10">
+                <Button type={"button"} size={"md-full"} label={"Get app"} />
+              </a>
+            </li>
+          </ul>
+        </section>
+      </nav>
       {/* HERO SECTION */}
-      <section className="relative h-screen w-full overflow-hidden bg-gradient-to-r from-P3 to-P4">
+      <section
+        id="hero"
+        className="relative h-screen w-full overflow-hidden bg-gradient-to-r from-P3 to-P4"
+      >
         <Image
-          src={logoQbills}
+          src={bgLogoQbills}
           alt="QBills"
           width={500}
           quality={30}
@@ -32,20 +107,18 @@ export const Main = () => {
 
         <div className="relative z-10 grid h-full w-full grid-cols-2">
           <div className="flex items-center justify-center gap-5 text-N1">
-            <div className="w-[540px] space-y-5">
+            <div className="w-[540px] -ml-52 space-y-5">
+              <h1 className="text-xl font-bold">Point Of Sales</h1>
               <h1 className="text-5xl font-semibold">
                 Boost Your Sales with
                 <br />
                 Our Point of Sales App
               </h1>
               <p className="text-justify">
-                Manage your transaction, track product, and analyze report sales. Build It On
-                Desktop, Launch It On Mobile. You can gets it on Google Play and App Store.
+                Manage your transaction, track product, and analyze report sales.{" "}
+                <span className="font-bold">Build It On Desktop, Launch It On Mobile.</span> You can
+                gets it on Google Play and App Store.
               </p>
-              <div className="flex items-center gap-5">
-                <Button type={"button"} size={"md"} label={"Gets App"} />
-                <Button type={"button"} variant={"outline"} size={"md"} label={"Gets App"} />
-              </div>
             </div>
           </div>
 
@@ -63,7 +136,7 @@ export const Main = () => {
       </section>
 
       {/* ABOUT US */}
-      <section className="flex h-[703px] w-full justify-center bg-P1">
+      <section id="about" className="flex h-[703px] w-full justify-center bg-P1">
         <div className="my-[155px] ml-[101px] h-[304px] w-[606px]">
           <h1 className="text-N07 text-[64px] font-semibold">About Us</h1>
           <p className="mt-[50px] text-justify text-[20px] font-normal leading-9 text-N5">
@@ -122,7 +195,7 @@ export const Main = () => {
       </section>
 
       {/* Our Features */}
-      <section className="w-full mx-auto bg-P1">
+      <section id="features" className="mx-auto w-full bg-P1">
         <p className="pt-16 text-center text-6xl font-semibold text-N7">Our Features</p>
         <div className="mx-auto mt-20 flex w-11/12 items-center justify-center gap-x-2">
           <div className="w-5/12">
@@ -193,63 +266,153 @@ export const Main = () => {
         </div>
       </section>
       {/* FAQ */}
-      <section className="w-full mx-auto bg-P1 ">
+      <section id="faq" className="mx-auto w-full bg-P1 ">
         <p className="pt-48  text-center text-6xl font-semibold text-N7">
           Frequently Asked Questions (FAQ)
         </p>
         <div className="mx-auto mt-24 grid w-full grid-cols-2 place-items-center gap-y-10">
-          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+          <div
+            className={`flex ${
+              isOpen1 ? "h-[186px] flex-col border-2 border-P4 py-20" : "h-[140px]"
+            } w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg`}
+          >
             <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               How to add products/manage products/access products?
             </p>
             <div className="mr-8 ms-auto">
-              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+              <IconButton
+                size={"sm"}
+                icon={!isOpen1 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+                onClick={() => setIsOpen1(!isOpen1)}
+              />
             </div>
+            {isOpen1 && (
+              <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
+                To add, manage, or access products, navigate to the "Product Management" section in
+                the application. Use the designated features to add new items, update existing ones,
+                and access the product inventory.s
+              </p>
+            )}
           </div>
-          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+          <div
+            className={`flex ${
+              isOpen2 ? "h-[186px] flex-col border-2 border-P4 py-20" : "h-[140px]"
+            } w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg`}
+          >
             <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               How is the management of cashier accounts handled within the application?
             </p>
             <div className="mr-8 ms-auto">
-              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+              <IconButton
+                size={"sm"}
+                icon={!isOpen2 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+                onClick={() => setIsOpen2(!isOpen2)}
+              />
             </div>
+            {isOpen2 && (
+              <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
+                Cashier accounts can be effectively managed within the application. Access the
+                "Account Management" section, where you can add or remove cashier accounts, assign
+                roles, and monitor their activities for streamlined cashier management.
+              </p>
+            )}
           </div>
-          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+          <div
+            className={`flex ${
+              isOpen3 ? "h-[186px] flex-col border-2 border-P4 py-20" : "h-[140px]"
+            } w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg`}
+          >
             <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               What payments are possible?
             </p>
             <div className="mr-8 ms-auto">
-              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+              <IconButton
+                size={"sm"}
+                icon={!isOpen3 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+                onClick={() => setIsOpen3(!isOpen3)}
+              />
             </div>
+            {isOpen3 && (
+              <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
+                To add, manage, or access products, navigate to the "Product Management" section in
+                the application. Use the designated features to add new items, update existing ones,
+                and access the product inventory.
+              </p>
+            )}
           </div>
-          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+          <div
+            className={`flex ${
+              isOpen4 ? "h-[186px] flex-col border-2 border-P4 py-20" : "h-[140px]"
+            } w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg`}
+          >
             <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               Where can users view transaction history, both on mobile and the dashboard?
             </p>
             <div className="mr-8 ms-auto">
-              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+              <IconButton
+                size={"sm"}
+                icon={!isOpen4 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+                onClick={() => setIsOpen4(!isOpen4)}
+              />
             </div>
+            {isOpen4 && (
+              <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
+                Users can conveniently view transaction history both on the mobile app and the
+                dashboard. Simply navigate to the "Transaction History" tab to access detailed
+                records of past transactions.
+              </p>
+            )}
           </div>
-          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+          <div
+            className={`flex ${
+              isOpen5 ? "h-[186px] flex-col border-2 border-P4 py-20" : "h-[140px]"
+            } w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg`}
+          >
             <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               How can first-time users access a manual guide when initially using the application?
             </p>
             <div className="mr-8 ms-auto">
-              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+              <IconButton
+                size={"sm"}
+                icon={!isOpen5 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+                onClick={() => setIsOpen5(!isOpen5)}
+              />
             </div>
+            {isOpen5 && (
+              <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
+                Yes, there is a comprehensive manual guide available for first-time users. You can
+                access it through the "Help" or "Getting Started" section in the application,
+                providing step-by-step instructions for a seamless onboarding experience.
+              </p>
+            )}
           </div>
-          <div className="flex h-[140px] w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg">
+          <div
+             className={`flex ${
+              isOpen6 ? "h-[186px] flex-col py-20 border-2 border-P4" : "h-[140px]"
+            } w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg`}
+          >
             <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
               How does the application allow for the management of member accounts?
             </p>
             <div className="mr-8 ms-auto">
-              <IconButton size={"sm"} icon={<KeyboardArrowDownIcon />} />
+              <IconButton
+                size={"sm"}
+                icon={!isOpen6 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+                onClick={() => setIsOpen6(!isOpen6)}
+              />
             </div>
+            {isOpen6 && (
+              <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
+                The application offers a user-friendly interface for managing member accounts. In
+                the "Member Management" section, you can add or remove members, update information,
+                and ensure a personalized experience for your customers.
+              </p>
+            )}
           </div>
         </div>
       </section>
       {/*  Gets App */}
-      <section className="w-full bg-P1">
+      <section id="getapp" className="w-full bg-P1">
         <div className="mx-auto flex w-[1711px] items-center justify-center py-40">
           <div className="w-5/12">
             <p className="text-[60px] font-semibold text-P6">
