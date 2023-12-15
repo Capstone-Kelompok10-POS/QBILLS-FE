@@ -8,11 +8,11 @@ import mockOurFeatures2 from "@/public/assets/images/landing-page/mockup-ourfeat
 import mockOurFeatures3 from "@/public/assets/images/landing-page/mockup-ourfeatures-3.png";
 import mockOurFeatures4 from "@/public/assets/images/landing-page/mockup-ourfeatures-4.png";
 import mockOurFeatures5 from "@/public/assets/images/landing-page/mockup-ourfeatures-5.png";
-import logoQbills2 from "@/public/assets/images/logos/white/logo-4.png";
-import logoQbills3 from "@/public/assets/images/logos/white/logo-5.png";
+import logoQbills2 from "@/public/assets/images/logos/brown/logo-4.png";
+import logoQbills3 from "@/public/assets/images/logos/brown/logo-5.png";
 import getApps from "@/public/assets/images/landing-page/getapps.png";
 import downloadImage from "@/public/assets/images/landing-page/get_app.png";
-import logoQbills from "@/public/assets/images/logos/white/logo-2.png";
+import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import bgLogoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import { Button, IconButton } from "@/components";
 import TakeoutDiningIcon from "@mui/icons-material/TakeoutDining";
@@ -31,7 +31,7 @@ export const Main = () => {
   return (
     <main>
       {/*  NAVBAR SECTION */}
-      <nav className="absolute top-0 z-50 flex w-full items-center justify-between px-24 py-5">
+      <nav className="bg-P1 fixed top-0 z-50 flex w-full items-center justify-between px-24  shadow-md">
         <section className="flex items-center justify-center gap-2">
           <Image
             src={logoQbills}
@@ -107,18 +107,18 @@ export const Main = () => {
 
         <div className="relative z-10 grid h-full w-full grid-cols-2">
           <div className="flex items-center justify-center gap-5 text-N1">
-            <div className="w-[540px] -ml-52 space-y-5">
-              <h1 className="text-xl font-bold">Point Of Sales</h1>
-              <h1 className="text-5xl font-semibold">
-                Boost Your Sales with
-                <br />
-                Our Point of Sales App
-              </h1>
-              <p className="text-justify">
-                Manage your transaction, track product, and analyze report sales.{" "}
-                <span className="font-bold">Build It On Desktop, Launch It On Mobile.</span> You can
-                gets it on Google Play and App Store.
-              </p>
+            <div className="-ml-52 w-[550px] space-y-5">
+              <h1 className="text-[24px] font-bold">Point Of Sales</h1>
+             <div className="w-[690px]">
+               <h1 className="text-[64px] font-semibold">
+                 Boost Your Sales with Our Point of Sales App
+               </h1>
+               <p className="text-justify text-[20px] leading-10">
+                 Manage your transaction, track product, and analyze report sales.{" "}
+                 <span className="font-bold">Build It On Desktop, Launch It On Mobile.</span> You can
+                 gets it on Google Play and App Store.
+               </p>
+             </div>
             </div>
           </div>
 
@@ -387,8 +387,8 @@ export const Main = () => {
             )}
           </div>
           <div
-             className={`flex ${
-              isOpen6 ? "h-[186px] flex-col py-20 border-2 border-P4" : "h-[140px]"
+            className={`flex ${
+              isOpen6 ? "h-[186px] flex-col border-2 border-P4 py-20" : "h-[140px]"
             } w-[700px] items-center justify-center rounded-2xl bg-N1 shadow-lg`}
           >
             <p className="me-auto ml-10 w-9/12 text-lg font-semibold">
