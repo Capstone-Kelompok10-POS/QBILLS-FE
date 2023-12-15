@@ -19,6 +19,11 @@ export const Main = () => {
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [editDataValues, setEditDataValues] = useState();
+  const [newData, setNewData] = useState({
+    fullname: "",
+    username: "",
+    password: "",
+  });
 
   // FETCH GET / GET DATA
   const fetchGET = async () => {
@@ -79,17 +84,13 @@ export const Main = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch("https://qbills.biz.id/api/v1/account", {
+      const response = await fetch("https://qbills.biz.id/api/v1/cashier/register", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          fullname: editDataValues.fullname,
-          username: editDataValues.username,
-          password: editDataValues.password,
-        }),
+        body: JSON.stringify(newData),
       });
 
       if (!response.ok) {
@@ -98,8 +99,6 @@ export const Main = () => {
 
       await response.json();
       await fetchGET();
-
-      setIsEdit(false);
 
       setSnackbar({
         variant: "success",
@@ -112,6 +111,13 @@ export const Main = () => {
       setTimeout(() => {
         setSnackbar();
       }, 2000);
+
+      setNewData({
+        fullname: "",
+        username: "",
+        password: "",
+      });
+      setIsAdd(false);
     } catch (error) {
       setSnackbar({
         variant: "error",
@@ -280,7 +286,7 @@ export const Main = () => {
       });
 
       const deleteRequests = deletedIds.map(async (id) => {
-        const response = await fetch(`https://qbills.biz.id/api/v1/account/${id}`, {
+        const response = await fetch(`https://qbills.biz.id/api/v1/cashier/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -305,7 +311,7 @@ export const Main = () => {
         variant: "success",
         size: "sm",
         label: "Success",
-        desc: `Congratulations, you have successfully deleted ${deletedIds.length} Accounts`,
+        desc: `Congratulations, you have successfully deleted ${deletedIds.length} accounts`,
         onClickClose: () => setSnackbar(),
       });
 
@@ -323,9 +329,10 @@ export const Main = () => {
         desc: "Delete data failed",
         onClickClose: () => setSnackbar(),
       });
+
       setTimeout(() => {
         setSnackbar();
-      }, 200);
+      }, 2000);
 
       console.error("Error:", error);
     }
@@ -343,7 +350,7 @@ export const Main = () => {
         ? prevSelectedRow.filter((id) => id !== rowId)
         : [...prevSelectedRow, rowId];
 
-      setSelectedRow(updatedSelectedRow.length);
+      setSelectedRowCount(updatedSelectedRow.length);
       return updatedSelectedRow;
     });
   };
@@ -397,7 +404,7 @@ export const Main = () => {
               </td>
               <td className="px-4 py-2 text-center">{row.fullname}</td>
               <td className="px-4 py-2 text-center">{row.username}</td>
-              <td className="px-4 py-2 text-center">{row.password}</td>
+              <td className="px-4 py-2 text-center">*******</td>
 
               <td className="px-4 py-2 text-center">
                 <div className="flex items-center justify-center">
@@ -450,10 +457,8 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={fullname}
-                      onChange={(e) =>
-                        setEditDataValues({ ...editDataValues, fullname: e.target.value })
-                      }
+                      value={newData.fullname}
+                      onChange={(e) => setNewData({ ...newData, fullname: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -461,8 +466,8 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={username}
-                      onChange={setEditDataValues({ ...editDataValues, username: e.target.value })}
+                      value={newData.username}
+                      onChange={(e) => setNewData({ ...newData, username: e.target.value })}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -470,10 +475,8 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={password}
-                      onChange={(e) =>
-                        setEditDataValues({ ...editDataValues, password: e.target.value })
-                      }
+                      value={newData.password}
+                      onChange={(e) => setNewData({ ...newData, password: e.target.value })}
                     />
                   </div>
                 </div>
@@ -485,7 +488,7 @@ export const Main = () => {
                     label={"Cancel"}
                     onClick={handleCloseAdd}
                   />
-                  <Button type={"button"} size={"md-full"} label={"Save"} onClick={handleSave} />
+                  <Button type={"button"} size={"md-full"} label={"Add"} onClick={handleSave} />
                 </div>
               </div>
             </div>
