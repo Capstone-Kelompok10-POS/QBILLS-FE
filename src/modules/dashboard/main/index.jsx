@@ -320,7 +320,7 @@ export const Main = () => {
                 {dataBestSellingProduct?.results?.map((row, index) => (
                   <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
                     <td className="px-4 py-2 text-center">
-                      <Image
+                      <Image  
                         src={row.productImage}
                         alt={"Photo Product"}
                         width={30}

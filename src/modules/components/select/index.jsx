@@ -50,7 +50,7 @@ export const ComponentSelect = () => {
           label={"Select"}
           name={"ErrorSelectSmall"}
           options={["A", "B"]}
-          startIcon={<CloseIcon sx={{ fontSize: 30 }} />}
+        CZ
           value={value}
           onChange={(e) => setValue(e.target.value)}
           supText={true}
