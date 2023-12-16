@@ -40,17 +40,23 @@ const options = {
       text: "Chart.js Line Chart",
     },
   },
+  scales: {
+    y: {
+      min: 0,
+      max: 70,
+      ticks: {
+        stepSize: 7,
+      },
+    },
+  },
 };
+
 const options2 = {
   responsive: true,
   plugins: {
     legend: {
       display: true,
       position: "right",
-    },
-    title: {
-      display: false,
-      text: "Chart.js Line Chart",
     },
   },
 };
@@ -63,6 +69,7 @@ const chartData = {
       label: "Revenue",
       borderColor: "rgb(190, 132, 101)",
       backgroundColor: "rgb(190, 132, 101)",
+      data: [20, 30, 0, 10],
     },
   ],
 };
@@ -75,15 +82,15 @@ const data = {
       data: [12, 19, 3, 5],
       backgroundColor: [
         "#DA2D2D", // Red
-        "#2F80ED", // Blue
         "#FFCC00", // Yellow
         "#33B469", // Green
+        "#2F80ED", // Blue
       ],
       borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
+        "#DA2D2D", // Red
+        "#FFCC00", // Yellow
+        "#33B469", // Green
+        "#2F80ED", // Blue
       ],
       borderWidth: 1,
     },
@@ -142,7 +149,7 @@ export const Main = () => {
   return (
     <>
       <div className="flex">
-        <section className="h-3/6 w-9/12 space-y-3">
+        <section className="h-3/6 w-8/12 space-y-3">
           <div className="rounded-lg border p-5">
             <div className="flex justify-around">
               <h2 className="mb-10 me-auto text-2xl font-semibold">Revenue Monthly Report</h2>
@@ -171,12 +178,38 @@ export const Main = () => {
                 />
               </div>
             </div>
-            <Line options={options} data={chartData} height={80} />
+            <Line options={options} data={chartData} height={180} />
           </div>
         </section>
-        <section className="ml-5 h-auto w-3/12 space-y-5 rounded-lg border p-5">
-          <h2 className="text-2xl font-semibold">Popular Category</h2>
-          <Doughnut options={options2} data={data} />
+        <section className="ml-5 h-auto w-4/12 space-y-5 rounded-lg border p-5">
+          <div className="flex items-start">
+            <h2 className="text-2xl font-semibold">Popular Category</h2>
+            <div className="mr-6 ms-auto">
+              <Select
+                size={"sm"}
+                label={"Month"}
+                name={"SelectSmall"}
+                options={[
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December",
+                ]}
+                value={value}
+                supText={true}
+                onChange={(e) => setValue(e.target.value)}
+              />
+            </div>
+          </div>
+          <Doughnut options={options2} data={data} height={100} width={100} />
         </section>
       </div>
       <section className="mt-5">
@@ -231,27 +264,20 @@ export const Main = () => {
         />
         {isOpen && (
           <div className="absolute bottom-0 right-20 w-80 rounded-md bg-white p-4 shadow-md">
-            {/* Chatbox content goes here */}
-            <h3 className="mb-2 text-lg font-semibold">Chatbox</h3>
+            <h3 className="mb-2 text-lg font-semibold">Chatbot</h3>
             <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-              {/* Render chat messages */}
               {chatMessages && (
                 <div className="mb-2">
-                  {/* Display the chat message */}
                   <span>{chatMessages}</span>
                 </div>
               )}
             </div>
-            {/* Input for sending messages */}
             <Input
               placeholder="Type your message..."
               value={chatMessages}
               onChange={(e) => {
                 setChatMessages(e.target.value);
               }}
-              // You need to implement a function to send the message
-              // onClick={() => handleSendMessage()}
-              // Add any other necessary props
             />
           </div>
         )}
