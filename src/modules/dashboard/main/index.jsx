@@ -114,7 +114,6 @@ export const Main = () => {
       }
 
       const data = await response.json();
-      console.log(data);
       setDataMonthlyRevenue(data.results);
     } catch (error) {
       console.error("Error:", error);
@@ -330,7 +329,7 @@ export const Main = () => {
                     </td>
                     <td className="px-4 py-2 text-center">{row.productName}</td>
                     <td className="px-4 py-2 text-center">{row.ProductTypeName}</td>
-                    <td className="px-4 py-2 text-center">{row.price}</td>
+                    <td className="px-4 py-2 text-center">{row.productPrice}</td>
                     <td className="px-4 py-2 text-center">{row.totalQuantity}</td>
                     <td className="px-4 py-2 text-center">{row.amount}</td>
                   </tr>
@@ -378,10 +377,10 @@ export const Main = () => {
                 <span>Rank</span>
                 <span>Name</span>
               </div>
-              <span className="mr-10">Point</span>
+              <span className="mr-5">Point</span>
             </div>
 
-            <ul className="max-h-[160px] space-y-5 overflow-y-scroll font-semibold">
+            <ul className="max-h-[160px] space-y-5 font-semibold">
               {dataTopMembership?.results?.map((data, index) => (
                 <li className="flex items-center justify-between" key={index}>
                   <div className="mx-5 flex items-center gap-5">
@@ -394,7 +393,7 @@ export const Main = () => {
                     </span>
                     <span>{data.name}</span>
                   </div>
-                  <span className="mr-5">{data.point}</span>
+                  <span className="mr-5">{data.totalPoint}</span>
                 </li>
               ))}
             </ul>
