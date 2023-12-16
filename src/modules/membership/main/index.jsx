@@ -354,7 +354,7 @@ export const Main = () => {
               </td>
               <td className="px-4 py-2 text-center">{row.name}</td>
               <td className="px-4 py-2 text-center">{row.phoneNumber}</td>
-              <td className="px-4 py-2 text-center">{row.point}</td>
+              <td className="px-4 py-2 text-center">{row.totalPoint}</td>
 
               <td className="px-4 py-2 text-center">
                 <div className="flex items-center justify-center">
