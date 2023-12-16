@@ -19,9 +19,15 @@ export const Main = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
   const [IsAdd, setIsAdd] = useState(false);
-  const [editDataValues, setEditDataValues] = useState();
   const [snackbar, setSnackbar] = useState(null);
   const [newData, setNewData] = useState({
+    fullname: "",
+    username: "",
+    password: "",
+  });
+
+  const [editDataValues, setEditDataValues] = useState({
+    id: null,
     fullname: "",
     username: "",
     password: "",
@@ -92,12 +98,12 @@ export const Main = () => {
   const handleEdit = (id) => {
     const selectedData = dataGET?.results?.find((data) => data.id === id);
 
-    setEditDataValues({
+    setEditDataValues((prevValues) => ({
       id: selectedData.id,
-      fullname: selectedData.fullname,
-      username: selectedData.username,
-      password: selectedData.password,
-    });
+      fullname: selectedData.fullname || prevValues.fullname,
+      username: selectedData.username || prevValues.username,
+      password: selectedData.password || prevValues.password,
+    }));
 
     setIsEdit(true);
   };
