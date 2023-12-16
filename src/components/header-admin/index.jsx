@@ -7,34 +7,22 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IconButton } from "../icon-button";
 
+const titleMap = {
+  "/superadmin": "Manage Account",
+  "/dashboard": "Dashboard",
+  "/manageaccount": "Manage Account",
+  "/manageproduct": "Manage Product",
+  "/membership": "Membership",
+  "/transaction": "Transaction",
+  "/report": "Report",
+};
+
 export const HeaderAdmin = ({ name, role }) => {
   const pathname = usePathname();
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    switch (pathname) {
-      case "/dashboard":
-        setTitle("Dashboard");
-        break;
-      case "/manageaccount":
-        setTitle("Manage Account");
-        break;
-      case "/manageproduct":
-        setTitle("Manage Product");
-        break;
-      case "/membership":
-        setTitle("Membership");
-        break;
-      case "/transaction":
-        setTitle("Transaction");
-        break;
-      case "/report":
-        setTitle("Report");
-        break;
-      default:
-        setTitle("Example Page");
-        break;
-    }
+    setTitle(titleMap[pathname] || "Example Page");
   }, [pathname]);
 
   return (
@@ -63,11 +51,7 @@ export const HeaderAdmin = ({ name, role }) => {
             </div>
           </div>
 
-          <IconButton
-            size={"lg"}
-            icon={<NotificationsOutlinedIcon fontSize="medium" />}
-            onClick={() => {}}
-          />
+          <IconButton size={"lg"} icon={<NotificationsOutlinedIcon fontSize="medium" />} />
         </section>
       </div>
     </header>
