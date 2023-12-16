@@ -5,6 +5,7 @@ export const viewport = {
 
 export const metadata = {
   title: "QBills | Login",
+  description: "",
 };
 
 const LoginLayout = ({ children }) => {

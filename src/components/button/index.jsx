@@ -28,6 +28,8 @@ export const Button = ({
           !variant && color === "warning" && !disabled,
         "border-E4 bg-E4 text-N1 hover:border-E5 hover:bg-E5 active:scale-95 active:border-E6 active:bg-E6":
           !variant && color === "error" && !disabled,
+        "border-N1 bg-N1 text-P4 hover:border-P5 hover:bg-P5 active:scale-95 active:border-P6 active:bg-P6":
+          !variant && color === "white" && !disabled,
 
         // OUTLINE
         "border-P4 text-P4 hover:border-P5 hover:bg-P5 hover:text-N1 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
@@ -40,6 +42,8 @@ export const Button = ({
           variant === "outline" && color === "warning" && !disabled,
         "border-E4 text-E4 hover:border-E5 hover:bg-E5 hover:text-N1 active:scale-95 active:border-E6 active:bg-E6 active:text-N1":
           variant === "outline" && color === "error" && !disabled,
+        "border-N1 text-N1 hover:border-P5 hover:bg-P5 hover:text-N1 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
+          variant === "outline" && color === "white" && !disabled,
 
         // DISABLED
         "cursor-not-allowed border-N3 bg-N2 text-N3": !variant && disabled,

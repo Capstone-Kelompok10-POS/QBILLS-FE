@@ -24,6 +24,59 @@ import { usePathname } from "next/navigation";
 
 export const NavigationDrawer = () => {
   const pathname = usePathname();
+
+  let navLinks;
+
+  if (pathname === "/superadmin") {
+    navLinks = [
+      {
+        path: "/superadmin",
+        name: "Manage Account",
+        Icon: AccountCircleIcon,
+        OutlinedIcon: AccountCircleOutlinedIcon,
+      },
+    ];
+  } else {
+    navLinks = [
+      {
+        path: "/dashboard",
+        name: "Dashboard",
+        Icon: DashboardIcon,
+        OutlinedIcon: DashboardOutlinedIcon,
+      },
+      {
+        path: "/manageaccount",
+        name: "Manage Account",
+        Icon: AccountCircleIcon,
+        OutlinedIcon: AccountCircleOutlinedIcon,
+      },
+      {
+        path: "/manageproduct",
+        name: "Manage Product",
+        Icon: AddBoxIcon,
+        OutlinedIcon: AddBoxOutlinedIcon,
+      },
+      {
+        path: "/membership",
+        name: "Membership",
+        Icon: LocalPoliceIcon,
+        OutlinedIcon: LocalPoliceOutlinedIcon,
+      },
+      {
+        path: "/transaction",
+        name: "Transaction",
+        Icon: PaymentIcon,
+        OutlinedIcon: PaymentOutlinedIcon,
+      },
+      {
+        path: "/report",
+        name: "Report",
+        Icon: LeaderboardIcon,
+        OutlinedIcon: LeaderboardOutlinedIcon,
+      },
+    ];
+  }
+
   return (
     <nav className="fixed left-0 top-0 flex h-screen w-96 flex-col gap-14 border-r bg-N1.1 px-6 py-14 text-N3">
       <section className="flex w-full items-center justify-center gap-2">
@@ -50,76 +103,20 @@ export const NavigationDrawer = () => {
 
       <section>
         <ul className="flex w-full flex-col gap-4 text-xl font-semibold">
-          <li
-            className={clsx("w-full cursor-pointer rounded-lg p-4", {
-              "hover:bg-P2 hover:text-P6 active:scale-95": pathname !== "/dashboard",
-              "bg-P2 text-P6": pathname === "/dashboard",
-            })}
-          >
-            <Link href={"/dashboard"} className="flex items-center gap-4">
-              {pathname === "/dashboard" ? <DashboardIcon /> : <DashboardOutlinedIcon />}
-              Dashboard
-            </Link>
-          </li>
-          <li
-            className={clsx("w-full cursor-pointer rounded-lg p-4", {
-              "hover:bg-P2 hover:text-P6 active:scale-95": pathname !== "/manageaccount",
-              "bg-P2 text-P6": pathname === "/manageaccount",
-            })}
-          >
-            <Link href={"/manageaccount"} className="flex items-center gap-4">
-              {pathname === "/manageaccount" ? (
-                <AccountCircleIcon />
-              ) : (
-                <AccountCircleOutlinedIcon />
-              )}
-              Manage Account
-            </Link>
-          </li>
-          <li
-            className={clsx("w-full cursor-pointer rounded-lg p-4", {
-              "hover:bg-P2 hover:text-P6 active:scale-95": pathname !== "/manageproduct",
-              "bg-P2 text-P6": pathname === "/manageproduct",
-            })}
-          >
-            <Link href={"/manageproduct"} className="flex items-center gap-4">
-              {pathname === "/manageproduct" ? <AddBoxIcon /> : <AddBoxOutlinedIcon />}
-              Manage Product
-            </Link>
-          </li>
-          <li
-            className={clsx("w-full cursor-pointer rounded-lg p-4", {
-              "hover:bg-P2 hover:text-P6 active:scale-95": pathname !== "/membership",
-              "bg-P2 text-P6": pathname === "/membership",
-            })}
-          >
-            <Link href={"/membership"} className="flex items-center gap-4">
-              {pathname === "/membership" ? <LocalPoliceIcon /> : <LocalPoliceOutlinedIcon />}
-              Membership
-            </Link>
-          </li>
-          <li
-            className={clsx("w-full cursor-pointer rounded-lg p-4", {
-              "hover:bg-P2 hover:text-P6 active:scale-95": pathname !== "/transaction",
-              "bg-P2 text-P6": pathname === "/transaction",
-            })}
-          >
-            <Link href={"/transaction"} className="flex items-center gap-4">
-              {pathname === "/transaction" ? <PaymentIcon /> : <PaymentOutlinedIcon />}
-              Transaction
-            </Link>
-          </li>
-          <li
-            className={clsx("w-full cursor-pointer rounded-lg p-4", {
-              "hover:bg-P2 hover:text-P6 active:scale-95": pathname !== "/report",
-              "bg-P2 text-P6": pathname === "/report",
-            })}
-          >
-            <Link href={"/report"} className="flex items-center gap-4">
-              {pathname === "/report" ? <LeaderboardIcon /> : <LeaderboardOutlinedIcon />}
-              Report
-            </Link>
-          </li>
+          {navLinks.map(({ path, name, Icon, OutlinedIcon }) => (
+            <li
+              key={path}
+              className={clsx("w-full cursor-pointer rounded-lg p-4", {
+                "hover:bg-P2 hover:text-P6 active:scale-95": pathname !== path,
+                "bg-P2 text-P6": pathname === path,
+              })}
+            >
+              <Link href={path} className="flex items-center gap-4">
+                {pathname === path ? <Icon /> : <OutlinedIcon />}
+                {name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
 
