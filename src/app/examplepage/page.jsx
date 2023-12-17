@@ -18,7 +18,7 @@ import {
   ComponentSelect,
   ComponentSnackBar,
   ComponentTable,
-} from "@/modules/components";
+} from "@/modules/example-page/components";
 import { Footer, Header, Main } from "@/modules/example-page";
 import logoVercel from "@/public/assets/images/logos/vercel.svg";
 import Image from "next/image";
@@ -38,6 +38,7 @@ const ExamplePage = () => {
         <ComponentChip />
         <ComponentFAB />
         <ComponentIconButton />
+        <ComponentCheckbox />
         <ComponentInput />
         <ComponentSelect />
         <ComponentDate />
@@ -52,7 +53,6 @@ const ExamplePage = () => {
         <ComponentTable />
         <ComponentPagination />
         <ComponentCardMembership />
-        <ComponentCheckbox />
         <ComponentProductDetail />
       </section>
     </main>
