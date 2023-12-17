@@ -29,19 +29,17 @@ export const ProductDetail = ({
               {sizeOptionsList.map((option) => (
                 <div
                   key={option}
-                  className={`inline-flex flex-col items-start justify-start gap-[11px] ${
-                    size === option ? "text-N5" : "text-N2"
+                  className={`inline-flex flex-col items-center justify-center font-semibold ${
+                    size === option ? "text-P4" : "text-N2"
                   }`}
                   onClick={() => onSizeChange(option)}
                 >
                   <LocalCafeIcon
-                    fontSize={
-                      option === "SMALL" ? "small" : option === "NORMAL" ? "medium" : "large"
-                    }
+                    sx={{ fontSize: option === "SMALL" ? 30 : option === "NORMAL" ? 40 : 50 }}
                     disabled={false}
                     className={`h-${
-                      option === "Small" ? "45" : option === "Normal" ? "55" : "65"
-                    } w-${option === "Small" ? "45" : option === "Normal" ? "55" : "65"} ${
+                      option === "SMALL" ? "45" : option === "NORMAL" ? "55" : "65"
+                    } w-${option === "SMALL" ? "45" : option === "NORMAL" ? "55" : "65"} ${
                       size === option ? "text-P4" : "text-N2"
                     }`}
                   />

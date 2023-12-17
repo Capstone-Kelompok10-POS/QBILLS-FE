@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IconButton } from "../icon-button";
+import { useSession } from "next-auth/react";
 
 const titleMap = {
   "/superadmin": "Manage Account",
@@ -17,9 +18,10 @@ const titleMap = {
   "/report": "Report",
 };
 
-export const HeaderAdmin = ({ name, role }) => {
+export const HeaderAdmin = () => {
   const pathname = usePathname();
   const [title, setTitle] = useState("");
+  const session = useSession();
 
   useEffect(() => {
     setTitle(titleMap[pathname] || "Example Page");
@@ -45,10 +47,14 @@ export const HeaderAdmin = ({ name, role }) => {
               />
             </div>
 
-            <div className="space-y-1">
-              <p className="font-semibold">{name}</p>
-              <p className="text-xs">{role}</p>
-            </div>
+            {session?.data?.user?.results?.role === "Admin" ? (
+              <div className="space-y-1">
+                <p className="font-semibold">{session?.data?.user?.results?.fullname}</p>
+                <p className="text-xs">{session?.data?.user?.results?.role}</p>
+              </div>
+            ) : (
+              <p className="font-semibold">Super Admin</p>
+            )}
           </div>
 
           <IconButton size={"lg"} icon={<NotificationsOutlinedIcon fontSize="medium" />} />

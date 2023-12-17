@@ -15,7 +15,7 @@ const AdminLayout = ({ children }) => {
     <>
       <NavigationDrawer />
       <div className="ml-96">
-        <HeaderAdmin name={"Gede Dewo Wahyu M.W"} role={"Admin"} />
+        <HeaderAdmin />
       </div>
       <div className="ml-96 p-5">{children}</div>
     </>
