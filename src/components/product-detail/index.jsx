@@ -18,7 +18,7 @@ export const ProductDetail = ({
   const isCoffeeCategory = category === "Coffee";
 
   return (
-    <section className="relative h-[659px] w-[981px] overflow-hidden bg-white">
+    <section className="relative h-[659px] w-[981px] overflow-hidden rounded-xl bg-white">
       <div className="absolute left-[494px] top-[474px] h-[186px] w-[487px] bg-N1.1">
         <div className="absolute left-[438px] top-[-95px] w-[270px] origin-top-left rotate-[48.06deg]">
           <Image className="rotate-49 max-w-full" src={LogoQbills} alt="Logo" />
@@ -36,12 +36,12 @@ export const ProductDetail = ({
                 >
                   <LocalCafeIcon
                     fontSize={
-                      option === "Small" ? "small" : option === "Normal" ? "medium" : "large"
+                      option === "SMALL" ? "small" : option === "NORMAL" ? "medium" : "large"
                     }
                     disabled={false}
                     className={`h-${
-                      option === "Small" ? "35" : option === "Normal" ? "45" : "55"
-                    } w-${option === "Small" ? "35" : option === "Normal" ? "45" : "55"} ${
+                      option === "Small" ? "45" : option === "Normal" ? "55" : "65"
+                    } w-${option === "Small" ? "45" : option === "Normal" ? "55" : "65"} ${
                       size === option ? "text-P4" : "text-N2"
                     }`}
                   />
@@ -56,11 +56,11 @@ export const ProductDetail = ({
             </div>
             <div className="relative h-12 w-[141px]">
               <div className="absolute left-0 top-0 inline-flex h-[42px] flex-col items-center justify-center gap-2">
-                <div className="font-['Open Sans'] self-stretch text-[28px] font-semibold leading-[42px] text-N6">
-                  {price}
+                <div className="font-['Open Sans'] self-stretch text-[24px] font-semibold leading-[42px] text-N6">
+                  Rp. {price}
                 </div>
               </div>
-              <div className="absolute left-[3px] top-[48px] h-[0px] w-[135px] border border-N6"></div>
+              <div className="absolute left-[3px] top-[48px] h-[0px] w-[115px] border border-N6"></div>
             </div>
           </div>
         </div>
@@ -101,7 +101,7 @@ export const ProductDetail = ({
           {ingredient}
         </div>
       </div>
-      <div className="absolute left-[925px] top-[24px] h-[32px] w-[32px] leading-none">
+      <div className="absolute left-[925px] top-[24px] h-[32px] w-[32px] cursor-pointer leading-none">
         <CloseRoundedIcon fontSize="large" className="text-N3" onClick={onClick} />
       </div>
     </section>
