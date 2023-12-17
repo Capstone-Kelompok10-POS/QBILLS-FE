@@ -20,7 +20,7 @@ export const IconButton = ({ color, variant, size, icon, onClick, disabled }) =>
           !variant && color === "error" && !disabled,
 
         // OUTLINE
-        "border-P4 text-P4 hover:border-P5 hover:bg-P5 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
+        "border-P4 text-P4 hover:border-P5 hover:bg-P5 hover:text-N1 active:scale-95 active:border-P6 active:bg-P6 active:text-N1":
           variant === "outline" && !color && !disabled,
         "border-S1 text-S5 hover:border-S2 hover:bg-S2  active:scale-95 active:border-S3 active:bg-S3 ":
           variant === "outline" && color === "success" && !disabled,
