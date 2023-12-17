@@ -8,7 +8,7 @@ export const Footer = () => {
     <footer className="bg-P4 text-N1">
       <section className="flex items-start justify-center py-24">
         <div className="mx-32 me-auto flex w-[440px] flex-col items-start justify-start gap-y-5 py-5">
-          <Image src={LogoQbills} width={200} />
+          <Image src={LogoQbills} width={200} alt="Mockup" />
           <p className="">
             Qbills is a point of sale application that is a solution for your business, features are
             available to make your work easier, use it now
@@ -55,7 +55,11 @@ export const Footer = () => {
                 <FacebookIcon />
                 Facebook
               </a>
-              <a href="https://instagram.com/biillskiii" target="_blank" className="flex items-center justify-start gap-x-5 py-2">
+              <a
+                href="https://instagram.com/biillskiii"
+                target="_blank"
+                className="flex items-center justify-start gap-x-5 py-2"
+              >
                 <InstagramIcon />
                 Instagram
               </a>
