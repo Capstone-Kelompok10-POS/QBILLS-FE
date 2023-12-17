@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  Button,
-  CardMembership,
-  Checkbox,
-  IconButton,
-  Input,
-  Pagination,
-  SnackBar,
-  Table,
-} from "@/components";
+import { Button, Checkbox, IconButton, Input, Pagination, SnackBar, Table } from "@/components";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
@@ -22,19 +13,30 @@ export const Main = () => {
   const token = session.data?.user?.results.token;
   const [dataGET, setDataGET] = useState();
   const [search, setSearch] = useState("");
-  const tableHead = ["Checkbox", "Name", "Number Phone", "Point", "Action"];
+  const tableHead = ["Checkbox", "Id", "Fullname", "Username", "Password", "Action"];
   const [selectedRow, setSelectedRow] = useState([]);
   const [selectedRowCount, setSelectedRowCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
-  const [editDataValues, setEditDataValues] = useState();
-  const [isOpenCard, setIsOpenCard] = useState(false);
+  const [IsAdd, setIsAdd] = useState(false);
   const [snackbar, setSnackbar] = useState(null);
+  const [newData, setNewData] = useState({
+    fullname: "",
+    username: "",
+    password: "",
+  });
+
+  const [editDataValues, setEditDataValues] = useState({
+    id: null,
+    fullname: "",
+    username: "",
+    password: "",
+  });
 
   // FETCH GET / GET DATA
   const fetchGET = async () => {
     try {
-      const response = await fetch("https://qbills.biz.id/api/v1/memberships", {
+      const response = await fetch("https://qbills.biz.id/api/v1/admins", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -62,8 +64,8 @@ export const Main = () => {
   // SEARCH DATA
   const filteredData = dataGET?.results?.filter((data) => {
     const matchesSearch =
-      data.name.toLowerCase().includes(search.toLowerCase()) ||
-      data.phoneNumber.toLowerCase().includes(search.toLowerCase());
+      data.username.toLowerCase().includes(search.toLowerCase()) ||
+      data.fullname.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
 
@@ -86,7 +88,7 @@ export const Main = () => {
       setCurrentPage(1);
     }
   }, [dataGET]);
-  const perPage = 10;
+  const perPage = 30;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
   const currentData = filteredData?.slice(indexOfFirstData, indexOfLastData);
@@ -96,27 +98,28 @@ export const Main = () => {
   const handleEdit = (id) => {
     const selectedData = dataGET?.results?.find((data) => data.id === id);
 
-    setEditDataValues({
+    setEditDataValues((prevValues) => ({
       id: selectedData.id,
-      name: selectedData.name,
-      phoneNumber: selectedData.phoneNumber,
-      total_point: selectedData.total_point,
-    });
+      fullname: selectedData.fullname || prevValues.fullname,
+      username: selectedData.username || prevValues.username,
+      password: selectedData.password || prevValues.password,
+    }));
 
     setIsEdit(true);
   };
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`https://qbills.biz.id/api/v1/membership/${editDataValues.id}`, {
+      const response = await fetch(`https://qbills.biz.id/api/v1/admin/${editDataValues.id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: editDataValues.name,
-          phoneNumber: editDataValues.phoneNumber,
+          fullname: editDataValues.fullname,
+          username: editDataValues.username,
+          password: editDataValues.password,
         }),
       });
 
@@ -133,7 +136,7 @@ export const Main = () => {
         variant: "success",
         size: "sm",
         label: "Success",
-        desc: "Congratulations, you have successfully edited the Membership",
+        desc: "Congratulations, you have successfully edited the admin",
         onClickClose: () => setSnackbar(),
       });
 
@@ -160,7 +163,7 @@ export const Main = () => {
   // DELETE DATA
   const handleDeleteConfirmed = async (id) => {
     try {
-      const response = await fetch(`https://qbills.biz.id/api/v1/membership/${id}`, {
+      const response = await fetch(`https://qbills.biz.id/api/v1/admin/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -179,7 +182,7 @@ export const Main = () => {
         variant: "success",
         size: "sm",
         label: "Success",
-        desc: "Congratulations, you have successfully deleted the Membership",
+        desc: "Congratulations, you have successfully deleted the admin",
         onClickClose: () => setSnackbar(),
       });
 
@@ -239,7 +242,7 @@ export const Main = () => {
       });
 
       const deleteRequests = deletedIds.map(async (id) => {
-        const response = await fetch(`https://qbills.biz.id/api/v1/membership/${id}`, {
+        const response = await fetch(`https://qbills.biz.id/api/v1/admin/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -248,7 +251,7 @@ export const Main = () => {
         });
 
         if (!response.ok) {
-          throw new Error(`Failed to delete membership with ID ${id}`);
+          throw new Error(`Failed to delete admin with ID ${id}`);
         }
 
         return response.json();
@@ -264,7 +267,7 @@ export const Main = () => {
         variant: "success",
         size: "sm",
         label: "Success",
-        desc: `Congratulations, you have successfully deleted ${deletedIds.length} Memberships`,
+        desc: `Congratulations, you have successfully deleted ${deletedIds.length} admins`,
         onClickClose: () => setSnackbar(),
       });
 
@@ -280,6 +283,63 @@ export const Main = () => {
         size: "sm",
         label: "Error",
         desc: "Delete data failed",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      console.error("Error:", error);
+    }
+  };
+
+  const handleAddButtonClick = () => {
+    setIsAdd(true);
+  };
+
+  const handleAdd = async () => {
+    try {
+      const response = await fetch("https://qbills.biz.id/api/v1/admin/register", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Add request failed");
+      }
+
+      await response.json();
+      await fetchGET();
+
+      setSnackbar({
+        variant: "success",
+        size: "sm",
+        label: "Success",
+        desc: "Congratulations, you have successfully added a new admin",
+        onClickClose: () => setSnackbar(),
+      });
+
+      setTimeout(() => {
+        setSnackbar();
+      }, 2000);
+
+      setNewData({
+        fullname: "",
+        username: "",
+        password: "",
+      });
+      setIsAdd(false);
+    } catch (error) {
+      setSnackbar({
+        variant: "error",
+        size: "sm",
+        label: "Error",
+        desc: "Add data failed",
         onClickClose: () => setSnackbar(),
       });
 
@@ -312,7 +372,7 @@ export const Main = () => {
       {/* TOP */}
       <section className="flex w-full gap-5 ">
         <div className="w-7/12">
-          <p className="text-2xl font-semibold">All Membership</p>
+          <p className="text-2xl font-semibold">All Admin</p>
         </div>
         <div className="ms-auto w-3/12">
           <Input
@@ -325,7 +385,7 @@ export const Main = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="ms-auto flex w-3/12  items-center justify-end gap-5">
+        <div className="ms-auto flex w-3/12 items-center justify-end gap-5">
           <Button
             onClick={handleDeleteSelected}
             size={"md"}
@@ -334,7 +394,7 @@ export const Main = () => {
             disabled={selectedRowCount === 0}
           />
           <div className="w-52">
-            <Button onClick={() => {}} size={"md-full"} label={"Print Card"} />
+            <Button onClick={handleAddButtonClick} size={"md-full"} label={"add admin"} />
           </div>
         </div>
       </section>
@@ -352,9 +412,10 @@ export const Main = () => {
                   />
                 </div>
               </td>
-              <td className="px-4 py-2 text-center">{row.name}</td>
-              <td className="px-4 py-2 text-center">{row.phoneNumber}</td>
-              <td className="px-4 py-2 text-center">{row.totalPoint}</td>
+              <td className="px-4 py-2 text-center">{row.id}</td>
+              <td className="px-4 py-2 text-center">{row.fullname}</td>
+              <td className="px-4 py-2 text-center">{row.username}</td>
+              <td className="px-4 py-2 text-center">********</td>
               <td className="px-4 py-2 text-center">
                 <div className="flex items-center justify-center">
                   <span>
@@ -391,22 +452,14 @@ export const Main = () => {
         onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
       />
 
-      {/* EDIT */}
-      {isEdit && (
+      {IsAdd && (
         <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
           <div className="w-2/5 rounded-xl bg-N1 p-8">
             <div className="rounded-xl border border-N2 p-8">
               <div className="flex flex-col gap-10">
                 <div className="flex items-center justify-between self-stretch">
-                  <h1 className="text-2xl font-semibold">Edit Membership</h1>
+                  <h1 className="text-2xl font-semibold">Add admins</h1>
                   <div className="flex items-start gap-2">
-                    <Button
-                      type={"button"}
-                      variant={"outline"}
-                      size={"sm"}
-                      label={"View Card"}
-                      onClick={() => setIsOpenCard(true)}
-                    />
                     <IconButton
                       size={"sm"}
                       color={"warning"}
@@ -417,30 +470,106 @@ export const Main = () => {
                 </div>
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Name :</h2>
+                    <h2 className="text-xl font-semibold">Fullname :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editDataValues.name}
+                      value={newData.fullname}
+                      onChange={(e) => setNewData({ ...newData, fullname: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Username :</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={newData.username}
+                      onChange={(e) => setNewData({ ...newData, username: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Password :</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={newData.password}
+                      onChange={(e) => setNewData({ ...newData, password: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div className="flex w-full items-center justify-center gap-4 self-stretch">
+                  <Button
+                    type={"button"}
+                    variant={"outline"}
+                    color={"error"}
+                    size={"md-full"}
+                    label={"Cancel"}
+                    onClick={() => setIsAdd(false)}
+                  />
+                  <Button
+                    type={"button"}
+                    color={"success"}
+                    size={"md-full"}
+                    label={"Add"}
+                    onClick={handleAdd}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* EDIT */}
+      {isEdit && (
+        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-2/5 rounded-xl bg-N1 p-8">
+            <div className="rounded-xl border border-N2 p-8">
+              <div className="flex flex-col gap-10">
+                <div className="flex items-center justify-between self-stretch">
+                  <h1 className="text-2xl font-semibold">Edit Admins</h1>
+                  <div className="flex items-start gap-2">
+                    <IconButton
+                      size={"sm"}
+                      color={"warning"}
+                      icon={<PrintOutlinedIcon fontSize="small" />}
+                      onClick={() => {}}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-8">
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">Fullname :</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={editDataValues.fullname}
                       onChange={(e) =>
-                        setEditDataValues({ ...editDataValues, name: e.target.value })
+                        setEditDataValues({ ...editDataValues, fullname: e.target.value })
                       }
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Number Phone :</h2>
+                    <h2 className="text-xl font-semibold">Username :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editDataValues.phoneNumber}
+                      value={editDataValues.username}
                       onChange={(e) =>
-                        setEditDataValues({ ...editDataValues, phoneNumber: e.target.value })
+                        setEditDataValues({ ...editDataValues, username: e.target.value })
                       }
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Point :</h2>
-                    <Input type={"text"} size={"sm"} value={editDataValues.total_point} disabled={true} />
+                    <h2 className="text-xl font-semibold">password :</h2>
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={editDataValues.password}
+                      onChange={(e) =>
+                        setEditDataValues({ ...editDataValues, password: e.target.value })
+                      }
+                    />
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-center gap-4 self-stretch">
@@ -463,13 +592,6 @@ export const Main = () => {
               </div>
             </div>
           </div>
-        </section>
-      )}
-
-      {/* CARD */}
-      {isOpenCard && (
-        <section className="fixed -inset-5 z-50 flex items-center justify-center bg-black/50">
-          <CardMembership name={editDataValues.name} onClick={() => setIsOpenCard(false)} />
         </section>
       )}
     </main>

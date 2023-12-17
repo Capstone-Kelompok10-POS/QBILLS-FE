@@ -42,9 +42,15 @@ export const Main = () => {
   useEffect(() => {
     if (session.status === "authenticated") {
       setLoading(true);
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1000);
+      if (session.data.user.results?.role === "Admin") {
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          router.push("/superadmin");
+        }, 1000);
+      }
     }
   }, [session, router]);
 
