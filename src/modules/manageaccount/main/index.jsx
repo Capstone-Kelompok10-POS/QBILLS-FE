@@ -357,12 +357,10 @@ export const Main = () => {
 
   return (
     <main className="space-y-5">
-      {/* HEADER */}
-      <section className="flex w-full gap-5">
-        <div>
-          <p className="text-2xl font-semibold">List Account Cashier</p>
-        </div>
-        <div className="ms-auto w-3/12">
+      {/* TOP */}
+      <section className="flex w-full items-center gap-5">
+        <h2 className="mr-auto text-2xl font-semibold">List Account Cashier</h2>
+        <div className="w-96">
           <Input
             type={"text"}
             size={"sm"}
@@ -373,17 +371,15 @@ export const Main = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-5 self-stretch">
-          <div>
-            <Button
-              onClick={handleDeleteSelected}
-              size={"md-full"}
-              label={`Delete (${selectedRowCount})`}
-              color={"error"}
-              disabled={selectedRowCount === 0}
-            />
-          </div>
-          <div>
+        <div className="flex gap-5">
+          <Button
+            onClick={handleDeleteSelected}
+            size={"md"}
+            label={`Delete (${selectedRowCount})`}
+            color={"error"}
+            disabled={selectedRowCount === 0}
+          />
+          <div className="w-52">
             <Button size={"md-full"} label={"Add Account"} onClick={handleAdd} />
           </div>
         </div>
