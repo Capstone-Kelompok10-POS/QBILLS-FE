@@ -283,25 +283,27 @@ export const Main = () => {
             <Analytics
               icon={<ImportExportIcon sx={{ fontSize: 50 }} className="text-S4" />}
               label={"Total Order"}
-              numberData={transactions?.total}
+              numberData={transactions?.total || 0}
             />
 
             <Analytics
               icon={<AccountBalanceWalletIcon sx={{ fontSize: 50 }} className="text-I4" />}
               label={"Revenue"}
-              numberData={formatPrice(yearlyRevenue?.revenue).replace("+", "").replace("-", "")}
+              numberData={formatPrice(yearlyRevenue?.revenue || 0)
+                .replace("+", "")
+                .replace("-", "")}
             />
 
             <Analytics
               icon={<TakeoutDiningIcon sx={{ fontSize: 50 }} className="text-W4" />}
               label={"Total Product"}
-              numberData={products?.total}
+              numberData={products?.total || 0}
             />
 
             <Analytics
               icon={<GroupIcon sx={{ fontSize: 50 }} className="text-E4" />}
               label={"Total Cashier"}
-              numberData={cashier?.total}
+              numberData={cashier?.total || 0}
             />
           </section>
 
@@ -314,12 +316,12 @@ export const Main = () => {
 
           <section className="space-y-3">
             <h2 className="text-2xl font-semibold">Best Selling Product</h2>
-            <div className="rounded-lg border border-N2">
+            <div className="max-h-[210px] overflow-y-scroll rounded-lg border border-N2">
               <Table tableHead={tableHead}>
                 {dataBestSellingProduct?.results?.map((row, index) => (
                   <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
                     <td className="px-4 py-2 text-center">
-                      <Image  
+                      <Image
                         src={row.productImage}
                         alt={"Photo Product"}
                         width={30}
@@ -329,9 +331,13 @@ export const Main = () => {
                     </td>
                     <td className="px-4 py-2 text-center">{row.productName}</td>
                     <td className="px-4 py-2 text-center">{row.ProductTypeName}</td>
-                    <td className="px-4 py-2 text-center">{row.productPrice}</td>
+                    <td className="px-4 py-2 text-center">
+                      {formatPrice(row.productPrice).replace("+", "").replace("-", "")}
+                    </td>
                     <td className="px-4 py-2 text-center">{row.totalQuantity}</td>
-                    <td className="px-4 py-2 text-center">{row.amount}</td>
+                    <td className="px-4 py-2 text-center">
+                      {formatPrice(row.amount).replace("+", "").replace("-", "")}
+                    </td>
                   </tr>
                 ))}
               </Table>
