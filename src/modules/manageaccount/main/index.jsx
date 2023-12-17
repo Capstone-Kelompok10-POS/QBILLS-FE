@@ -449,7 +449,7 @@ export const Main = () => {
                 </div>
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Fullname</h2>
+                    <h2 className="text-xl font-semibold">Fullname :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
@@ -458,7 +458,7 @@ export const Main = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Username</h2>
+                    <h2 className="text-xl font-semibold">Username :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
@@ -467,7 +467,7 @@ export const Main = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Password</h2>
+                    <h2 className="text-xl font-semibold">Password :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
@@ -503,7 +503,7 @@ export const Main = () => {
                 </div>
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Fullname</h2>
+                    <h2 className="text-xl font-semibold">Fullname :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
@@ -514,7 +514,7 @@ export const Main = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Username</h2>
+                    <h2 className="text-xl font-semibold">Username :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
@@ -525,7 +525,7 @@ export const Main = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">Password</h2>
+                    <h2 className="text-xl font-semibold">Password :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
