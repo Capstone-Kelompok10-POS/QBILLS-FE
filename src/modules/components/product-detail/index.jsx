@@ -25,7 +25,8 @@ export const ComponentProductDetail = () => {
           sizeOptionsList={}
           onSizeChange={}
       */}
-      <section className="flex justify-center">
+
+      <section className="flex flex-col items-center gap-5">
         <ProductDetail
           category={"Coffee"}
           name={"Cappuccino Espresso"}
@@ -39,18 +40,17 @@ export const ComponentProductDetail = () => {
           sizeOptionsList={sizeOptionsList}
           onSizeChange={handleSizeChange}
         />
-        <div className="flex gap-5">
-          <ProductDetail
-            category={"Non Coffee"}
-            name={"Matcha"}
-            stock={"20"}
-            ingredient={
-              "Matcha is a type of powdered green tea that originated in Japan. It is made from shade-grown tea leaves, which are finely ground into a vibrant green powder. The preparation of matcha involves whisking the powder with hot water to create a frothy, smooth beverage."
-            }
-            imagePreview={"/assets/images/product-detail/non-coffee.png"}
-            price={"Rp. 15.000"}
-          />
-        </div>
+
+        <ProductDetail
+          category={"Non Coffee"}
+          name={"Matcha"}
+          stock={"20"}
+          ingredient={
+            "Matcha is a type of powdered green tea that originated in Japan. It is made from shade-grown tea leaves, which are finely ground into a vibrant green powder. The preparation of matcha involves whisking the powder with hot water to create a frothy, smooth beverage."
+          }
+          imagePreview={"/assets/images/product-detail/non-coffee.png"}
+          price={"Rp. 15.000"}
+        />
       </section>
     </>
   );
