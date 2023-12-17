@@ -154,28 +154,30 @@ export const ComponentTable = () => {
         children={</>} 
       */}
 
-      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
-        <Table tableHead={tableHead}>
-          {data.map((row, index) => (
-            <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
-              <td className="px-4 py-2 text-center">{row.ct}</td>
-              <td className="px-4 py-2 text-center">{row.cashier}</td>
-              <td className="px-4 py-2 text-center">{row.cn}</td>
-              <td className="px-4 py-2 text-center">{row.payment}</td>
-              <td className="px-4 py-2 text-center">{row.date}</td>
-              <td className="px-4 py-2 text-center">{row.transaction}</td>
-              <td className="px-4 py-2">
-                <div className="flex items-center justify-center">
-                  <Chip
-                    status={row.status.toLocaleLowerCase()}
-                    size={"md-status"}
-                    label={row.status}
-                  />
-                </div>
-              </td>
-            </tr>
-          ))}
-        </Table>
+      <section className="overflow-hidden rounded-lg border border-N2">
+        <div className="max-h-[60vh] min-h-[60vh] overflow-scroll">
+          <Table tableHead={tableHead}>
+            {data.map((row, index) => (
+              <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
+                <td className="px-4 py-2 text-center">{row.ct}</td>
+                <td className="px-4 py-2 text-center">{row.cashier}</td>
+                <td className="px-4 py-2 text-center">{row.cn}</td>
+                <td className="px-4 py-2 text-center">{row.payment}</td>
+                <td className="px-4 py-2 text-center">{row.date}</td>
+                <td className="px-4 py-2 text-center">{row.transaction}</td>
+                <td className="px-4 py-2">
+                  <div className="flex items-center justify-center">
+                    <Chip
+                      status={row.status.toLocaleLowerCase()}
+                      size={"md-status"}
+                      label={row.status}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </Table>
+        </div>
       </section>
     </>
   );

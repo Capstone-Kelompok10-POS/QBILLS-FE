@@ -583,68 +583,70 @@ export const Main = () => {
         </section>
 
         {/* TABLE */}
-        <section className="z-10 max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
-          <Table tableHead={tableHead}>
-            {currentData?.map((row, index) => (
-              <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
-                <td className="px-4 py-2 text-center ">
-                  <div className="flex items-center justify-center">
-                    <Checkbox
-                      checked={selectedRow.includes(row.id)}
-                      onChange={() => handleCheckbox(row.id)}
+        <section className="overflow-hidden rounded-lg border border-N2">
+          <div className="max-h-[60vh] min-h-[60vh] overflow-scroll">
+            <Table tableHead={tableHead}>
+              {currentData?.map((row, index) => (
+                <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
+                  <td className="px-4 py-2 text-center ">
+                    <div className="flex items-center justify-center">
+                      <Checkbox
+                        checked={selectedRow.includes(row.id)}
+                        onChange={() => handleCheckbox(row.id)}
+                      />
+                    </div>
+                  </td>
+                  <td className="px-4 py-2 text-center">{row.id}</td>
+                  <td className="px-4 py-2 text-center">{row.name}</td>
+                  <td className="px-4 py-2 text-center">{row.productType.typeName}</td>
+                  <td className="px-4 py-2 text-center">
+                    {row.productDetail.map((detail, index) => (
+                      <span key={index}>
+                        {detail.size}
+                        <br />
+                      </span>
+                    ))}
+                  </td>
+                  <td className="px-4 py-2 text-center">
+                    {row.productDetail.map((detail, index) => (
+                      <span key={index}>
+                        {detail.price}
+                        <br />
+                      </span>
+                    ))}
+                  </td>
+                  <td className="px-4 py-2 text-center">
+                    {row.productDetail.map((detail, index) => (
+                      <span key={index}>
+                        {detail.totalStock}
+                        <br />
+                      </span>
+                    ))}
+                  </td>
+                  <td className="flex h-full items-center justify-center gap-2 px-4 py-2">
+                    <IconButton
+                      size={"sm"}
+                      color={"success"}
+                      icon={<EditIcon fontSize="small" />}
+                      onClick={() => handleEdit(row.id)}
                     />
-                  </div>
-                </td>
-                <td className="px-4 py-2 text-center">{row.id}</td>
-                <td className="px-4 py-2 text-center">{row.name}</td>
-                <td className="px-4 py-2 text-center">{row.productType.typeName}</td>
-                <td className="px-4 py-2 text-center">
-                  {row.productDetail.map((detail, index) => (
-                    <span key={index}>
-                      {detail.size}
-                      <br />
-                    </span>
-                  ))}
-                </td>
-                <td className="px-4 py-2 text-center">
-                  {row.productDetail.map((detail, index) => (
-                    <span key={index}>
-                      {detail.price}
-                      <br />
-                    </span>
-                  ))}
-                </td>
-                <td className="px-4 py-2 text-center">
-                  {row.productDetail.map((detail, index) => (
-                    <span key={index}>
-                      {detail.totalStock}
-                      <br />
-                    </span>
-                  ))}
-                </td>
-                <td className="flex h-full items-center justify-center gap-2 px-4 py-2">
-                  <IconButton
-                    size={"sm"}
-                    color={"success"}
-                    icon={<EditIcon fontSize="small" />}
-                    onClick={() => handleEdit(row.id)}
-                  />
-                  <IconButton
-                    size={"sm"}
-                    color={"error"}
-                    icon={<DeleteIcon fontSize="small" />}
-                    onClick={() => handleDelete(row.id)}
-                  />
-                  <IconButton
-                    size={"sm"}
-                    icon={<MoreVertIcon fontSize="small" />}
-                    variant={"outline"}
-                    onClick={() => handleDetailProcut(row.id)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </Table>
+                    <IconButton
+                      size={"sm"}
+                      color={"error"}
+                      icon={<DeleteIcon fontSize="small" />}
+                      onClick={() => handleDelete(row.id)}
+                    />
+                    <IconButton
+                      size={"sm"}
+                      icon={<MoreVertIcon fontSize="small" />}
+                      variant={"outline"}
+                      onClick={() => handleDetailProcut(row.id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </Table>
+          </div>
         </section>
 
         {/* PAGINATION */}

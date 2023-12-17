@@ -205,28 +205,32 @@ export const Main = () => {
         </div>
       </section>
 
-      <section className="max-h-[60vh] min-h-[60vh] overflow-scroll rounded-lg border border-N2">
-        <Table tableHead={tableHead}>
-          {currentData?.map((row, index) => (
-            <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
-              <td className="px-4 py-2 text-center">{row.id}</td>
-              <td className="px-4 py-2 text-center">{row.cashier.fullname}</td>
-              <td className="px-4 py-2 text-center">{row.membership.name}</td>
-              <td className="px-4 py-2 text-center">{row.transactionPayment.paymentmethod.name}</td>
-              <td className="px-4 py-2 text-center">{row.createdAt}</td>
-              <td className="px-4 py-2 text-center">{formatRupiah(row.totalPayment)}</td>
-              <td className="px-4 py-2">
-                <div className="flex items-center justify-center">
-                  <Chip
-                    status={row.transactionPayment.paymentStatus.toLocaleLowerCase()}
-                    size={"md-status"}
-                    label={row.transactionPayment.paymentStatus}
-                  />
-                </div>
-              </td>
-            </tr>
-          ))}
-        </Table>
+      <section className="overflow-hidden rounded-lg border border-N2">
+        <div className="max-h-[60vh] min-h-[60vh] overflow-scroll">
+          <Table tableHead={tableHead}>
+            {currentData?.map((row, index) => (
+              <tr key={index} className={`${index % 2 === 0 ? "bg-N1" : "bg-N2.2"}`}>
+                <td className="px-4 py-2 text-center">{row.id}</td>
+                <td className="px-4 py-2 text-center">{row.cashier.fullname}</td>
+                <td className="px-4 py-2 text-center">{row.membership.name}</td>
+                <td className="px-4 py-2 text-center">
+                  {row.transactionPayment.paymentmethod.name}
+                </td>
+                <td className="px-4 py-2 text-center">{row.createdAt}</td>
+                <td className="px-4 py-2 text-center">{formatRupiah(row.totalPayment)}</td>
+                <td className="px-4 py-2">
+                  <div className="flex items-center justify-center">
+                    <Chip
+                      status={row.transactionPayment.paymentStatus.toLocaleLowerCase()}
+                      size={"md-status"}
+                      label={row.transactionPayment.paymentStatus}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </Table>
+        </div>
       </section>
 
       <section>

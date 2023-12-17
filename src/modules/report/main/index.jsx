@@ -228,20 +228,24 @@ export const Main = () => {
             />
           </div>
           <div className="my-5">
-            <Table tableHead={tableHead}>
-              {tableData.map((row, index) => (
-                <tr key={index}>
-                  <td className="px-4 py-2 text-center">{row.id}</td>
-                  <td className="px-4 py-2 text-center">{row.pn}</td>
-                  <td className="px-4 py-2 text-center">{row.code}</td>
-                  <td className="px-4 py-2 text-center">{row.ctg}</td>
-                  <td className="px-4 py-2 text-center">{row.sze}</td>
-                  <td className="px-4 py-2 text-center">{row.prc}</td>
-                  <td className="px-4 py-2 text-center">{row.sld}</td>
-                  <td className="px-4 py-2 text-center">{row.amnt}</td>
-                </tr>
-              ))}
-            </Table>
+            <section className="overflow-hidden rounded-lg border border-N2">
+              <div className="max-h-[200px] min-h-[200px] overflow-scroll">
+                <Table tableHead={tableHead}>
+                  {tableData.map((row, index) => (
+                    <tr key={index}>
+                      <td className="px-4 py-2 text-center">{row.id}</td>
+                      <td className="px-4 py-2 text-center">{row.pn}</td>
+                      <td className="px-4 py-2 text-center">{row.code}</td>
+                      <td className="px-4 py-2 text-center">{row.ctg}</td>
+                      <td className="px-4 py-2 text-center">{row.sze}</td>
+                      <td className="px-4 py-2 text-center">{row.prc}</td>
+                      <td className="px-4 py-2 text-center">{row.sld}</td>
+                      <td className="px-4 py-2 text-center">{row.amnt}</td>
+                    </tr>
+                  ))}
+                </Table>
+              </div>
+            </section>
             <div className="mt-5">
               <Pagination
                 startData={indexOfFirstData >= 0 ? indexOfFirstData + 1 : 0}
@@ -259,7 +263,7 @@ export const Main = () => {
       <section className="fixed bottom-14 right-14 z-50">
         <IconButton
           size={"xl"}
-          icon={<ChatIcon sx={{ fontSize: 40 }} />}
+          icon={<ChatIcon sx={{ fontSize: 25 }} />}
           onClick={handleChatButtonClick}
         />
         {isOpen && (
