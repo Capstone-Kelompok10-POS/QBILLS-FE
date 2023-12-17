@@ -11,7 +11,7 @@ export const Main = () => {
   const token = session.data?.user?.results.token;
   const [dataGET, setDataGET] = useState();
   const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const tableHead = [[], "Fullname", "Username", "Password", []];
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
