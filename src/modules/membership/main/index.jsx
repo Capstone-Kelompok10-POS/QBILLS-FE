@@ -86,7 +86,7 @@ export const Main = () => {
       setCurrentPage(1);
     }
   }, [dataGET]);
-  const perPage = 30;
+  const perPage = 10;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;
   const currentData = filteredData?.slice(indexOfFirstData, indexOfLastData);
@@ -100,7 +100,7 @@ export const Main = () => {
       id: selectedData.id,
       name: selectedData.name,
       phoneNumber: selectedData.phoneNumber,
-      point: selectedData.point,
+      total_point: selectedData.total_point,
     });
 
     setIsEdit(true);
@@ -355,7 +355,6 @@ export const Main = () => {
               <td className="px-4 py-2 text-center">{row.name}</td>
               <td className="px-4 py-2 text-center">{row.phoneNumber}</td>
               <td className="px-4 py-2 text-center">{row.totalPoint}</td>
-
               <td className="px-4 py-2 text-center">
                 <div className="flex items-center justify-center">
                   <span>
@@ -441,7 +440,7 @@ export const Main = () => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Point :</h2>
-                    <Input type={"text"} size={"sm"} value={editDataValues.point} disabled={true} />
+                    <Input type={"text"} size={"sm"} value={editDataValues.total_point} disabled={true} />
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-center gap-4 self-stretch">
