@@ -370,22 +370,20 @@ export const Main = () => {
       )}
 
       {/* TOP */}
-      <section className="flex w-full gap-5 ">
-        <div className="w-7/12">
-          <p className="text-2xl font-semibold">All Admin</p>
-        </div>
-        <div className="ms-auto w-3/12">
+      <section className="flex w-full items-center gap-5">
+        <h2 className="mr-auto text-2xl font-semibold">All Admin</h2>
+        <div className="w-96">
           <Input
             type={"text"}
             size={"sm"}
-            label={"Search"}
+            label={"Search Admin"}
             name={"search"}
             value={search}
             endIcon={<SearchIcon sx={{ fontSize: 30 }} />}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="ms-auto flex w-3/12 items-center justify-end gap-5">
+        <div className="flex gap-5">
           <Button
             onClick={handleDeleteSelected}
             size={"md"}
@@ -394,7 +392,7 @@ export const Main = () => {
             disabled={selectedRowCount === 0}
           />
           <div className="w-52">
-            <Button onClick={handleAddButtonClick} size={"md-full"} label={"add admin"} />
+            <Button onClick={handleAddButtonClick} size={"md-full"} label={"Add Admin"} />
           </div>
         </div>
       </section>
@@ -457,17 +455,7 @@ export const Main = () => {
           <div className="w-2/5 rounded-xl bg-N1 p-8">
             <div className="rounded-xl border border-N2 p-8">
               <div className="flex flex-col gap-10">
-                <div className="flex items-center justify-between self-stretch">
-                  <h1 className="text-2xl font-semibold">Add admins</h1>
-                  <div className="flex items-start gap-2">
-                    <IconButton
-                      size={"sm"}
-                      color={"warning"}
-                      icon={<PrintOutlinedIcon fontSize="small" />}
-                      onClick={() => {}}
-                    />
-                  </div>
-                </div>
+                <h1 className="text-2xl font-semibold">Add Admins</h1>
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Fullname :</h2>
@@ -526,17 +514,8 @@ export const Main = () => {
           <div className="w-2/5 rounded-xl bg-N1 p-8">
             <div className="rounded-xl border border-N2 p-8">
               <div className="flex flex-col gap-10">
-                <div className="flex items-center justify-between self-stretch">
-                  <h1 className="text-2xl font-semibold">Edit Admins</h1>
-                  <div className="flex items-start gap-2">
-                    <IconButton
-                      size={"sm"}
-                      color={"warning"}
-                      icon={<PrintOutlinedIcon fontSize="small" />}
-                      onClick={() => {}}
-                    />
-                  </div>
-                </div>
+                <h1 className="text-2xl font-semibold">Edit Admins</h1>
+
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Fullname :</h2>
@@ -561,7 +540,7 @@ export const Main = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-semibold">password :</h2>
+                    <h2 className="text-xl font-semibold">Password :</h2>
                     <Input
                       type={"text"}
                       size={"sm"}
