@@ -8,11 +8,11 @@ import mockOurFeatures2 from "@/public/assets/images/landing-page/mockup-ourfeat
 import mockOurFeatures3 from "@/public/assets/images/landing-page/mockup-ourfeatures-3.png";
 import mockOurFeatures4 from "@/public/assets/images/landing-page/mockup-ourfeatures-4.png";
 import mockOurFeatures5 from "@/public/assets/images/landing-page/mockup-ourfeatures-5.png";
-import logoQbills2 from "@/public/assets/images/logos/brown/logo-4.png";
-import logoQbills3 from "@/public/assets/images/logos/brown/logo-5.png";
+import logoQbills2 from "@/public/assets/images/logos/white/logo-4.png";
+import logoQbills3 from "@/public/assets/images/logos/white/logo-5.png";
 import getApps from "@/public/assets/images/landing-page/getapps.png";
 import downloadImage from "@/public/assets/images/landing-page/get_app.png";
-import logoQbills from "@/public/assets/images/logos/brown/logo-2.png";
+import logoQbills from "@/public/assets/images/logos/white/logo-2.png";
 import bgLogoQbills from "@/public/assets/images/logos/brown/logo-2.png";
 import { Button, IconButton } from "@/components";
 import TakeoutDiningIcon from "@mui/icons-material/TakeoutDining";
@@ -31,7 +31,7 @@ export const Main = () => {
   return (
     <main>
       {/*  NAVBAR SECTION */}
-      <nav className="fixed top-0 z-50 flex w-full items-center justify-between bg-P1 px-24  shadow-md">
+      <nav className="absolute top-0 z-50 flex w-full items-center justify-between px-24 py-5">
         <section className="flex items-center justify-center gap-2">
           <Image
             src={logoQbills}
@@ -61,29 +61,29 @@ export const Main = () => {
           </div>
         </section>
         <section>
-          <ul className="flex items-center font-semibold text-P4">
+          <ul className="flex items-center justify-center gap-20 font-semibold text-P4">
             <li>
-              <a href="#hero" className="mx-10 hover:text-P5">
+              <a href="#hero" className="hover:text-P5">
                 Home
               </a>
             </li>
             <li>
-              <a href="#about" className="mx-10 hover:text-P5">
+              <a href="#about" className="hover:text-P5">
                 About Us
               </a>
             </li>
             <li>
-              <a href="#features" className="mx-10 hover:text-P5">
+              <a href="#features" className="hover:text-P5">
                 Features
               </a>
             </li>
             <li>
-              <a href="#faq" className="mx-10 hover:text-P5">
+              <a href="#faq" className="hover:text-P5">
                 FAQ
               </a>
             </li>
-            <li>
-              <a href="#getapp" className="mx-10">
+            <li className="flex items-center justify-center">
+              <a href="#getapp">
                 <Button type={"button"} size={"md-full"} label={"Get app"} />
               </a>
             </li>
@@ -195,8 +195,8 @@ export const Main = () => {
       </section>
 
       {/* Our Features */}
-      <section id="features" className="mx-auto w-full bg-P1">
-        <p className="pt-16 text-center text-6xl font-semibold text-N7">Our Features</p>
+      <section id="features" className="mx-auto w-full bg-P1 py-16">
+        <p className="text-center text-6xl font-semibold text-N7">Our Features</p>
         <div className="mx-auto mt-20 flex w-11/12 items-center justify-center gap-x-2">
           <div className="w-5/12">
             <p className="text-6xl font-semibold text-P6">Organize Your Product</p>
@@ -266,8 +266,8 @@ export const Main = () => {
         </div>
       </section>
       {/* FAQ */}
-      <section id="faq" className="mx-auto w-full bg-P1 ">
-        <p className="pt-48  text-center text-6xl font-semibold text-N7">
+      <section id="faq" className="mx-auto w-full bg-P1">
+        <p className="pt-24  text-center text-6xl font-semibold text-N7">
           Frequently Asked Questions (FAQ)
         </p>
         <div className="mx-auto mt-24 grid w-full grid-cols-2 place-items-center gap-y-10">
