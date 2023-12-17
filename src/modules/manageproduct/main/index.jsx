@@ -577,7 +577,7 @@ export const Main = () => {
               disabled={selectedRowCount === 0}
             />
             <div className="w-52">
-              <Button onClick={hanldeAdd} size={"md-full"} label={"Add product"} />
+              <Button onClick={hanldeAdd} size={"md-full"} label={"Add Product"} />
             </div>
           </div>
         </section>
