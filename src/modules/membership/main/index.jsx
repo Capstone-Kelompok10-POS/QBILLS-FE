@@ -100,7 +100,7 @@ export const Main = () => {
       id: selectedData.id,
       name: selectedData.name,
       phoneNumber: selectedData.phoneNumber,
-      total_point: selectedData.total_point,
+      totalPoint: selectedData.totalPoint,
     });
 
     setIsEdit(true);
@@ -403,7 +403,10 @@ export const Main = () => {
                       variant={"outline"}
                       size={"sm"}
                       label={"View Card"}
-                      onClick={() => setIsOpenCard(true)}
+                      onClick={() => {
+                        setIsOpenCard(true);
+                        setIsEdit(false);
+                      }}
                     />
                     <IconButton
                       size={"sm"}
@@ -441,7 +444,7 @@ export const Main = () => {
                     <Input
                       type={"text"}
                       size={"sm"}
-                      value={editDataValues.total_point}
+                      value={editDataValues.totalPoint}
                       disabled={true}
                     />
                   </div>
