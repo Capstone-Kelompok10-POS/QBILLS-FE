@@ -47,6 +47,7 @@ export const Main = () => {
   const [image, setImage] = useState();
   const [addDataValues, setAddDataValues] = useState({});
   const [isProductDetail, setIsProductDetail] = useState(false);
+  const [stock, setStock] = useState(0);
 
   // FETCH GET / GET DATA
   const fetchGET = async () => {
@@ -533,6 +534,7 @@ export const Main = () => {
       })),
     });
     setIsProductDetail(true);
+    setStock(selectedData.productDetail[0].totalStock);
   };
 
   return (
@@ -936,7 +938,7 @@ export const Main = () => {
           <ProductDetail
             category={editDataValues.productType.typeName}
             name={editDataValues.name}
-            stock={editDataValues.productDetail[0].totalStock}
+            stock={stock}
             ingredient={editDataValues.ingredients}
             imagePreview={editDataValues.image}
             size={editDataValues.productDetail[0].size}
