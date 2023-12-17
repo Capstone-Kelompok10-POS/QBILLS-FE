@@ -941,7 +941,7 @@ export const Main = () => {
             imagePreview={editDataValues.image}
             size={editDataValues.productDetail[0].size}
             price={editDataValues.productDetail[0].price}
-            sizeOptionsList={["Small", "Medium", "Large"]}
+            sizeOptionsList={["SMALL", "NORMAL", "LARGE"]}
             onSizeChange={editDataValues.productDetail[0].size}
             onClick={() => setIsProductDetail(false)}
           />
