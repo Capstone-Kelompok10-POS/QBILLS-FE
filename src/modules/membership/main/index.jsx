@@ -310,22 +310,20 @@ export const Main = () => {
       )}
 
       {/* TOP */}
-      <section className="flex w-full gap-5 ">
-        <div className="w-7/12">
-          <p className="text-2xl font-semibold">All Membership</p>
-        </div>
-        <div className="ms-auto w-3/12">
+      <section className="flex w-full items-center gap-5">
+        <h2 className="mr-auto text-2xl font-semibold">All Membership</h2>
+        <div className="w-96">
           <Input
             type={"text"}
             size={"sm"}
-            label={"Search"}
+            label={"Search Membership"}
             name={"search"}
             value={search}
             endIcon={<SearchIcon sx={{ fontSize: 30 }} />}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="ms-auto flex w-3/12  items-center justify-end gap-5">
+        <div className="flex gap-5">
           <Button
             onClick={handleDeleteSelected}
             size={"md"}
@@ -440,7 +438,12 @@ export const Main = () => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold">Point :</h2>
-                    <Input type={"text"} size={"sm"} value={editDataValues.total_point} disabled={true} />
+                    <Input
+                      type={"text"}
+                      size={"sm"}
+                      value={editDataValues.total_point}
+                      disabled={true}
+                    />
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-center gap-4 self-stretch">
