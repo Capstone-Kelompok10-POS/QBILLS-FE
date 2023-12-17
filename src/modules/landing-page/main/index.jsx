@@ -31,7 +31,7 @@ export const Main = () => {
   return (
     <main>
       {/*  NAVBAR SECTION */}
-      <nav className="bg-P1 fixed top-0 z-50 flex w-full items-center justify-between px-24  shadow-md">
+      <nav className="fixed top-0 z-50 flex w-full items-center justify-between bg-P1 px-24  shadow-md">
         <section className="flex items-center justify-center gap-2">
           <Image
             src={logoQbills}
@@ -109,16 +109,16 @@ export const Main = () => {
           <div className="flex items-center justify-center gap-5 text-N1">
             <div className="-ml-52 w-[550px] space-y-5">
               <h1 className="text-[24px] font-bold">Point Of Sales</h1>
-             <div className="w-[690px]">
-               <h1 className="text-[64px] font-semibold">
-                 Boost Your Sales with Our Point of Sales App
-               </h1>
-               <p className="text-justify text-[20px] leading-10">
-                 Manage your transaction, track product, and analyze report sales.{" "}
-                 <span className="font-bold">Build It On Desktop, Launch It On Mobile.</span> You can
-                 gets it on Google Play and App Store.
-               </p>
-             </div>
+              <div className="w-[690px]">
+                <h1 className="text-[64px] font-semibold">
+                  Boost Your Sales with Our Point of Sales App
+                </h1>
+                <p className="text-justify text-[20px] leading-10">
+                  Manage your transaction, track product, and analyze report sales.
+                  <span className="font-bold">Build It On Desktop, Launch It On Mobile.</span> You
+                  can gets it on Google Play and App Store.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -207,12 +207,12 @@ export const Main = () => {
             </p>
           </div>
           <div className="ms-auto">
-            <Image src={mockOurFeatures1} width={600} />
+            <Image src={mockOurFeatures1} width={600} alt="Mockup" />
           </div>
         </div>
         <div className="mx-auto mt-20 flex  w-11/12 items-center justify-center gap-x-2">
           <div className="me-auto">
-            <Image src={mockOurFeatures2} width={600} />
+            <Image src={mockOurFeatures2} width={600} alt="Mockup" />
           </div>
           <div className="w-5/12">
             <p className="text-6xl font-semibold text-P6">Manage Your Own Account Cashier</p>
@@ -234,12 +234,12 @@ export const Main = () => {
             </p>
           </div>
           <div className="ms-auto">
-            <Image src={mockOurFeatures3} width={600} />
+            <Image src={mockOurFeatures3} width={600} alt="Mockup" />
           </div>
         </div>
         <div className="mx-auto mt-20 flex  w-11/12 items-center justify-center gap-x-2">
           <div className="me-auto">
-            <Image src={mockOurFeatures4} width={600} />
+            <Image src={mockOurFeatures4} width={600} alt="Mockup" />
           </div>
           <div className="w-5/12">
             <p className="text-6xl font-semibold text-P6">Manage Membership from Dashboard</p>
@@ -261,7 +261,7 @@ export const Main = () => {
             </p>
           </div>
           <div className="ms-auto">
-            <Image src={mockOurFeatures5} width={600} />
+            <Image src={mockOurFeatures5} width={600} alt="Mockup" />
           </div>
         </div>
       </section>
@@ -288,9 +288,9 @@ export const Main = () => {
             </div>
             {isOpen1 && (
               <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
-                To add, manage, or access products, navigate to the "Product Management" section in
-                the application. Use the designated features to add new items, update existing ones,
-                and access the product inventory.s
+                To add, manage, or access products, navigate to the &quot;Product Management&quot;
+                section in the application. Use the designated features to add new items, update
+                existing ones, and access the product inventory.s
               </p>
             )}
           </div>
@@ -312,8 +312,9 @@ export const Main = () => {
             {isOpen2 && (
               <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
                 Cashier accounts can be effectively managed within the application. Access the
-                "Account Management" section, where you can add or remove cashier accounts, assign
-                roles, and monitor their activities for streamlined cashier management.
+                &quot;Account Management&quot; section, where you can add or remove cashier
+                accounts, assign roles, and monitor their activities for streamlined cashier
+                management.
               </p>
             )}
           </div>
@@ -334,9 +335,9 @@ export const Main = () => {
             </div>
             {isOpen3 && (
               <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
-                To add, manage, or access products, navigate to the "Product Management" section in
-                the application. Use the designated features to add new items, update existing ones,
-                and access the product inventory.
+                To add, manage, or access products, navigate to the &quot;Product Management&quot;
+                section in the application. Use the designated features to add new items, update
+                existing ones, and access the product inventory.
               </p>
             )}
           </div>
@@ -358,8 +359,8 @@ export const Main = () => {
             {isOpen4 && (
               <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
                 Users can conveniently view transaction history both on the mobile app and the
-                dashboard. Simply navigate to the "Transaction History" tab to access detailed
-                records of past transactions.
+                dashboard. Simply navigate to the &quot;Transaction History&quot; tab to access
+                detailed records of past transactions.
               </p>
             )}
           </div>
@@ -381,8 +382,9 @@ export const Main = () => {
             {isOpen5 && (
               <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
                 Yes, there is a comprehensive manual guide available for first-time users. You can
-                access it through the "Help" or "Getting Started" section in the application,
-                providing step-by-step instructions for a seamless onboarding experience.
+                access it through the &quot;Help&quot; or &quot;Getting Started&quot; section in the
+                application, providing step-by-step instructions for a seamless onboarding
+                experience.
               </p>
             )}
           </div>
@@ -404,8 +406,8 @@ export const Main = () => {
             {isOpen6 && (
               <p className="-mt-6 me-auto ml-10 w-9/12 text-base">
                 The application offers a user-friendly interface for managing member accounts. In
-                the "Member Management" section, you can add or remove members, update information,
-                and ensure a personalized experience for your customers.
+                the &quot;Member Management&quot; section, you can add or remove members, update
+                information, and ensure a personalized experience for your customers.
               </p>
             )}
           </div>
@@ -421,13 +423,13 @@ export const Main = () => {
             <p>
               The Qbills application can be downloaded for iOS and Android devices via the App Store
               and Google Play Store. Download QBills now and experience the difference. Join
-              thousands who've embraced a smarter, more efficient way to empower businesses of all
-              sizes with an intuitive, robust, and flexible point-of-sale solution.
+              thousands who&apos;ve embraced a smarter, more efficient way to empower businesses of
+              all sizes with an intuitive, robust, and flexible point-of-sale solution.
             </p>
-            <Image src={downloadImage} width={250} className="mt-5" />
+            <Image src={downloadImage} width={250} alt="Mockup" className="mt-5" />
           </div>
           <div className="ms-auto">
-            <Image src={getApps} width={600} />
+            <Image src={getApps} width={600} alt="Mockup" />
           </div>
         </div>
       </section>
