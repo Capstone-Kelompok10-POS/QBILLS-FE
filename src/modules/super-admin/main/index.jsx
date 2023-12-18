@@ -42,6 +42,7 @@ export const Main = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
+        cache: "no-cache",
       });
 
       if (!response.ok) {
