@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
-import { Analytics, Table, Input, Select, Pagination, IconButton } from "@/components";
+
+import { Analytics, Button, IconButton, Input, Pagination, Select, Table } from "@/components";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ChatIcon from "@mui/icons-material/Chat";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
+  ArcElement,
   CategoryScale,
   Chart as ChartJS,
   Legend,
@@ -13,10 +14,10 @@ import {
   PointElement,
   Title,
   Tooltip,
-  ArcElement,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
-import { Doughnut } from "react-chartjs-2";
+import OpenAI from "openai";
+import { useState } from "react";
+import { Doughnut, Line } from "react-chartjs-2";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -100,7 +101,6 @@ export const Main = () => {
   const [value, setValue] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [chatMessages, setChatMessages] = useState("");
   const tableHead = ["No", "Product Name", "Code", "Category", "Size", "Price", "Sold", "Ammount"];
   const tableData = [
     {
@@ -146,6 +146,34 @@ export const Main = () => {
   const handleChatButtonClick = () => {
     setIsOpen(!isOpen);
   };
+
+  const [prompt, setPrompt] = useState("");
+  const [chat, setChat] = useState([]);
+
+  const openai = new OpenAI({
+    apiKey: "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",
+    dangerouslyAllowBrowser: true,
+  });
+
+  const OpenAIChat = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await openai.chat.completions.create({
+        messages: [{ role: "user", content: prompt }],
+        model: "gpt-3.5-turbo",
+      });
+
+      const aiReply = response.data.choices[0].text.trim();
+
+      setChat((prev) => [...prev, aiReply]);
+
+      setPrompt("");
+    } catch (error) {
+      console.error("Failed to fetch from OpenAI: ", error);
+    }
+  };
+
   return (
     <>
       <div className="flex">
@@ -267,23 +295,28 @@ export const Main = () => {
           onClick={handleChatButtonClick}
         />
         {isOpen && (
-          <div className="absolute bottom-0 right-20 w-80 rounded-md bg-white p-4 shadow-md">
+          <form
+            onSubmit={OpenAIChat}
+            className="absolute bottom-0 right-20 w-80 rounded-md bg-white p-4 shadow-md"
+          >
             <h3 className="mb-2 text-lg font-semibold">Chatbot</h3>
             <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-              {chatMessages && (
-                <div className="mb-2">
-                  <span>{chatMessages}</span>
+              {chat.map((chat, index) => (
+                <div key={index} className="mb-2">
+                  <span>{chat}</span>
                 </div>
-              )}
+              ))}
             </div>
-            <Input
-              placeholder="Type your message..."
-              value={chatMessages}
-              onChange={(e) => {
-                setChatMessages(e.target.value);
-              }}
-            />
-          </div>
+            <div className="flex items-center justify-center gap-5">
+              <Input
+                value={prompt}
+                onChange={(e) => {
+                  setPrompt(e.target.value);
+                }}
+              />
+              <Button type="submit" size={"sm"} label={"Send"} />
+            </div>
+          </form>
         )}
       </section>
     </>
