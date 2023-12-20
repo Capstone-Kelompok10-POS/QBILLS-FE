@@ -150,29 +150,29 @@ export const Main = () => {
   const [prompt, setPrompt] = useState("");
   const [chat, setChat] = useState([]);
 
-  const openai = new OpenAI({
-    apiKey: "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",
-    dangerouslyAllowBrowser: true,
-  });
+  //const openai = new OpenAI({
+  //  apiKey: ,
+  //dangerouslyAllowBrowser: true,
+  //});
 
-  const OpenAIChat = async (e) => {
-    e.preventDefault();
+  // const OpenAIChat = async (e) => {
+  // e.preventDefault();
+  //
+  //  try {
+  //  const response = await openai.chat.completions.create({
+  //  messages: [{ role: "user", content: prompt }],
+  //model: "gpt-3.5-turbo",
+  // });
 
-    try {
-      const response = await openai.chat.completions.create({
-        messages: [{ role: "user", content: prompt }],
-        model: "gpt-3.5-turbo",
-      });
+  //const aiReply = response.data.choices[0].text.trim();
 
-      const aiReply = response.data.choices[0].text.trim();
+  //setChat((prev) => [...prev, aiReply]);
 
-      setChat((prev) => [...prev, aiReply]);
-
-      setPrompt("");
-    } catch (error) {
-      console.error("Failed to fetch from OpenAI: ", error);
-    }
-  };
+  //setPrompt("");
+  // } catch (error) {
+  // console.error("Failed to fetch from OpenAI: ", error);
+  //}
+  //};
 
   return (
     <>
@@ -288,6 +288,7 @@ export const Main = () => {
           </div>
         </div>
       </section>
+      {/*
       <section className="fixed bottom-14 right-14 z-50">
         <IconButton
           size={"xl"}
@@ -295,30 +296,31 @@ export const Main = () => {
           onClick={handleChatButtonClick}
         />
         {isOpen && (
-          <form
-            onSubmit={OpenAIChat}
-            className="absolute bottom-0 right-20 w-80 rounded-md bg-white p-4 shadow-md"
-          >
-            <h3 className="mb-2 text-lg font-semibold">Chatbot</h3>
-            <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-              {chat.map((chat, index) => (
-                <div key={index} className="mb-2">
-                  <span>{chat}</span>
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center justify-center gap-5">
-              <Input
-                value={prompt}
-                onChange={(e) => {
-                  setPrompt(e.target.value);
-                }}
-              />
-              <Button type="submit" size={"sm"} label={"Send"} />
-            </div>
-          </form>
+          //<form
+          //  onSubmit={OpenAIChat}
+          //  className="absolute bottom-0 right-20 w-80 rounded-md bg-white p-4 shadow-md"
+          //>
+          //  <h3 className="mb-2 text-lg font-semibold">Chatbot</h3>
+           // <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+           //   {chat.map((chat, index) => (
+           //     <div key={index} className="mb-2">
+           //       <span>{chat}</span>
+           //     </div>
+           //   ))}
+           // </div>
+           // <div className="flex items-center justify-center gap-5">
+           //   <Input
+            //    value={prompt}
+            //    onChange={(e) => {
+            //      setPrompt(e.target.value);
+            //    }}
+            //  />
+            //  <Button type="submit" size={"sm"} label={"Send"} />
+          //  </div>
+         // </form>
         )}
-      </section>
+     </section>
+        */}
     </>
   );
 };
