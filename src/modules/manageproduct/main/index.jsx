@@ -8,6 +8,7 @@ import {
   Pagination,
   ProductDetail,
   Select,
+  SelectCategory,
   SnackBar,
   Table,
 } from "@/components";
@@ -672,7 +673,7 @@ export const Main = () => {
           >
             <section className="space-y-5">
               <h1 className="text-2xl font-semibold">Add Product</h1>
-              <Select
+              <SelectCategory
                 size={"sm"}
                 label={"Category"}
                 name={"category"}
