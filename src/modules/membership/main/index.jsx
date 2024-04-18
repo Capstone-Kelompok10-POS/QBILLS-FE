@@ -82,11 +82,6 @@ export const Main = () => {
   };
 
   // PAGINATION
-  useEffect(() => {
-    if (dataGET?.results.length !== 0) {
-      setCurrentPage(1);
-    }
-  }, [dataGET]);
   const perPage = 10;
   const indexOfLastData = currentPage * perPage;
   const indexOfFirstData = indexOfLastData - perPage;

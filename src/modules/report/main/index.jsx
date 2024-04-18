@@ -70,7 +70,7 @@ const chartData = {
       label: "Revenue",
       borderColor: "rgb(190, 132, 101)",
       backgroundColor: "rgb(190, 132, 101)",
-      data: [20, 30, 0, 10],
+      data: [],
     },
   ],
 };
@@ -80,7 +80,7 @@ const data = {
   datasets: [
     {
       label: "# of Votes",
-      data: [12, 19, 3, 5],
+      data: [1, 1, 1, 1],
       backgroundColor: [
         "#DA2D2D", // Red
         "#FFCC00", // Yellow
@@ -102,38 +102,7 @@ export const Main = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const tableHead = ["No", "Product Name", "Code", "Category", "Size", "Price", "Sold", "Ammount"];
-  const tableData = [
-    {
-      id: 1,
-      pn: "Cappucino Expresso",
-      code: "XFGH234",
-      ctg: "Coffe",
-      sze: "Normal",
-      prc: "Rp.26.000",
-      sld: "50",
-      amnt: "Rp.1.300.000",
-    },
-    {
-      id: 2,
-      pn: "Cappucino Expresso",
-      code: "XFGH234",
-      ctg: "Coffe",
-      sze: "Normal",
-      prc: "Rp.26.000",
-      sld: "50",
-      amnt: "Rp.1.300.000",
-    },
-    {
-      id: 3,
-      pn: "Cappucino Expresso",
-      code: "XFGH234",
-      ctg: "Coffe",
-      sze: "Normal",
-      prc: "Rp.26.000",
-      sld: "50",
-      amnt: "Rp.1.300.000",
-    },
-  ];
+  const tableData = [];
   const filteredData = tableData.filter((item) => {
     // Replace the condition with your actual filtering logic
     return item.ctg === value; // Example: filter by category
@@ -247,12 +216,12 @@ export const Main = () => {
             <Analytics
               icon={<AccountBalanceWalletIcon sx={{ fontSize: 50 }} className="text-I4" />}
               label={"Total Revenue"}
-              numberData={"Rp 3.870.000"}
+              numberData={"Rp 0"}
             />
             <Analytics
               icon={<ShoppingCartIcon sx={{ fontSize: 50 }} className="text-W4" />}
               label={"Total Order"}
-              numberData={"161"}
+              numberData={"0"}
             />
           </div>
           <div className="my-5">

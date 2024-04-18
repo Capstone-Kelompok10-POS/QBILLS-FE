@@ -17,7 +17,7 @@ export const Main = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [select, setSelect] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [dataGET, setDataGET] = useState();
 
   // FETCH GET / GET DATA
@@ -236,11 +236,11 @@ export const Main = () => {
 
       <section>
         <Pagination
-          startData={indexOfFirstData + 1}
-          endData={Math.min(indexOfLastData, filteredData?.length)}
-          total={filteredData?.length}
-          currentPage={currentPage}
-          totalPage={totalPage}
+          startData={indexOfFirstData >= 0 ? indexOfFirstData + 1 : 0}
+          endData={Math.min(indexOfLastData, filteredData?.length) || 0}
+          total={filteredData?.length || 0}
+          currentPage={currentPage || 0}
+          totalPage={totalPage || 0}
           onClickPrevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           onClickNextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPage))}
         />
